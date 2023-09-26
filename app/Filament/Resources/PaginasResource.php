@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\ServicoResource\Pages;
-use App\Filament\Resources\ServicoResource\RelationManagers;
-use App\Models\Servico;
+use App\Filament\Resources\PaginasResource\Pages;
+use App\Filament\Resources\PaginasResource\RelationManagers;
+use App\Models\Paginas;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -13,9 +13,9 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class ServicoResource extends Resource
+class PaginasResource extends Resource
 {
-    protected static ?string $model = Servico::class;
+    protected static ?string $model = Paginas::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
@@ -25,34 +25,36 @@ class ServicoResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('titulo')
+                Forms\Components\TextInput::make('chave')
                     ->required()
-                    ->maxLength(60),
-                Forms\Components\Toggle::make('ativo'),
-                Forms\Components\Textarea::make('resumo')
+                    ->maxLength(255),
+                Forms\Components\TextInput::make('tituloPagina')
                     ->required()
-                    ->maxLength(300),
-                Forms\Components\FileUpload::make('icon')
-                    ->required(),
-                Forms\Components\RichEditor::make('descricao')
+                    ->maxLength(255),
+                Forms\Components\FileUpload::make('imagemPagina')
+                    ->columnSpanFull(),
+                Forms\Components\RichEditor::make('subtituloPagina')
+                    ->columnSpanFull(),
+                Forms\Components\RichEditor::make('conteudoPagina')
                     ->required()
                     ->columnSpanFull(),
-            ])->columns(1);
+
+            ]);
     }
 
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('titulo')
+                Tables\Columns\TextColumn::make('chave')
                     ->searchable(),
-                Tables\Columns\ImageColumn::make('icon')
+                Tables\Columns\TextColumn::make('tituloPagina')
                     ->searchable(),
-                Tables\Columns\ToggleColumn::make('ativo'),
+                Tables\Columns\ImageColumn::make('imagemPagina'),
                 Tables\Columns\TextColumn::make('updated_at')
-                    ->label('Última alteração em')
-                    ->dateTime('d/m/Y')
-                    ->sortable(),
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 //
@@ -80,9 +82,9 @@ class ServicoResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListServicos::route('/'),
-            'create' => Pages\CreateServico::route('/create'),
-            'edit' => Pages\EditServico::route('/{record}/edit'),
+            'index' => Pages\ListPaginas::route('/'),
+            'create' => Pages\CreatePaginas::route('/create'),
+            'edit' => Pages\EditPaginas::route('/{record}/edit'),
         ];
     }
 }
