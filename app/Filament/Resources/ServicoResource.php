@@ -19,6 +19,8 @@ class ServicoResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    protected static ?string $navigationGroup = 'Configuração do Site';
+
     public static function form(Form $form): Form
     {
         return $form
@@ -30,6 +32,8 @@ class ServicoResource extends Resource
                 Forms\Components\Textarea::make('resumo')
                     ->required()
                     ->maxLength(300),
+                Forms\Components\FileUpload::make('icon')
+                    ->required(),
                 Forms\Components\RichEditor::make('descricao')
                     ->required()
                     ->columnSpanFull(),
@@ -41,6 +45,8 @@ class ServicoResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('titulo')
+                    ->searchable(),
+                Tables\Columns\ImageColumn::make('icon')
                     ->searchable(),
                 Tables\Columns\ToggleColumn::make('ativo'),
                 Tables\Columns\TextColumn::make('updated_at')

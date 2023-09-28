@@ -2,11 +2,11 @@
 <!-- ===== Testimonials Start ===== -->
 <section class="hj rp hr">
     <!-- Section Title Start -->
-    <div x-data="{ sectionTitle: `Depoimentos`, sectionTitleText: `Leia alguns depoimentos de pessoas transformadas pelo aprendizado e desenvolvimento da resiliência em suas vidas.`}">
+    <div x-data="{ sectionTitle: `{{ $siteConfigData->depoimentosTitulo }}`, sectionTitleText: `Leia alguns depoimentos de pessoas transformadas pelo aprendizado e desenvolvimento da resiliência em suas vidas.`}">
         <div class="animate_top bb ze rj ki xn vq">
             <h2 x-text="sectionTitle" class="fk vj pr kk wm on/5 gq/2 bb _b">
             </h2>
-            <p class="bb on/5 wo/5 hq" x-text="sectionTitleText"></p>
+            <p class="bb on/5 wo/5 hq">{!! $siteConfigData->depoimentosResumo !!}</p>
         </div>
 
 
@@ -31,7 +31,7 @@
 
                             <div class="tc sf rn tn un zf dp">
                                 <img    class="bf" 
-                                        src="{{ URL::asset('/storage/' . $depoimento->foto) }}" 
+                                        src="{{ URL::asset('storage/' . $depoimento->foto) }}" 
                                         alt="{{ $depoimento->nome }}" />
 
                                 <div>

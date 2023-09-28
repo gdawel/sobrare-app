@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\DepoimentosResource\Pages;
-use App\Filament\Resources\DepoimentosResource\RelationManagers;
-use App\Models\Depoimentos;
+use App\Filament\Resources\PaginasResource\Pages;
+use App\Filament\Resources\PaginasResource\RelationManagers;
+use App\Models\Paginas;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -13,9 +13,9 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class DepoimentosResource extends Resource
+class PaginasResource extends Resource
 {
-    protected static ?string $model = Depoimentos::class;
+    protected static ?string $model = Paginas::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
@@ -25,19 +25,20 @@ class DepoimentosResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('nome')
+                Forms\Components\TextInput::make('chave')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('titulo')
+                Forms\Components\TextInput::make('tituloPagina')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\FileUpload::make('foto')
-                    ->required(),
-                Forms\Components\Textarea::make('depoimento')
+                Forms\Components\FileUpload::make('imagemPagina')
+                    ->columnSpanFull(),
+                Forms\Components\RichEditor::make('subtituloPagina')
+                    ->columnSpanFull(),
+                Forms\Components\RichEditor::make('conteudoPagina')
                     ->required()
                     ->columnSpanFull(),
-                Forms\Components\Toggle::make('ativo')
-                    ->required(),
+
             ]);
     }
 
@@ -45,18 +46,11 @@ class DepoimentosResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('nome')
+                Tables\Columns\TextColumn::make('chave')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('titulo')
+                Tables\Columns\TextColumn::make('tituloPagina')
                     ->searchable(),
-                Tables\Columns\ImageColumn::make('foto')
-                    ->searchable(),
-                Tables\Columns\ToggleColumn::make('ativo'),
-
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\ImageColumn::make('imagemPagina'),
                 Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
@@ -88,9 +82,9 @@ class DepoimentosResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListDepoimentos::route('/'),
-            'create' => Pages\CreateDepoimentos::route('/create'),
-            'edit' => Pages\EditDepoimentos::route('/{record}/edit'),
+            'index' => Pages\ListPaginas::route('/'),
+            'create' => Pages\CreatePaginas::route('/create'),
+            'edit' => Pages\EditPaginas::route('/{record}/edit'),
         ];
     }
 }

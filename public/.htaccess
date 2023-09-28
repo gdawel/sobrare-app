@@ -17,5 +17,9 @@
     # Send Requests To Front Controller...
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteRule ^ index.php [L]
+    # RewriteRule ^ index.php [L]
+
+    # GD on 25/09/2023 using ChatGPT
+    RewriteBase /localhost:8000/public
+    RewriteRule ^(.*)$ index.php/$1 [L]
 </IfModule>
