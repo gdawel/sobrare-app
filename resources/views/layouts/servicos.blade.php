@@ -1,11 +1,13 @@
 <section class="lp kr">
     <!-- Section Title Start -->
-    <div x-data="{ sectionTitle: `Conteúdo de Qualidade sobre Resiliência? Temos.`, 
-                    sectionTitleText: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. In convallis tortor eros. Donec vitae tortor lacus. Phasellus aliquam ante in maximus.`}">
+
+    <div x-data="{ sectionTitle: `{{ $siteConfigData->servicosTitulo }}`, 
+                    sectionTitleText: `{!! $siteConfigData->servicosResumo !!}`}">
         <div class="animate_top bb ze rj ki xn vq">
             <h2 x-text="sectionTitle" class="fk vj pr kk wm on/5 gq/2 bb _b">
             </h2>
-            <p class="bb on/5 wo/5 hq" x-text="sectionTitleText"></p>
+            <p class="bb on/5 wo/5 hq">{!! $siteConfigData->servicosResumo !!}</p>
+
         </div>
 
 

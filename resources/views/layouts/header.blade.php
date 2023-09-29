@@ -25,9 +25,10 @@
 >
   <div class="bb ze ki xn 2xl:ud-px-0 oo wf yf i">
     <div class="vd to/4 tc wf yf">
-
+      
       <a href="{{ url('/') }}">
-        <img class="om" src="images/sobrare_logo_fundo_transparente2.png" alt="SOBRARE logo light" />
+        <img class="om" src="{{ asset('storage/' . $siteConfigData->logoClaro )}}" alt="SOBRARE logo light" />
+
         <img class="xc nm box-border h-19 w-40 p-1 border-0" src="images/sobrare_logo_fundo_transparente2.png" alt="SOBRARE logo dark" />
       </a>
 

@@ -29,7 +29,9 @@
         <div class="bb ze ki xn yq mb en">
             <div class="ri li">
                 
-                    <p> {!! $pagina->conteudoPagina !!}</p> 
+
+                    <p> {!! html_entity_decode($pagina->conteudoPagina) !!}</p> 
+
                 
                
 

@@ -36,6 +36,13 @@ class SiteConfigurationResource extends Resource
                                 ->label('Título do Site')
                                 ->columnSpanFull()
                                 ->maxLength(250),
+
+                            Forms\Components\Toggle::make('configStatus')
+                                ->label('Ativo'),
+                            Forms\Components\TextInput::make('configNotes')
+                                ->label('Notas sobre esta configuração')
+                                ->maxLength(250),
+
                             Forms\Components\FileUpload::make('logoClaro')
                                 ->nullable()
                                 ->label('Logo para Design Claro'),
@@ -48,8 +55,11 @@ class SiteConfigurationResource extends Resource
                                 ->required()
                                 ->maxLength(200)
                                 ->columnSpanFull(),
-                            Forms\Components\RichEditor::make('cta1TextoBase')
+
+                            Forms\Components\Textarea::make('cta1TextoBase')
                                 ->label('Texto para o Call to Action')
+                                ->rows(6)
+
                                 ->required()
                                 ->columnSpanFull(),
                             Forms\Components\TextInput::make('cta1TextoBotao')
@@ -126,7 +136,8 @@ class SiteConfigurationResource extends Resource
                                     'artigos-recentes' => 'Artigos',
                                     'cta2' => 'Call to Action 2',
                                 ])
-                                ->default('artigos')
+                                ->default('artigos-recentes')
+
                                 ->columnSpanFull(),
                         ]
                     ),
@@ -310,7 +321,12 @@ class SiteConfigurationResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('tituloSite')
-                    ->label('Título do Site')
+                    ->label('Título do Site'),
+                Tables\Columns\ToggleColumn::make('configStatus')
+                    ->label('Ativo'),
+                Tables\Columns\TextColumn::make('configNotes')
+                    ->label('Anotações')
+
             ])
             ->filters([
                 //

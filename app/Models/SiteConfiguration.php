@@ -12,6 +12,9 @@ class SiteConfiguration extends Model
     protected $fillable = [
 
         'tituloSite',
+        'configStatus',
+        'configNotes',
+
         'logoClaro',
         'logoEscuro',
         'cta1Titulo',

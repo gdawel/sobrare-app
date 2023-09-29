@@ -51,8 +51,8 @@ class DepoimentosResource extends Resource
                     ->searchable(),
                 Tables\Columns\ImageColumn::make('foto')
                     ->searchable(),
-                Tables\Columns\IconColumn::make('ativo')
-                    ->boolean(),
+                Tables\Columns\ToggleColumn::make('ativo'),
+
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

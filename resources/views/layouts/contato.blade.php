@@ -8,11 +8,14 @@
     <img src="images/shape-13.svg" alt="Shape" class="h r q" />
 
     <!-- Section Title Start -->
-    <div x-data="{ sectionTitle: `Conecte-se ou Envie uma Mensagem`, sectionTitleText: `Abaixo você encontra os dados de contato, nossas redes sociais e um formulário de contato, caso queira mais informações, ou dúvidas..`}">
+
+    <div x-data="{ sectionTitle: `{{ $siteConfigData->contatoTitulo }}`, 
+                    sectionTitleText: `Abaixo você encontra os dados de contato, nossas redes sociais e um formulário de contato, caso queira mais informações, ou dúvidas..`}">
         <div class="animate_top bb ze rj ki xn vq">
             <h2 x-text="sectionTitle" class="fk vj pr kk wm on/5 gq/2 bb _b">
             </h2>
-            <p class="bb on/5 wo/5 hq" x-text="sectionTitleText"></p>
+            <p class="bb on/5 wo/5 hq" x-text="{{ $siteConfigData->contatoResumo }}"></p>
+
         </div>
 
 

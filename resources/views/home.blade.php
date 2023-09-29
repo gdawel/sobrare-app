@@ -17,17 +17,16 @@
         <div class="bb ze ki xn 2xl:ud-px-0">
             <div class="tc _o">
                 <div class="animate_left jn/2">
-                    <h1 class="fk vj zp or kk wm wb">Procurando especialistas em resiliência?</h1>
+                    <h1 class="fk vj zp or kk wm wb">{{ $siteConfigData->cta1Titulo }}</h1>
                     <p class="fq">
-                        Na SOBRARE você encontra tudo sobre resiliência para desenvolvimento de pessoas, desenvolver habilidades emocionais e comportamentais. Seja para aprofundar o autoconhecimento, seja para autoestudo em resiliência, ou para obter orientação com profissionais especialistas em resiliência, formados e certificados pela SOBRARE, este é o lugar certo para aprender sobre como usar a resiliência de forma estratégica em seus relacionamentos, carreira e na família.
+                        {!! $siteConfigData->cta1TextoBase !!}
                     </p>
 
                     <div class="tc tf yo zf mb">
-                        <a href="#" class="ek jk lk gh gi hi rg ml il vc _d _l">Entre em Contato Agora</a>
+                        <a href="#support" class="ek jk lk gh gi hi rg ml il vc _d _l">{{ $siteConfigData->cta1TextoBotao }}</a>
 
                         <span class="tc sf">
-                            <a href="#" class="inline-block ek xj kk wm"> Ou, ligue para +55 11 5549 – 2943 </a>
-                            <span class="inline-block">para dúvidas ou</span>
+                            <a href="#" class="inline-block ek xj kk wm"> {{ $siteConfigData->cta1TextoExtra }}</span>
                         </span>
                     </div>
                 </div>
@@ -38,29 +37,41 @@
 
     <!-- ===== Seleciona qual sessão carregar na posição 1 da página principal ===== -->
     @isset($siteConfigData->sessionPosition1)
-        @include ('layouts.' . $siteConfigData->sessionPosition1)
+
+        @include ('layouts.' . $siteConfigData->sessionPosition1, ['siteConfigData' => $siteConfigData])
+
     @endisset
     
     <!-- ===== Seleciona qual sessão carregar na posição 2 da página principal ===== -->
     @isset($siteConfigData->sessionPosition2)
-        @include ('layouts.' . $siteConfigData->sessionPosition2)
+
+        @include ('layouts.' . $siteConfigData->sessionPosition2, ['siteConfigData' => $siteConfigData])
+
     @endisset
 
     <!-- ===== Seleciona qual sessão carregar na posição 3 da página principal ===== -->
     @isset($siteConfigData->sessionPosition3)
-        @include ('layouts.' . $siteConfigData->sessionPosition3)
+
+        @include ('layouts.' . $siteConfigData->sessionPosition3, ['siteConfigData' => $siteConfigData])
+
     @endisset
 
     <!-- ===== Seleciona qual sessão carregar na posição 4 da página principal ===== -->
     @isset($siteConfigData->sessionPosition4)
-        @include ('layouts.' . $siteConfigData->sessionPosition4)
+
+        @include ('layouts.' . $siteConfigData->sessionPosition4, ['siteConfigData' => $siteConfigData])
+
     @endisset
 
     <!-- ===== Seleciona qual sessão carregar na posição 5 da página principal ===== -->
     @isset($siteConfigData->sessionPosition5)
-        @include ('layouts.' . $siteConfigData->sessionPosition5)
+
+        @include ('layouts.' . $siteConfigData->sessionPosition5, ['siteConfigData' => $siteConfigData])
     @endisset
    
+    <!-- ===== Seção de Contato ===== -->
+    @include ('layouts.contato')
+
     
 </main>
 

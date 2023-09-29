@@ -6,7 +6,9 @@
         <div class="ji gp">
             <div class="tc uf ap gg fp">
                 <div class="animate_top zd/2 to/4">
-                    <a href="index.html">
+
+                    <a href="{{ url('/') }}">
+
                         <img src="{{ asset('storage/' . $siteConfigData->logoClaro )}}" alt="Logo Sobrare" class="om" />
                         <img src="images/logo-dark.svg" alt="Logo" class="xc nm" />
                     </a>

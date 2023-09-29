@@ -18,16 +18,20 @@
 
             <!-- About Content -->
             <div class="animate_right jn/2">
-                <h4 class="ek yj mk gb">Quer saber mais sobre resiliência?</h4>
-                <h2 class="fk vj zp pr kk wm qb">Assista um vídeo rápido que preparamos com muito cuidado.</h2>
-                <p class="uo">Neste video você vai aprender o que é resiliência, porque é importante desenvolver resiliência e como a resiliência pode promover transformações nas emoções e comportamentos de uma pessoa, elevando-a a um outro patamar de qualidadde de vida nos relacionamentos, carreira e família.</p>
 
-                <a href="https://www.youtube.com/watch?v=xRFViIu6Lxw" data-fslightbox class="vc wf hg mb">
+                <h4 class="ek yj mk gb">{{ $siteConfigData->aboutChamada }}</h4>
+                <h2 class="fk vj zp pr kk wm qb">{{ $siteConfigData->aboutTitulo }}</h2>
+                <p class="uo">{!! $siteConfigData->aboutResumo !!}</p>
+
+                <a href="{{ $siteConfigData->aboutLinkBotao }}" data-fslightbox class="vc wf hg mb">
+
                     <span class="tc wf xf be dd rg i gh ua">
                         <span class="nf h vc yc vd rg gh qk -ud-z-1"></span>
                         <img src="images/icon-play.svg" alt="Play" />
                     </span>
-                    <span class="kk">ASSISTA AGORA MESMO</span>
+
+                    <span class="kk">{{ $siteConfigData->aboutTextoBotao }}</span>
+
                 </a>
             </div>
         </div>
