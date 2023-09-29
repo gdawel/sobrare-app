@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SOBRARE - Sociedade Brasileira de Resiliência</title>
+    <title>{{ $siteConfigData->tituloSite }}</title>
   <link rel="icon" href="favicon.ico"><link href={{ asset('css/styles.css') }} rel="stylesheet">
   <!-- <script src="https://cdn.tailwindcss.com"></script> -->
 </head>
@@ -16,6 +16,8 @@
     :class="{'b eh': darkMode === true}"
   >
     <!-- ===== Header Start ===== -->
+
+
 <header
   class="g s r vd ya cj"
   :class="{ 'hh sm _k dj bl ll' : stickyMenu }"
@@ -23,6 +25,7 @@
 >
   <div class="bb ze ki xn 2xl:ud-px-0 oo wf yf i">
     <div class="vd to/4 tc wf yf">
+
       <a href="{{ url('/') }}">
         <img class="om" src="images/sobrare_logo_fundo_transparente2.png" alt="SOBRARE logo light" />
         <img class="xc nm box-border h-19 w-40 p-1 border-0" src="images/sobrare_logo_fundo_transparente2.png" alt="SOBRARE logo dark" />
@@ -69,8 +72,10 @@
 
             <!-- Dropdown Start -->
             <ul class="a" :class="{ 'tc': dropdown }">
-              <li><a href="blogMainPage.php" class="xl" :class="{ 'ak': page === 'blog-grid' }">Organização</a></li>
-              <li><a href="blogMainPage.php" class="xl" :class="{ 'ak': page === 'signup' }">O que é Resiliência?</a></li>
+              <li><a href="{{ route('pagina.show', ['key' => 'organizacao']) }}" 
+                      class="xl" :class="{ 'ak': page === 'blog-grid' }">Organização</a></li>
+              <li><a href="{{ route('pagina.show', ['key' => 'resiliencia']) }}" 
+                      class="xl" :class="{ 'ak': page === 'signup' }">O que é Resiliência?</a></li>
               
             </ul>
             <!-- Dropdown End -->
@@ -94,8 +99,10 @@
 
             <!-- Dropdown Start -->
             <ul class="a" :class="{ 'tc': dropdown }">
-              <li><a href="./blogSinglePost.php" class="xl" :class="{ 'ak': page === 'blog-grid' }">Desenvolva seu projeto</a></li>
-              <li><a href="./blogSinglePost.php" class="xl" :class="{ 'ak': page === 'blog-single' }">Publicações (Blog)</a></li>
+              <li><a href="{{ route('pagina.show', ['key' => 'projetos']) }}" 
+                      class="xl" :class="{ 'ak': page === 'blog-grid' }">Desenvolva seu projeto</a></li>
+              <li><a href="{{ route('pagina.show', ['key' => 'publicacao']) }}" 
+                      class="xl" :class="{ 'ak': page === 'blog-single' }">Publicações (Blog)</a></li>
               
             </ul>
             <!-- Dropdown End -->
