@@ -14,6 +14,7 @@ class SiteConfiguration extends Model
         'tituloSite',
         'configStatus',
         'configNotes',
+
         'logoClaro',
         'logoEscuro',
         'cta1Titulo',

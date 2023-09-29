@@ -36,6 +36,7 @@ class SiteConfigurationResource extends Resource
                                 ->label('Título do Site')
                                 ->columnSpanFull()
                                 ->maxLength(250),
+
                             Forms\Components\Toggle::make('configStatus')
                                 ->label('Ativo'),
                             Forms\Components\TextInput::make('configNotes')
@@ -54,9 +55,11 @@ class SiteConfigurationResource extends Resource
                                 ->required()
                                 ->maxLength(200)
                                 ->columnSpanFull(),
+
                             Forms\Components\Textarea::make('cta1TextoBase')
                                 ->label('Texto para o Call to Action')
                                 ->rows(6)
+
                                 ->required()
                                 ->columnSpanFull(),
                             Forms\Components\TextInput::make('cta1TextoBotao')
@@ -134,6 +137,7 @@ class SiteConfigurationResource extends Resource
                                     'cta2' => 'Call to Action 2',
                                 ])
                                 ->default('artigos-recentes')
+
                                 ->columnSpanFull(),
                         ]
                     ),
@@ -322,6 +326,7 @@ class SiteConfigurationResource extends Resource
                     ->label('Ativo'),
                 Tables\Columns\TextColumn::make('configNotes')
                     ->label('Anotações')
+
             ])
             ->filters([
                 //

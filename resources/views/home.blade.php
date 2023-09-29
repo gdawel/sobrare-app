@@ -37,31 +37,41 @@
 
     <!-- ===== Seleciona qual sessão carregar na posição 1 da página principal ===== -->
     @isset($siteConfigData->sessionPosition1)
+
         @include ('layouts.' . $siteConfigData->sessionPosition1, ['siteConfigData' => $siteConfigData])
+
     @endisset
     
     <!-- ===== Seleciona qual sessão carregar na posição 2 da página principal ===== -->
     @isset($siteConfigData->sessionPosition2)
+
         @include ('layouts.' . $siteConfigData->sessionPosition2, ['siteConfigData' => $siteConfigData])
+
     @endisset
 
     <!-- ===== Seleciona qual sessão carregar na posição 3 da página principal ===== -->
     @isset($siteConfigData->sessionPosition3)
+
         @include ('layouts.' . $siteConfigData->sessionPosition3, ['siteConfigData' => $siteConfigData])
+
     @endisset
 
     <!-- ===== Seleciona qual sessão carregar na posição 4 da página principal ===== -->
     @isset($siteConfigData->sessionPosition4)
+
         @include ('layouts.' . $siteConfigData->sessionPosition4, ['siteConfigData' => $siteConfigData])
+
     @endisset
 
     <!-- ===== Seleciona qual sessão carregar na posição 5 da página principal ===== -->
     @isset($siteConfigData->sessionPosition5)
+
         @include ('layouts.' . $siteConfigData->sessionPosition5, ['siteConfigData' => $siteConfigData])
     @endisset
    
     <!-- ===== Seção de Contato ===== -->
     @include ('layouts.contato')
+
     
 </main>
 

@@ -18,6 +18,7 @@ class HomeController extends Controller
         //$siteConfigData = Cache::forever('cacheSiteConfig', SiteConfiguration::all());
         $siteConfigData = SiteConfiguration::where('configStatus', '1')->get()->first();
 
+
         //$siteConfigData = cache()->remember('cacheSiteConfig', 1000, function () {
         // Your code to fetch and return the site configuration data from the database
         //  SiteConfiguration::get()->first();

@@ -18,16 +18,20 @@
 
             <!-- About Content -->
             <div class="animate_right jn/2">
+
                 <h4 class="ek yj mk gb">{{ $siteConfigData->aboutChamada }}</h4>
                 <h2 class="fk vj zp pr kk wm qb">{{ $siteConfigData->aboutTitulo }}</h2>
                 <p class="uo">{!! $siteConfigData->aboutResumo !!}</p>
 
                 <a href="{{ $siteConfigData->aboutLinkBotao }}" data-fslightbox class="vc wf hg mb">
+
                     <span class="tc wf xf be dd rg i gh ua">
                         <span class="nf h vc yc vd rg gh qk -ud-z-1"></span>
                         <img src="images/icon-play.svg" alt="Play" />
                     </span>
+
                     <span class="kk">{{ $siteConfigData->aboutTextoBotao }}</span>
+
                 </a>
             </div>
         </div>
