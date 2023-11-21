@@ -27,17 +27,24 @@ class ServicoResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('titulo')
                     ->required()
+                    ->columnSpanFull()
                     ->maxLength(60),
-                Forms\Components\Toggle::make('ativo'),
+                
                 Forms\Components\Textarea::make('resumo')
                     ->required()
+                    ->columnSpanFull()
                     ->maxLength(300),
+                Forms\Components\Toggle::make('ativo'),
                 Forms\Components\FileUpload::make('icon')
                     ->required(),
                 Forms\Components\RichEditor::make('descricao')
                     ->required()
                     ->columnSpanFull(),
-            ])->columns(1);
+                Forms\Components\TextInput::make('buttomTitle')
+                    ->required(),
+                Forms\Components\TextInput::make('buttomLink')
+                    ->required()
+            ])->columns(2);
     }
 
     public static function table(Table $table): Table
