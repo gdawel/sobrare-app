@@ -39,7 +39,7 @@
                     <div class="tc uf wf ag jq">
                         <div class="tc wf ag">
                             <img src="images/icon-man.svg" alt="User" />
-                            <p>Dr. Prof. George Barbosa</p>
+                            <p>{{ $artigo->autor }}</p>
                         </div>
                         <div class="tc wf ag">
                             <img src="images/icon-calender.svg" alt="Calender" />

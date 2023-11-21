@@ -9,8 +9,8 @@
 
                     <a href="{{ url('/') }}">
 
-                        <img src="{{ asset('storage/' . $siteConfigData->logoClaro )}}" alt="Logo Sobrare" class="om" />
-                        <img src="images/logo-dark.svg" alt="Logo" class="xc nm" />
+                        <img src="{{ asset('storage/' . $siteConfigData->logoEscuro )}}" alt="Logo Sobrare" class="om" />
+                        <img src="{{ asset('storage/' . $siteConfigData->logoEscuro )}}" alt="Logo" class="xc nm" />
                     </a>
 
                     <p class="lc fb">Resiliência é agir de modo mais estratégico possível, para enfrentar desafios e adversidades, por meio de pensamentos e comportamentos flexíveis, buscando menor impacto negativo. George Barbosa.</p>
@@ -80,15 +80,15 @@
                         <h4 class="kk wm tj ec">Links Úteis</h4>
 
                         <ul>
-                            <li><a href="#" class="sc xl vb">O que é Resiliência?</a></li>
-                            <li><a href="#" class="sc xl vb">Quest_resiliencia</a></li>
+                            <li><a href="{{ route('pagina.show', ['key' => 'resiliencia']) }}" class="sc xl vb">O que é Resiliência?</a></li>
+                            <li><a href="{{ route('pagina.show', ['key' => 'quest']) }}" class="sc xl vb">Quest_resiliencia</a></li>
                             <li>
-                                <a href="#" class="sc xl vb">
+                                <a href="{{ route('pagina.show', ['key' => 'neurodivergencia']) }}" class="sc xl vb">
                                     Neurodivergência
                                     <span class="sc ek uj lk nh rg zi _i nc">Novo</span>
                                 </a>
                             </li>
-                            <li><a href="#" class="sc xl vb">Blog SOBRARE</a></li>
+                            <li><a href="{{ url ('/publicacoes' ) }}" class="sc xl vb">Blog SOBRARE</a></li>
                         </ul>
                     </div>
 
@@ -96,10 +96,10 @@
                         <h4 class="kk wm tj ec">+ Resiliência</h4>
 
                         <ul>
-                            <li><a href="#" class="sc xl vb">Cursos</a></li>
-                            <li><a href="#" class="sc xl vb">Congresso</a></li>
-                            <li><a href="#" class="sc xl vb">Formação Coach</a></li>
-                            <li><a href="#" class="sc xl vb">Terapeutas</a></li>
+                            <li><a href="{{ route('pagina.show', ['key' => 'cursos-sobrare']) }}" class="sc xl vb">Cursos</a></li>
+                            <li><a href="{{ route('pagina.show', ['key' => 'congresso']) }}" class="sc xl vb">Congresso</a></li>
+                            <li><a href="{{ route('pagina.show', ['key' => 'formacoes']) }}" class="sc xl vb">Formações</a></li>
+                            <li><a href="https://sobrare.com.br/psicoterapia/" target="_blank" rel="noopener noreferrer" class="sc xl vb">Na Psicoterapia</a></li>
                         </ul>
                     </div>
 
@@ -107,10 +107,10 @@
                         <h4 class="kk wm tj ec">SOBRARE</h4>
 
                         <ul>
-                            <li><a href="#" class="sc xl vb">Organização</a></li>
-                            <li><a href="#" class="sc xl vb">Comunidade</a></li>
-                            <li><a href="#" class="sc xl vb">Acadêmicos</a></li>
-                            <li><a href="#" class="sc xl vb">Instrumentos</a></li>
+                            <li><a href="{{ route('pagina.show', ['key' => 'organizacao']) }}" class="sc xl vb">Organização</a></li>
+                            <li><a href="{{ route('pagina.show', ['key' => 'projetos-em-resiliencia']) }}" class="sc xl vb">Acadêmicos</a></li>
+                            <li><a href="{{ route('pagina.show', ['key' => 'instrumentos']) }}" class="sc xl vb">Instrumentos</a></li>
+                            <li><a href="/#support" class="sc xl vb">Contato</a></li>
                         </ul>
                     </div>
 

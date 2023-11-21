@@ -5,6 +5,7 @@
     <!-- ===== Hero Start ===== -->
     <section class="gj do ir hj sp jr i pg">
         <!-- Hero Images -->
+        <!--
         <div class="xc fn zd/2 2xl:ud-w-187.5 bd 2xl:ud-h-171.5 h q r">
             <img src="images/shape-01.svg" alt="shape" class="xc 2xl:ud-block h t -ud-left-[10%] ua" />
             <img src="images/shape-02.svg" alt="shape" class="xc 2xl:ud-block h u p va" />
@@ -12,6 +13,14 @@
             <img src="images/shape-04.svg" alt="shape" class="h q r" />
             <img src="images/hero4.png" alt="Woman" class="h q r ua" />
         </div>
+        -->
+
+        <div class="xc fn zd/2 2xl:ud-w-187.5 bd 2xl:ud-h-171.5 h q r">
+            
+            <img src="images/especialistas-reduz.jpg" alt="Especialistas em Resiliência" class="h q b ua" />
+            
+        </div>
+
 
         <!-- Hero Content -->
         <div class="bb ze ki xn 2xl:ud-px-0">
