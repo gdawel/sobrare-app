@@ -23,7 +23,7 @@ Route::get('/publicacoes/{key}', [HomeController::class, 'blogSingle'])->name('l
 Route::get('/blogPorCategoria/{key}', [HomeController::class, 'blogPorCategoria'])->name('layouts.blogPorCategoria');
 
 Route::get('/quest', function () {
-    return redirect(route('https://sobrare.com.br/Quest/login.php'));
+    return redirect(route(asset('/public/legacy/index.php')));
 });
 
 //Route::get('/publicacoes', function () {

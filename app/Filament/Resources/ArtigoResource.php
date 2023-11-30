@@ -5,17 +5,19 @@ namespace App\Filament\Resources;
 use Filament\Forms;
 use Filament\Tables;
 use App\Models\Artigo;
+use Filament\Forms\Set;
 use Filament\Forms\Form;
+use App\Models\Categoria;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
 use Filament\Resources\Resource;
+use Filament\Forms\Components\Card;
+use Filament\Forms\Components\Grid;
+use Filament\Forms\Components\Section;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\ArtigoResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\ArtigoResource\RelationManagers;
-use Filament\Forms\Components\Card;
-use Filament\Forms\Components\Grid;
-use Filament\Forms\Components\Section;
 
 class ArtigoResource extends Resource
 {
@@ -39,8 +41,8 @@ class ArtigoResource extends Resource
                                         ->label('Título')
                                         ->required()
                                         ->maxLength(2048)
-                                        ->live()
-                                        ->afterStateUpdated(fn ($set, $state) => $set('slug', Str::slug($state))),
+                                        ->live(onBlur: true)
+                                        ->afterStateUpdated(fn (Set $set, ?string $state) => $set('slug', Str::slug($state))),
                                     Forms\Components\TextInput::make('slug')
                                         ->required()
                                         ->maxLength(2048),
@@ -68,10 +70,13 @@ class ArtigoResource extends Resource
                         [
                             Forms\Components\FileUpload::make('thumbnail')
                                 ->label('Imagem'),
-                            Forms\Components\Select::make('categorias')
+                            Forms\Components\Select::make('categoria_id')
                                 ->label('Categorias')
                                 ->multiple()
-                                ->relationship('categoria', 'title')
+                                ->relationship('categoria', 'title')    
+                                ->options(Categoria::all()->pluck('title', 'id'))
+                                
+                                ->searchable()
                                 ->required(),
                         ]
                     )->columnSpan(4)

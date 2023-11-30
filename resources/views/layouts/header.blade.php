@@ -57,7 +57,7 @@
         <ul class="tc _o sf yo bg ep">
           <li class="c i" x-data="{ dropdown: false }">
             <a
-              href="#"
+              href="{{ route('pagina.show', ['key' => 'organizacao']) }}"
               class="xl tc wf yf lg"
               @click.prevent="dropdown = !dropdown"
               :class="{ 'ak': page === 'blog-grid' || page === 'blog-single' || page === 'signin' || page === 'signup' || page === '404' }"
@@ -102,7 +102,7 @@
             <ul class="a" :class="{ 'tc': dropdown }">
               <li><a href="{{ route('pagina.show', ['key' => 'quest']) }}" 
                       class="xl" :class="{ 'ak': page === 'blog-grid' }">O que é o QUEST_Resiliência</a></li>
-              <li><a href="https://sobrare.com.br/Quest/login.php" target="_blank" rel="noopener noreferrer"
+              <li><a href="https://qr.dawelwebsolutions.com/Quest/login.php" target="_blank" rel="noopener noreferrer"
                       class="xl" :class="{ 'ak': page === 'blog-single' }">Responda o QUEST_Resiliência</a></li>
               
             </ul>
@@ -151,7 +151,7 @@
   
               <!-- Dropdown Start -->
               <ul class="a" :class="{ 'tc': dropdown }">
-                <li><a href="{{ url ('/publicacoes' ) }}" class="xl" :class="{ 'ak': page === 'blog-grid' }">Publicações</a></li>
+                <li><a href="{{ url ('/blogPorCategoria/4' ) }}" class="xl" :class="{ 'ak': page === 'blog-grid' }">Publicações</a></li>
                 <li><a href="{{ route('pagina.show', ['key' => 'projetos-em-resiliencia']) }}" class="xl" :class="{ 'ak': page === 'projetos-em-resiliencia' }">Desenvolva seu projeto</a></li>
                 
                 
@@ -180,12 +180,12 @@
           </label>
         </div>
 
-         <a href="signin.php" :class="{ page === 'home' && stickyMenu }" class="ek pk xl">Entrar</a>
+         <a href="https://qr.dawelwebsolutions.com/cockpit/login.php" target="_blank" rel="noopener noreferrer" :class="{ page === 'home' && stickyMenu }" class="ek pk xl">Associado/Gestor</a>
          <!-- Dawel
          <a href="signin.php" :class="{ 'nk xl' : page === 'home', 'ok' : page === 'home' && stickyMenu }" class="ek pk xl">Entrar</a>
          <a href="signup.php" :class="{ 'hh/[0.15]' : page === 'home', 'sh' : page === 'home' && stickyMenu }" class="lk gh dk rg tc wf xf _l gi hi">Registrar</a>
          -->
-         <a href="signup.php" :class="{ page === 'home' && stickyMenu }" class="lk gh dk rg tc wf xf _l gi hi">Registrar</a>
+         <!-- Dawel <a href="signup.php" :class="{ page === 'home' && stickyMenu }" class="lk gh dk rg tc wf xf _l gi hi">Registrar</a> -->
       </div>
     </div>
   </div>

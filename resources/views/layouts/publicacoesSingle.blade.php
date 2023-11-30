@@ -15,7 +15,15 @@
                         <ul class="tc uf cg 2xl:ud-gap-15 fb">
                             <li><span class="rc kk wm">Autor: </span>{{ $artigos->name }}</li>
                             <li><span class="rc kk wm">Publicado em: </span>{{ Carbon\Carbon::parse($artigos->published_at)->format('d/m/Y') }}</li>
-                            <!-- <li><span class="rc kk wm">Category: </span> Events</li> -->
+                            <!--<li><span class="rc kk wm">Categorias: </span>
+                                    
+                                    foreach ($categorias as $categoria)
+                                    <li class="ql vb il xl">
+                                    <a class="ql vb il xl" href=" url ('/blogPorCategoria/' . $categoria->id) }}">  $categoria->title </a>
+                                    </li>
+                                    endforeach
+                                    
+                            </li>-->
                         </ul>
 
                         <p>
