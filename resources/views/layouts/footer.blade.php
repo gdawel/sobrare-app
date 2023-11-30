@@ -15,6 +15,7 @@
 
                     <p class="lc fb">Resiliência é agir de modo mais estratégico possível, para enfrentar desafios e adversidades, por meio de pensamentos e comportamentos flexíveis, buscando menor impacto negativo. George Barbosa.</p>
 
+                    <!-- Dawel 30/11/2023 - Mídias Sociais está em Contatos 
                     <ul class="tc wf cg">
                         <li>
                             <a href="#">
@@ -72,7 +73,7 @@
                                 </svg>
                             </a>
                         </li>
-                    </ul>
+                    </ul> -->
                 </div>
 
                 <div class="vd ro tc sf rn un gg vn">
@@ -114,7 +115,7 @@
                         </ul>
                     </div>
 
-                    <div class="animate_top">
+                    <!-- Dawel 30/11/2023 <div class="animate_top">
                         <h4 class="kk wm tj ec">Newsletter</h4>
                         <p class="ac qe">Quer estar por dentro das novidades?</p>
 
@@ -136,7 +137,7 @@
                                 </button>
                             </div>
                         </form>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>

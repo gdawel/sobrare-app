@@ -115,12 +115,23 @@ class HomeController extends Controller
 
     public function blogSingle($chave)
     {
-               
+        $chave = $chave + 0;
+        //var_dump($chave);       
+        
+        
+
+        //$artigos = $query->first()->toSQL();
+        //dd($query->toSQL());
+        
         $artigos = Artigo::query()
-            ->join('users', 'users.id', '=', 'artigos.id')
-            ->select('users.name', 'artigos.*')
+            ->leftjoin('users', 'users.id', '=', 'artigos.user_id')
+            ->leftjoin('artigo_categoria', 'artigos.id', '=', 'artigo_categoria.artigo_id')
+            ->join('categorias', 'categorias.id', '=', 'artigo_categoria.categoria_id')
+            ->select('users.name', 'artigos.*', 'categorias.title as cat_title')
+            ->where('artigos.id', '=', $chave )
             ->first();
-        //@dd($artigos);
+        //dd($artigos);
+        
         $categorias = Categoria::query()
             ->join('artigo_categoria', 'categorias.id', '=', 'artigo_categoria.categoria_id')
             ->select('categorias.title', 'categorias.id', DB::raw('count(*) as total'))
@@ -129,7 +140,7 @@ class HomeController extends Controller
             ->get();
         //@dd($categorias);
 
-        //dd($artigos);
+        
 
         return view('layouts.publicacoesSingle')->with([
             //'servicos' => $this->servicos,

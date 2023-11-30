@@ -33,7 +33,7 @@ class CategoriaResource extends Resource
                     ->label('Título')
                     ->required()
                     ->maxLength(2048)
-                    ->live()
+                    ->live(onBlur: true)
                     ->afterStateUpdated(fn ($set, $state) => $set('slug', Str::slug($state))),
                 Forms\Components\TextInput::make('slug')
                     ->required()
