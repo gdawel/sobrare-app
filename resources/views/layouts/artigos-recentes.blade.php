@@ -31,7 +31,7 @@
                     <img class="w-full" src="{{ URL::asset('/storage/' . $artigo->thumbnail) }}" alt="Blog" />
 
                     <div class="im h r s df vd yc wg tc wf xf al hh/20 nl il z-10">
-                        <a href="./blogSinglePost.php" class="vc ek rg lk gh sl ml il gi hi">Continue lendo</a>
+                        <a href="{{ url ('/publicacoes/' . $artigo->id) }}" class="vc ek rg lk gh sl ml il gi hi">Continue lendo</a>
                     </div>
                 </div>
 
@@ -43,7 +43,7 @@
                         </div>
                         <div class="tc wf ag">
                             <img src="images/icon-calender.svg" alt="Calender" />
-                            <p>{{ $artigo->published_at }}</p>
+                            <p>{{ Carbon\Carbon::parse($artigo->published_at)->format('d/m/Y') }}</p>
                         </div>
                     </div>
                     <h4 class="ek tj ml il kk wm xl eq lb">

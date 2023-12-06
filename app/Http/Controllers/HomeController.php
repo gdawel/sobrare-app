@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Artigo;
 use App\Models\Paginas;
 use App\Models\Servico;
@@ -45,13 +46,18 @@ class HomeController extends Controller
         //$servicos = Servico::where('ativo', '1')->get();
 
        
-        $artigos = Artigo::orderBy('created_at', 'desc')->take(3)->get();
+        $artigos = Artigo::query()
+        ->leftjoin('users', 'users.id', '=', 'artigos.user_id')
+        ->select('artigos.*', 'users.name as autor')
+        ->where('active', '=', 1)
+        ->whereDate('published_at', '<', Carbon::now())
+        ->orderBy('created_at', 'desc')->take(3)->get();
 
         return view('home')->with([
             'servicos' => $this->servicos,
             'siteConfigData' => $this->siteConfigData,
             'depoimentos' => $this->depoimentos,
-            'artigos' => $this->artigos
+            'artigos' => $artigos
         ]);
     }
 
@@ -62,7 +68,10 @@ class HomeController extends Controller
             ->leftjoin('users', 'users.id', '=', 'artigos.user_id')
             ->select('artigos.*', 'users.name as autor')
             ->orderBy('created_at', 'desc')
-            ->get();
+            ->where('active', '=', 1)
+            ->whereDate('published_at', '<', Carbon::now())
+            //->get()
+            ->paginate(3);
         //dd($artigos);
 
         $categorias = Categoria::query()
@@ -91,8 +100,10 @@ class HomeController extends Controller
         ->join('users', 'users.id', '=', 'artigos.user_id')
         ->select('artigos.*', 'categorias.title as categoria', 'users.name as autor')
         ->where('categorias.id', '=', $qualCategoria)
+        ->where('active', '=', 1)
+        ->whereDate('published_at', '<', Carbon::now())
         ->orderBy('created_at', 'desc')
-        ->get();
+        ->paginate(3);
         //dd($artigos);
 
         $categorias = Categoria::query()

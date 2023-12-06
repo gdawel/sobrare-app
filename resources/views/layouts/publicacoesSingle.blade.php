@@ -7,14 +7,14 @@
         <div class="bb ze ki xn 2xl:ud-px-0">
             <div class="tc sf yo zf kq">
                 <div class="ro">
-                    <div class="animate_top rounded-md shadow-solid-13 bg-white dark:bg-blacksection border border-stroke dark:border-strokedark p-7.5 md:p-10">
+                    <div class="animate_top rounded-md shadow-solid-13 bg-white dark:bg-blacksection ">
                         <img src="{{ URL::asset('/storage/' . $artigos->thumbnail ) }}" alt="Blog" />
 
                         <h2 class="ek vj 2xl:ud-text-title-lg kk wm nb gb">{{ $artigos->title }}</h2>
 
-                        <ul class="tc uf cg 2xl:ud-gap-15 fb">
-                            <li><span class="rc kk wm">Autor: </span>{{ $artigos->name }}</li>
-                            <li><span class="rc kk wm">Publicado em: </span>{{ Carbon\Carbon::parse($artigos->published_at)->format('d/m/Y') }}</li>
+                        <div class="tc uf cg 2xl:ud-gap-15 fb">
+                            <span class="rc kk wm">Autor: </span>{{ $artigos->name }}
+                            <span class="rc kk wm">Publicado em: </span>{{ Carbon\Carbon::parse($artigos->published_at)->format('d/m/Y') }}
                             <!--<li><span class="rc kk wm">Categorias: </span>
                                     
                                     foreach ($categorias as $categoria)
@@ -24,7 +24,7 @@
                                     endforeach
                                     
                             </li>-->
-                        </ul>
+                        </div>
 
                         <p>
                             {!! $artigos->body !!}
@@ -41,6 +41,7 @@
                             <img src="images/blog-05.png" alt="Blog" />
                         </div>
                         -->
+                        <!-- Dawel 06/12/2023 - retirado texto abaixo e o Share on Social Media
                         <h2 class="ek vj 2xl:ud-text-title-lg kk wm nb qb">A Força mais poderosa da raça humana é a resiliência</h2>
                         <p>
                             Por milhares de anos e enfrentando grandes adversidades, seja como uma nação, ou globalmente, como foi durante a pandemia do Covid, a raça humana encontrou caminhos de superação.
@@ -108,11 +109,12 @@
                                 </a>
                             </li>
                         </ul>
-
+                        -->
                     </div>
                 </div>
 
                 <div class="jn/2 so">
+                    <!-- Dawel - 06/12/2023 - retirado temporariamente a pesquisa de artigos
                     <div class="animate_top fb">
                         <form action="#">
                             <div class="i">
@@ -126,6 +128,7 @@
                             </div>
                         </form>
                     </div>
+                    -->
 
                     <div class="animate_top fb">
                         <h4 class="tj kk wm qb">Categorias</h4>

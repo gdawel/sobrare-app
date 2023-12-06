@@ -145,17 +145,17 @@
 
         <!-- Footer Bottom -->
         <div class="bh ch pm tc uf sf yo wf xf ap cg fp bj">
-            <div class="animate_top">
-                <ul class="tc wf gg">
-                    <li><a href="{{ route('pagina.show', ['key' => 'termos']) }}" class="xl">Termos de Uso</a></li>
-                    <li><a href="{{ route('pagina.show', ['key' => 'privacidade']) }}" class="xl">Política de Privacidade</a></li>
-                    <li><a href="/" class="xl">&copy; 2023 SOBRARE. Todos os direitos reservados.</a></li>
-                </ul>
+            
+                        
+            <div class="tc wf gg">
+                
+                    <a href="{{ route('pagina.show', ['key' => 'termos']) }}" class="xl">Termos de Uso</a>
+                    <a href="{{ route('pagina.show', ['key' => 'privacidade']) }}" class="xl">Política de Privacidade</a>
+                    <a href="/" class="xl">&copy; SOBRARE. Todos os direitos reservados.</a>
+                    <p>CNPJ: 10.786.446/0001/47 – CRPJ/SP 3825/J</p>
             </div>
 
-            <div class="animate_top">
-                <p>Site Desenvolvido por DawelWebSolutions.com .</p>
-            </div>
+            
         </div>
         <!-- Footer Bottom -->
     </div>

@@ -4,7 +4,7 @@
     <!-- Section Title Start -->
     <section class="lp">
         <div class="jigd gp uq">
-            <div x-data="{ sectionTitle: `A Força da Humanidade está na Resiliência.`, 
+            <div x-data="{ sectionTitle: `Artigos e Publicações`, 
                             sectionTitleText: `Nas publicações da SOBRARE você encontra nossos artigos, bem como artigos de outros pesquisadores
                             na área da resiliência. Navegue nos artigos abaixo para ver as últimas publicações, ou selecione por Categoria.`}">
                 <div class="animate_top bb ze rj ki xn vq">
@@ -58,10 +58,16 @@
                     </div>
                 </div>
                 @endforeach
-            </div>
-                
 
+            
+            </div>
+            
+            <div class="mb lo bq i ua">
+            {{ $artigos->links() }}
+            </div>
+            
             <!-- Pagination -->
+            <!-- Dawel 06/12/2023
             <div class="mb lo bq i ua">
                 <nav>
                     <ul class="tc wf xf bg">
@@ -107,9 +113,16 @@
                     </ul>
                 </nav>
             </div>
+            -->
             <!-- Pagination -->
         </div>
+
+        
     </section>
     <!-- ===== Blog Grid End ===== -->
+    
+    
+    
+
 
 @include('layouts.footer', ['siteConfigData' => $siteConfigData])

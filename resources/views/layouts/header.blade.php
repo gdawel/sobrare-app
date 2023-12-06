@@ -54,7 +54,7 @@
       :class="{ 'd hh rm sr td ud qg ug jc yh': navigationOpen }"
     >
       <nav>
-        <ul class="tc _o sf yo bg ep">
+        <ul id="gd" class="tc _o sf yo bg ep">
           <li class="c i" x-data="{ dropdown: false }">
             <a
               href="{{ route('pagina.show', ['key' => 'organizacao']) }}"
