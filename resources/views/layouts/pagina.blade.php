@@ -10,10 +10,11 @@
                    <!-- Dawel: desabilitado     <h2 x-text="sectionTitle" class="fk vj pr kk wm on/5 gq/2 bb _b">
                         </h2> 
                         <p class="bb on/5 wo/5 hq" x-text="sectionTitleText"></p> -->
+                    <div class="cegd gj">    
                         @isset($pagina->imagemPagina)
                             
+                            <img class=" jj" src="{{ asset('storage/' . $pagina->imagemPagina )}}" alt="" />
                         
-                                <img class="cegd gj jj" src="{{ asset('storage/' . $pagina->imagemPagina )}}" alt="" />
                         @endisset()
                         <div class="animate_top bb ze rj ki xn vq">
                             
@@ -21,6 +22,7 @@
                                 <p class="bb on/5 wo/5 hq">{!! $pagina->subtituloPagina !!}</p>
     
                         </div>
+                    </div>
 
 
         </div>

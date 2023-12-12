@@ -663,6 +663,14 @@ ul {
     padding-top: 0.75rem;
 }
 
+#li-footer {
+    list-style-type: none;
+    list-style-position: outside;
+    list-style-image: none;
+    margin-left: 1rem;
+    padding-top: 0.75rem;
+}
+
 blockquote {
     background: #f9f9f9;
     border-left: 10px solid #ccc;

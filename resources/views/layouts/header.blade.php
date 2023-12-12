@@ -127,7 +127,7 @@
             <!-- Dropdown Start -->
             <ul class="a" :class="{ 'tc': dropdown }">
               <li><a href="{{ route('pagina.show', ['key' => 'resiliencia-lideranca']) }}" class="xl" :class="{ 'ak': page === 'blog-grid' }">Resiliência para Lideranças</a></li>
-              <li><a href="{{ route('pagina.show', ['key' => 'resiliencia-psicoterapia']) }}" class="xl" :class="{ 'ak': page === 'blog-grid' }">Resiliência para Psicoterapia</a></li>
+              <li><a href="https://sobrarecursos.com.br/construindo-resiliencia/" target="_blank" rel="noopener noreferrer" class="xl" :class="{ 'ak': page === 'blog-grid' }">Resiliência para Psicoterapia</a></li>
               <li><a href="https://sobrarecursos.com.br/construindo-resiliencia/" target="_blank" rel="noopener noreferrer" class="xl" :class="{ 'ak': page === 'blog-single' }">Kit Você + Resiliente</a></li>
               
             </ul>
@@ -180,7 +180,7 @@
           </label>
         </div>
 
-         <a href="https://qr.dawelwebsolutions.com/cockpit/login.php" target="_blank" rel="noopener noreferrer" :class="{ page === 'home' && stickyMenu }" class="ek pk xl">Associado/Gestor</a>
+         <a href="https://qr.dawelwebsolutions.com/cockpit/login.php" target="_blank" rel="noopener noreferrer" :class="{ page === 'home' && stickyMenu }" class="ek pk xl">Login</a>
          <!-- Dawel
          <a href="signin.php" :class="{ 'nk xl' : page === 'home', 'ok' : page === 'home' && stickyMenu }" class="ek pk xl">Entrar</a>
          <a href="signup.php" :class="{ 'hh/[0.15]' : page === 'home', 'sh' : page === 'home' && stickyMenu }" class="lk gh dk rg tc wf xf _l gi hi">Registrar</a>

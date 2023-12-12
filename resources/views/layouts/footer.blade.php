@@ -144,15 +144,18 @@
         <!-- Footer Top -->
 
         <!-- Footer Bottom -->
-        <div class="bh ch pm tc uf sf yo wf xf ap cg fp bj">
+        <div class="bh ch pm tc uf sf wf xf ap bg bj">
             
                         
-            <div class="tc wf gg">
-                
-                    <a href="{{ route('pagina.show', ['key' => 'termos']) }}" class="xl">Termos de Uso</a>
-                    <a href="{{ route('pagina.show', ['key' => 'privacidade']) }}" class="xl">Política de Privacidade</a>
-                    <a href="/" class="xl">&copy; SOBRARE. Todos os direitos reservados.</a>
-                    <p>CNPJ: 10.786.446/0001/47 – CRPJ/SP 3825/J</p>
+            <div class="gg">
+                <ul id="li-footer">
+                <span class="tc uf rn wf ap bg">
+                    <li><a href="{{ route('pagina.show', ['key' => 'termos']) }}" class="xl">Termos de Uso</a></li>
+                    <li><a href="{{ route('pagina.show', ['key' => 'privacidade']) }}" class="xl">Política de Privacidade</a></li>
+                </span>
+                    <li><a href="/" class="xl">&copy; SOBRARE. Todos os direitos reservados.</a></li>
+                <li><p>CNPJ: 10.786.446/0001/47 – CRPJ/SP 3825/J</p></li>
+                </ul>
             </div>
 
             
