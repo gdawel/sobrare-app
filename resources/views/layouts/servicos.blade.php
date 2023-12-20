@@ -22,7 +22,13 @@
                 <img src="{{ URL::asset('/storage/' . $servico->icon) }}" alt="Icon" />
                 <h4 class="ek zj kk wm nb _b">{{ $servico->titulo }}</h4>
                 <p>{{ $servico->resumo }}</p>
-                <a href="{{ route('pagina.show', ['key' => $servico->buttomLink]) }}" class="ek jk lk lb gh gi hi rg ml il vc _d _l">{{ $servico->buttomTitle }}</a>
+                @if (str_contains($servico->buttomLink, 'https'))
+                    <a href={{ $servico->buttomLink }} target="_blank" rel="noopener noreferrer"
+                        class="ek jk lk lb gh gi hi rg ml il vc _d _l">{{ $servico->buttomTitle }}</a>
+                @else 
+                    <a href="{{ route('pagina.show', ['key' => $servico->buttomLink]) }}" class="ek jk lk lb gh gi hi rg ml il vc _d _l">{{ $servico->buttomTitle }}</a>
+                    
+                @endif
             </div>
             
             @endforeach

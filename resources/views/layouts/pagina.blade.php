@@ -5,8 +5,8 @@
     <section class="do i hj">
           
         <!-- Section Title Start -->
-        <div x-data="{ sectionTitle: `Título da Página`, 
-                        sectionTitleText: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. In convallis tortor eros. Donec vitae tortor lacus. Phasellus aliquam ante in maximus.`}">
+        <div x-data="{ sectionTitle: `Título Página SOBRARE`, 
+                        sectionTitleText: `Subtítulo Página SOBRARE`}">
                    <!-- Dawel: desabilitado     <h2 x-text="sectionTitle" class="fk vj pr kk wm on/5 gq/2 bb _b">
                         </h2> 
                         <p class="bb on/5 wo/5 hq" x-text="sectionTitleText"></p> -->

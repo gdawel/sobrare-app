@@ -35,7 +35,7 @@
                         <a href="#support" class="ek jk lk gh gi hi rg ml il vc _d _l">{{ $siteConfigData->cta1TextoBotao }}</a>
 
                         <span class="tc sf">
-                            <a href="#" class="inline-block ek xj kk wm"> {{ $siteConfigData->cta1TextoExtra }}</span>
+                            <a href="#" class="inline-block ek xj kk wm"> {{ $siteConfigData->cta1TextoExtra }}</a>
                         </span>
                     </div>
                 </div>

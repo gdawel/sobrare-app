@@ -43,6 +43,7 @@ class ServicoResource extends Resource
                 Forms\Components\TextInput::make('buttomTitle')
                     ->required(),
                 Forms\Components\TextInput::make('buttomLink')
+                    ->label('Link página externa: incluir link completo com https://...; página interna: apenas a chave da página.')
                     ->required()
             ])->columns(2);
     }

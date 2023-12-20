@@ -7,15 +7,16 @@
         <div class="tc uf sn tn un gg">
             <div class="animate_left to/2">
                 <h2 class="fk vj zp pr lk ac">
-                    Mini Curso de Resiliência<br>5 Aulas + PDF.
+                    {!! $siteConfigData->cta2Titulo1 !!}
                 </h2>
                 <p class="lk">
-                    Aprenda como você pode enfrentar as situações de estresse com mais resiliência.
+                    {!! $siteConfigData->cta2Titulo2 !!}
                 </p>
             </div>
-            <div class="animate_right bf">
-                <a href="#" class="vc ek kk hh rg ol il cm gi hi">
-                    Começe Agora
+            <div class="animate_right to/2">
+                <h4 class="lk">{!! $siteConfigData->cta2TextoBase !!}<br></h4>
+                <a href="{!! $siteConfigData->cta2LinkBotao !!}" target="_blank" rel="noopener noreferrer" class="vc ek kk hh rg ol il cm gi hi">
+                    {!! $siteConfigData->cta2TextoBotao !!}
                 </a>
             </div>
         </div>
