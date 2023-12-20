@@ -11,6 +11,7 @@ use App\Models\Categoria;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
 use Filament\Resources\Resource;
+use AmidEsfahani\FilamentTinyEditor\TinyEditor;
 use Filament\Forms\Components\Card;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Section;
@@ -18,6 +19,7 @@ use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\ArtigoResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\ArtigoResource\RelationManagers;
+use Filament\Forms\FormsComponent;
 
 class ArtigoResource extends Resource
 {
@@ -49,7 +51,7 @@ class ArtigoResource extends Resource
                                 ]),
 
 
-                            Forms\Components\RichEditor::make('body')
+                            TinyEditor::make('body')
                                 ->label('Conteúdo')
                                 ->required()
                                 ->columnSpanFull(),
