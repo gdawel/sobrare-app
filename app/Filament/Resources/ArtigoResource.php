@@ -48,9 +48,12 @@ class ArtigoResource extends Resource
                                     Forms\Components\TextInput::make('slug')
                                         ->required()
                                         ->maxLength(2048),
+                                    
                                 ]),
 
-
+                            Forms\Components\TextInput::make('metaDescription')
+                                ->label('Meta Descrição para SEO')    
+                                ->maxLength(2048),
                             TinyEditor::make('body')
                                 ->label('Conteúdo')
                                 ->required()

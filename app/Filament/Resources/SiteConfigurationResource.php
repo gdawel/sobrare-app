@@ -37,6 +37,15 @@ class SiteConfigurationResource extends Resource
                                 ->columnSpanFull()
                                 ->maxLength(250),
 
+                            Forms\Components\Textarea::make('google_tag')
+                                ->label('Cole a Tag do Google')
+                                ->columnSpanFull()
+                                ->maxLength(1048),
+                            Forms\Components\Textarea::make('meta_pixel')
+                                ->label('Cole o Pixel do Meta')
+                                ->columnSpanFull()
+                                ->maxLength(1048),
+
                             Forms\Components\Toggle::make('configStatus')
                                 ->label('Ativo'),
                             Forms\Components\TextInput::make('configNotes')

@@ -32,6 +32,11 @@ class PaginasResource extends Resource
                 Forms\Components\TextInput::make('tituloPagina')
                     ->required()
                     ->maxLength(255),
+                Forms\Components\TextInput::make('metaDescription')
+                    ->label('Meta Descrição para SEO')
+                    ->columnSpanFull()
+                    ->required()
+                    ->maxLength(1048),
                 Forms\Components\FileUpload::make('imagemPagina')
                     ->columnSpanFull(),
                 Forms\Components\RichEditor::make('subtituloPagina')

@@ -13,6 +13,7 @@ class Paginas extends Model
 
         'chave',
         'tituloPagina',
+        'metaDescription',
         'imagemPagina',
         'subtituloPagina',
         'conteudoPagina',

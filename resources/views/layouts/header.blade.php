@@ -5,12 +5,40 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
-     {{ $siteConfigData->tituloSite }}
+       @if (isset($pagina))
+
+            {{ $pagina->tituloPagina }}
+        @elseif (isset($artigos->title))
+            {{ $artigos->title }}
+          @else
+              {{ $siteConfigData->tituloSite }}
+      @endif
+     
     </title>
-  <link rel="icon" href="favicon.ico"><link href={{ asset('css/styles.css') }} rel="stylesheet">
+    <meta name="description" content=
+        @if (isset($pagina->metaDescription))
+
+              "{{ $pagina->metaDescription }}"
+          @elseif (isset($artigos->metaDescription))
+              "{{ $artigos->metaDescription }}"
+            @else
+                "{{ $siteConfigData->tituloSite }}"
+        @endif  
+    >
+  
+    @isset($siteConfigData->google_tag)
+      {!! $siteConfigData->google_tag !!}
+    @endisset
+    @isset($siteConfigData->meta_pixel)
+      {!! $siteConfigData->meta_pixel !!}
+    @endisset
+  
+    <link rel="icon" href="favicon.ico"><link href={{ asset('css/styles.css') }} rel="stylesheet">
   <!-- <script src="https://cdn.tailwindcss.com"></script> -->
 </head>
   <body
+
+    
     x-data="{ page: 'home', 'darkMode': true, 'stickyMenu': false, 'navigationOpen': false, 'scrollTop': false }"
     x-init="
          darkMode = JSON.parse(localStorage.getItem('darkMode'));
@@ -19,8 +47,7 @@
   >
     <!-- ===== Header Start ===== -->
 
-
-
+  
 <header
   class="g s r vd ya cj"
   :class="{ 'hh sm _k dj bl ll' : stickyMenu }"

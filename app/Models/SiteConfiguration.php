@@ -55,6 +55,8 @@ class SiteConfiguration extends Model
         'rodapeOutrosTitulo',
         'rodapeOutrosTexto',
         'rodapeMediasTitulo',
-        'rodapeTextoBase'
+        'rodapeTextoBase',
+        'google_tag',
+        'meta_pixel'
     ];
 }

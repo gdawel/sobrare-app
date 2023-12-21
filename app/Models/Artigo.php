@@ -15,6 +15,7 @@ class Artigo extends Model
     [
         'title',
         'slug',
+        'metaDescription',
         'thumbnail',
         'body',
         'active',
