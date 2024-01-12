@@ -15,7 +15,7 @@
         </div>
         -->
 
-        <div class="xc fn zd/2 2xl:ud-w-187.5 bd 2xl:ud-h-171.5 h q r">
+        <div class="xc fn zd/2 2xl:ud-w-187.5 bd 2xl:ud-h-171.5 h q ba">
             
             <img src="images/especialistas-reduz.jpg" alt="Especialistas em Resiliência" class="h q b ua" />
             
