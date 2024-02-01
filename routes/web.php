@@ -1,9 +1,10 @@
 <?php
 
+use App\Models\SiteConfiguration;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PaginaController;
-use App\Models\SiteConfiguration;
+use App\Http\Controllers\ProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,7 +17,22 @@ use App\Models\SiteConfiguration;
 |
 */
 
+
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+require __DIR__.'/auth.php';
+
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/loginX', [HomeController::class, 'login'])->name('loginX');
 Route::get('/pagina/{key}', [PaginaController::class, 'show'])->name('pagina.show');
 Route::get('/publicacoes', [HomeController::class, 'blog'])->name('layouts.publicacoes');
 Route::get('/publicacoes/{key}', [HomeController::class, 'blogSingle'])->name('layouts.publicacoesSingle');
@@ -24,17 +40,4 @@ Route::get('/blogPorCategoria/{key}', [HomeController::class, 'blogPorCategoria'
 
 Route::get('/quest', function () {
     return redirect(route(asset('/public/legacy/index.php')));
-});
-
-//Route::get('/publicacoes', function () {
-  //  $siteConfigData = SiteConfiguration::get()->first();
-    //return view('layouts.publicacoes')->with([
-      //      
-        //    'siteConfigData' => $siteConfigData,
-//
-  //      ]);
-//});
-
-Route::get('/texto', function () {
-    return view('layouts.pagina-texto');
 });

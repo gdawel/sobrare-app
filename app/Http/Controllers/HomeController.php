@@ -61,6 +61,16 @@ class HomeController extends Controller
         ]);
     }
 
+    public function login()
+    {
+               
+        return view('auth.login')->with([
+            
+            'siteConfigData' => $this->siteConfigData,
+            
+        ]);
+    }
+
     public function blog()
     {
         
