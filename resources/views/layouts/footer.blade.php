@@ -9,8 +9,8 @@
 
                     <a href="{{ url('/') }}">
 
-                        <img src="{{ asset('storage/' . $siteConfigData->logoEscuro )}}" alt="Logo Sobrare" class="om" />
-                        <img src="{{ asset('storage/' . $siteConfigData->logoEscuro )}}" alt="Logo" class="xc nm" />
+                        <img src="{{ asset('storage/' . $siteConfigData->logoClaro )}}" alt="Logo Sobrare" class="om" />
+                        <img src="{{ asset('storage/' . $siteConfigData->logoEscuro )}}" alt="Logo Sobrare" class="xc nm" />
                     </a>
 
                     <p class="lc fb">Resiliência é agir de modo mais estratégico possível, para enfrentar desafios e adversidades, por meio de pensamentos e comportamentos flexíveis, buscando menor impacto negativo. George Barbosa.</p>
