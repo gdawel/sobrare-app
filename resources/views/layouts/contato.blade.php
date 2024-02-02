@@ -16,8 +16,14 @@
             </h2>
             <p class="bb on/5 wo/5 hq" x-text="{{ $siteConfigData->contatoResumo }}"></p>
 
+             @if (session('status'))
+                
+                {{ session('status') }}
+                
+            @endif
         </div>
 
+       
 
     </div>
     <!-- Section Title End -->
@@ -84,8 +90,12 @@
                 </div>
             </div>
 
+            
+
             <div class="animate_top w-full nn/5 vo/3 vk sg hh sm yh tq">
-                <form action="https://formbold.com/s/unique_form_id" method="POST">
+                
+                <form action="{{ route('contato.enviar') }}" method="POST">
+                    @csrf
                     <div class="tc sf yo ap zf ep qb">
                         <div class="vd to/2">
                             <label class="rc ac" for="fullname">Nome Completo</label>
@@ -106,7 +116,7 @@
 
                         <div class="vd to/2">
                             <label class="rc ac" for="subject">Assunto</label>
-                            <input type="text" for="subject" id="subject" placeholder="Motivo do contato" class="vd ph sg zk xm _g ch pm hm dm dn em pl/50 xi mi" />
+                            <input type="text" name="subject" id="subject" placeholder="Motivo do contato" class="vd ph sg zk xm _g ch pm hm dm dn em pl/50 xi mi" />
                         </div>
                     </div>
 

@@ -1,9 +1,10 @@
 <?php
 
+use App\Models\SiteConfiguration;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PaginaController;
-use App\Models\SiteConfiguration;
+use App\Http\Controllers\ContatoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,6 +22,7 @@ Route::get('/pagina/{key}', [PaginaController::class, 'show'])->name('pagina.sho
 Route::get('/publicacoes', [HomeController::class, 'blog'])->name('layouts.publicacoes');
 Route::get('/publicacoes/{key}', [HomeController::class, 'blogSingle'])->name('layouts.publicacoesSingle');
 Route::get('/blogPorCategoria/{key}', [HomeController::class, 'blogPorCategoria'])->name('layouts.blogPorCategoria');
+Route::post('/contato', [ContatoController::class, 'enviar'])->name('contato.enviar');
 
 Route::get('/quest', function () {
     return redirect(route(asset('/public/legacy/index.php')));
