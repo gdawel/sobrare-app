@@ -205,7 +205,7 @@
   
               <!-- Dropdown Start -->
               <ul class="a" :class="{ 'tc': dropdown }">
-                <li><a href="#support" class="xl" :class="{ 'ak': page === 'blog-grid' }">Contato</a></li>
+                <li><a href="/#support" class="xl" :class="{ 'ak': page === 'blog-grid' }">Contato</a></li>
                 
                 
                 
