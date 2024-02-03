@@ -33,7 +33,7 @@
       {!! $siteConfigData->meta_pixel !!}
     @endisset
   
-    <link rel="icon" href="favicon.ico"><link href={{ asset('css/styles.css') }} rel="stylesheet">
+    <link rel="icon" href={{ asset('images/mini-logo-2024.png') }}><link href={{ asset('css/styles.css') }} rel="stylesheet">
   <!-- <script src="https://cdn.tailwindcss.com"></script> -->
 </head>
   <body

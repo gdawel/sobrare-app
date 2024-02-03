@@ -29,7 +29,7 @@ class Contato extends Mailable
     {
         return new Envelope(
 
-            from:new Address( 'suporte@georgedawel.com.br', $this->data['fromName'] ),
+            from:new Address( 'noreply@sobrare.com.br', $this->data['fromName'] ),
             subject: "[Contato] - " . $this->data['subject'],
         );
     }

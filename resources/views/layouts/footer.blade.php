@@ -82,13 +82,13 @@
 
                         <ul>
                             <li><a href="{{ route('pagina.show', ['key' => 'resiliencia']) }}" class="sc xl vb">O que é Resiliência?</a></li>
-                            <li><a href="{{ route('pagina.show', ['key' => 'quest']) }}" class="sc xl vb">Quest_resiliencia</a></li>
-                            <li>
+                            <li><a href="{{ route('pagina.show', ['key' => 'quest']) }}" class="sc xl vb">QUEST_Resiliencia</a></li>
+                            <!-- <li>
                                 <a href="{{ route('pagina.show', ['key' => 'neurodivergencia']) }}" class="sc xl vb">
                                     Neurodivergência
                                     <span class="sc ek uj lk nh rg zi _i nc">Novo</span>
                                 </a>
-                            </li>
+                            </li> -->
                             <li><a href="{{ url ('/publicacoes' ) }}" class="sc xl vb">Blog SOBRARE</a></li>
                         </ul>
                     </div>
@@ -98,9 +98,9 @@
 
                         <ul>
                             <li><a href="{{ route('pagina.show', ['key' => 'cursos-sobrare']) }}" class="sc xl vb">Cursos</a></li>
-                            <li><a href="{{ route('pagina.show', ['key' => 'congresso']) }}" class="sc xl vb">Congresso</a></li>
-                            <li><a href="{{ route('pagina.show', ['key' => 'formacoes']) }}" class="sc xl vb">Formações</a></li>
-                            <li><a href="https://sobrare.com.br/psicoterapia/" target="_blank" rel="noopener noreferrer" class="sc xl vb">Na Psicoterapia</a></li>
+                            <!-- <li><a href="{{ route('pagina.show', ['key' => 'congresso']) }}" class="sc xl vb">Congresso</a></li> -->
+                            <!-- <li><a href="{{ route('pagina.show', ['key' => 'formacoes']) }}" class="sc xl vb">Formações</a></li> -->
+                            <li><a href="{{ route('pagina.show', ['key' => 'psicoterapia']) }}" class="sc xl vb">Na Psicoterapia</a></li>
                         </ul>
                     </div>
 
@@ -110,7 +110,7 @@
                         <ul>
                             <li><a href="{{ route('pagina.show', ['key' => 'organizacao']) }}" class="sc xl vb">Organização</a></li>
                             <li><a href="{{ route('pagina.show', ['key' => 'projetos-em-resiliencia']) }}" class="sc xl vb">Acadêmicos</a></li>
-                            <li><a href="{{ route('pagina.show', ['key' => 'instrumentos']) }}" class="sc xl vb">Instrumentos</a></li>
+                            <!-- <li><a href="{{ route('pagina.show', ['key' => 'instrumentos']) }}" class="sc xl vb">Instrumentos</a></li> -->
                             <li><a href="/#support" class="sc xl vb">Contato</a></li>
                         </ul>
                     </div>
@@ -154,7 +154,7 @@
                     <li><a href="{{ route('pagina.show', ['key' => 'privacidade']) }}" class="xl">Política de Privacidade</a></li>
                 </span>
                     <li><a href="/" class="xl">&copy; SOBRARE. Todos os direitos reservados.</a></li>
-                <li><p>CNPJ: 10.786.446/0001/47 – CRPJ/SP 3825/J</p></li>
+                <li><p>CNPJ: 10.786.446/0001/47 – CRP-J/SP 3825/J</p></li>
                 </ul>
             </div>
 
@@ -174,7 +174,15 @@
 </button>
 
 <!-- ====== Back To Top End ===== -->
-
+<link rel="stylesheet" 
+    href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <a href="https://wa.me/5511998861720?text=Gostaria%20de%20receber%20mais%20informações%20sobre ..." 
+        style="position:fixed;width:50px;height:50px;bottom:80px;right:28px;
+                background-color:#25d366;color:#FFF;border-radius:40px;
+                text-align:center;font-size:30px;box-shadow: 1px 1px 2px #888;
+                z-index:1000;" target="_blank">
+<i style="margin-top:11px" class="fa fa-whatsapp"></i>
+</a>
 <script>
     //  Pricing Table
     const setup = () => {

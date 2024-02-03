@@ -47,7 +47,7 @@
                         </div>
                     </div>
                     <h4 class="ek tj ml il kk wm xl eq lb">
-                        <a href="./blogSinglePost.php">{{ $artigo->title }}</a>
+                        <a href="{{ url ('/publicacoes/' . $artigo->id) }}">{{ $artigo->title }}</a>
                     </h4>
                 </div>
             </div>

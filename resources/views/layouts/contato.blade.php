@@ -17,11 +17,11 @@
             <p class="bb on/5 wo/5 hq" x-text="{{ $siteConfigData->contatoResumo }}"></p>
 
              @if (session('status'))
-                
+                <div style="color: #ff12a7; background: #92dbfc">
                 {{ session('status') }}
-                
+                </div>
             @endif
-        </div>
+        </div> 
 
        
 
@@ -36,27 +36,28 @@
                 <img src="images/shape-06.svg" alt="Shape" class="h la ma ne kf" />
 
                 <div class="fb">
-                    <h4 class="wj kk wm cc">Endereço de E-mail</h4>
-                    <p><a href="#">faleconosco@sobrare.com.br</a></p>
+                    <h4 class="wj kk wm cc">{{ $siteConfigData->rodapeEmailTitulo }}</h4>
+                    <p><a href="#">{{ $siteConfigData->rodapeEmailTexto }}</a></p>
                 </div>
                 <div class="fb">
-                    <h4 class="wj kk wm cc">Escritório</h4>
-                    <p>Rua Machado Bittencourt, 361 cj.306 – Vila Clementino<br>
-                        CEP 04044-001 – São Paulo – SP</p>
+                    <h4 class="wj kk wm cc">{{ $siteConfigData->rodapeLocalTitulo }}</h4>
+                    <p>{{ $siteConfigData->rodapeLocalEndereco1 }}<br>
+                        {{ $siteConfigData->rodapeLocalEndereco2 }}<br>
+                    {{ $siteConfigData->rodapeLocalEndereco3 }}</p>
                 </div>
                 <div class="fb">
-                    <h4 class="wj kk wm cc">Telefone:</h4>
-                    <p><a href="#">+55 11 5549-2943</a></p>
+                    <h4 class="wj kk wm cc">{{ $siteConfigData->rodapeTelefoneTitulo }}</h4>
+                    <p><a href="#">{{ $siteConfigData->rodapeTelefoneTexto }}</a></p>
                 </div>
                 <div class="fb">
-                    <h4 class="wj kk wm cc">CNPJ / CRPJ</h4>
-                    <p><a href="#">CNPJ: 10.786.446/0001/47 – CRPJ/SP 3825/J</a></p>
+                    <h4 class="wj kk wm cc">{{ $siteConfigData->rodapeOutrosTitulo }}</h4>
+                    <p><a href="#">{{ $siteConfigData->rodapeOutrosTexto }}</a></p>
                 </div>
 
                 <span class="rc nd rh tm lc fb"></span>
 
                 <div>
-                    <h4 class="wj kk wm qb">Midias Sociais</h4>
+                    <h4 class="wj kk wm qb">{{ $siteConfigData->rodapeMediasTitulo }}</h4>
                     <ul class="tc wf fg">
                         <li>
                             <a href="https://facebook.com/SobrareOficial/" target="_blank" rel="noopener noreferrer" class="c tc wf xf ie ld rg ml il tl">
