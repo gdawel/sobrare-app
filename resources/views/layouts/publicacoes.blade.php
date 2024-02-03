@@ -44,11 +44,11 @@
                     <div class="yh">
                         <div class="tc uf wf ag jq">
                             <div class="tc wf ag">
-                                <img src="{{ URL::asset('/storage/icon-man.svg') }}" alt="Autor(a)" />
+                                <img src="{{ URL::asset('/images/icon-man.svg') }}" alt="Autor(a)" />
                                 <p>{{ $artigo->autor }}</p>
                             </div>
                             <div class="tc wf ag">
-                                <img src="{{ URL::asset('/storage/icon-calender.svg') }}" alt="Publicado em" />
+                                <img src="{{ URL::asset('/images/icon-calender.svg') }}" alt="Publicado em" />
                                 <p>Publicado em: {{ Carbon\Carbon::parse($artigo->published_at)->format('d/m/Y') }}</p>
                             </div>
                         </div>
