@@ -12,7 +12,7 @@ class ContatoController extends Controller
     public function enviar (Request $request) 
     {
 
-        Mail::to('george.dawel@gmail.com', 'Site SOBRARE - Contato')->send(new Contato([
+        Mail::to('faleconosco@sobrare.com.br', 'Site SOBRARE - Contato')->send(new Contato([
             'fromName' => $request->input('fullname'),
             'fromEmail' => $request->input('email'),
             'phone' => $request->input('phone'),
