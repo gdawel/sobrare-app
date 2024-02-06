@@ -132,7 +132,7 @@
             <ul class="a" :class="{ 'tc': dropdown }">
               <li><a href="{{ route('pagina.show', ['key' => 'quest']) }}" 
                       class="xl" :class="{ 'ak': page === 'blog-grid' }">O que é o QUEST_Resiliência</a></li>
-              <li><a href="https://qr.dawelwebsolutions.com/Quest/login.php" target="_blank" rel="noopener noreferrer"
+              <li><a href="https://quest.sobrare.com.br/Quest/login.php" target="_blank" rel="noopener noreferrer"
                       class="xl" :class="{ 'ak': page === 'blog-single' }">Responda o QUEST_Resiliência</a></li>
               
             </ul>
@@ -233,7 +233,7 @@
           </label>
         </div>
 
-         <a href="https://qr.dawelwebsolutions.com/cockpit/login.php" target="_blank" rel="noopener noreferrer" :class="{ page === 'home' && stickyMenu }" class="ek pk xl">Login</a>
+         <a href="https://quest.sobrare.com.br/cockpit/login.php" target="_blank" rel="noopener noreferrer" :class="{ page === 'home' && stickyMenu }" class="ek pk xl">Login</a>
          <!-- Dawel
          <a href="signin.php" :class="{ 'nk xl' : page === 'home', 'ok' : page === 'home' && stickyMenu }" class="ek pk xl">Entrar</a>
          <a href="signup.php" :class="{ 'hh/[0.15]' : page === 'home', 'sh' : page === 'home' && stickyMenu }" class="lk gh dk rg tc wf xf _l gi hi">Registrar</a>

@@ -174,15 +174,17 @@
 </button>
 
 <!-- ====== Back To Top End ===== -->
+<!-- Códigos para inclusão do ícone do WhatsApp fixo na Home Page - Início  -->
 <link rel="stylesheet" 
     href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-    <a href="https://wa.me/5511998861720?text=Gostaria%20de%20receber%20mais%20informações%20sobre ..." 
+    <a href="https://wa.me/5511987727946?text=Gostaria%20de%20receber%20mais%20informações%20sobre ..." 
         style="position:fixed;width:50px;height:50px;bottom:80px;right:28px;
                 background-color:#25d366;color:#FFF;border-radius:40px;
                 text-align:center;font-size:30px;box-shadow: 1px 1px 2px #888;
                 z-index:1000;" target="_blank">
-<i style="margin-top:11px" class="fa fa-whatsapp"></i>
-</a>
+        <i style="margin-top:11px" class="fa fa-whatsapp"></i>
+    </a>
+    <!-- Códigos para inclusão do ícone do WhatsApp fixo na Home Page - Fim  -->
 <script>
     //  Pricing Table
     const setup = () => {

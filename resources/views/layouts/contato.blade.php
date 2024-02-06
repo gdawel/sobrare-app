@@ -15,12 +15,13 @@
             <h2 x-text="sectionTitle" class="fk vj pr kk wm on/5 gq/2 bb _b">
             </h2>
             <p class="bb on/5 wo/5 hq" x-text="{{ $siteConfigData->contatoResumo }}"></p>
-
+            <!-- Códigos para confirmar, com destaque, que a mensagem foi enviada Form Contato - Início  -->
              @if (session('status'))
                 <div style="color: #ff12a7; background: #92dbfc">
                 {{ session('status') }}
                 </div>
             @endif
+            <!-- Códigos para confirmar, com destaque, que a mensagem foi enviada Form Contato - Fim  -->
         </div> 
 
        
