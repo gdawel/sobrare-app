@@ -181,7 +181,7 @@
   
               <!-- Dropdown Start -->
               <ul class="a" :class="{ 'tc': dropdown }">
-                <li><a href="{{ url ('/blogPorCategoria/4' ) }}" class="xl" :class="{ 'ak': page === 'blog-grid' }">Publicações</a></li>
+                <li><a href="{{ url ('/blogPorCategoria/pesquisas' ) }}" class="xl" :class="{ 'ak': page === 'blog-grid' }">Publicações</a></li>
                 <li><a href="{{ route('pagina.show', ['key' => 'projetos-em-resiliencia']) }}" class="xl" :class="{ 'ak': page === 'projetos-em-resiliencia' }">Desenvolva seu projeto</a></li>
                 
                 

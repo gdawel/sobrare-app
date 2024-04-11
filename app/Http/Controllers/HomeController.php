@@ -99,7 +99,7 @@ class HomeController extends Controller
         ->join('artigos', 'artigos.id', '=', 'artigo_categoria.artigo_id')
         ->join('users', 'users.id', '=', 'artigos.user_id')
         ->select('artigos.*', 'categorias.title as categoria', 'users.name as autor')
-        ->where('categorias.id', '=', $qualCategoria)
+        ->where('categorias.slug', '=', $qualCategoria)
         ->where('active', '=', 1)
         ->whereDate('published_at', '<', Carbon::now())
         ->orderBy('created_at', 'desc')
@@ -108,9 +108,9 @@ class HomeController extends Controller
 
         $categorias = Categoria::query()
             ->join('artigo_categoria', 'categorias.id', '=', 'artigo_categoria.categoria_id')
-            ->select('categorias.title', 'categorias.id', DB::raw('count(*) as total'))
+            ->select('categorias.title', 'categorias.slug', DB::raw('count(*) as total'))
             ->groupBy('categorias.title')
-            ->groupBy('categorias.id')
+            ->groupBy('categorias.slug')
             ->get();
 
         //dd($categorias);
@@ -126,7 +126,7 @@ class HomeController extends Controller
 
     public function blogSingle($chave)
     {
-        $chave = $chave + 0;
+        //$chave = $chave + 0;
         //var_dump($chave);       
         
         
@@ -139,15 +139,15 @@ class HomeController extends Controller
             ->leftjoin('artigo_categoria', 'artigos.id', '=', 'artigo_categoria.artigo_id')
             ->join('categorias', 'categorias.id', '=', 'artigo_categoria.categoria_id')
             ->select('users.name', 'artigos.*', 'categorias.title as cat_title')
-            ->where('artigos.id', '=', $chave )
+            ->where('artigos.slug', '=', $chave )
             ->first();
         //dd($artigos);
         
         $categorias = Categoria::query()
             ->join('artigo_categoria', 'categorias.id', '=', 'artigo_categoria.categoria_id')
-            ->select('categorias.title', 'categorias.id', DB::raw('count(*) as total'))
+            ->select('categorias.title', 'categorias.slug', DB::raw('count(*) as total'))
             ->groupBy('categorias.title')
-            ->groupBy('categorias.id')
+            ->groupBy('categorias.slug')
             ->get();
         //@dd($categorias);
 

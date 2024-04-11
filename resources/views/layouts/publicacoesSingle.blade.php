@@ -139,7 +139,7 @@
                             </li> -->
                             @foreach ($categorias as $categoria)
                             <li class="ql vb du-ease-in-out il xl">
-                                <a href="{{ url ('/blogPorCategoria/' . $categoria->id) }}"> {{ $categoria->title . ' (' . $categoria->total . ')' }}</a>
+                                <a href="{{ url ('/blogPorCategoria/' . $categoria->slug) }}"> {{ $categoria->title . ' (' . $categoria->total . ')' }}</a>
                             </li>
                             
                             @endforeach

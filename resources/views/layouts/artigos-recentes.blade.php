@@ -31,7 +31,7 @@
                     <img class="w-full" src="{{ URL::asset('/storage/' . $artigo->thumbnail) }}" alt="Blog" />
 
                     <div class="im h r s df vd yc wg tc wf xf al hh/20 nl il z-10">
-                        <a href="{{ url ('/publicacoes/' . $artigo->id) }}" class="vc ek rg lk gh sl ml il gi hi">Continue lendo</a>
+                        <a href="{{ url ('/publicacoes/' . $artigo->slug) }}" class="vc ek rg lk gh sl ml il gi hi">Continue lendo</a>
                     </div>
                 </div>
 
@@ -47,7 +47,7 @@
                         </div>
                     </div>
                     <h4 class="ek tj ml il kk wm xl eq lb">
-                        <a href="{{ url ('/publicacoes/' . $artigo->id) }}">{{ $artigo->title }}</a>
+                        <a href="{{ url ('/publicacoes/' . $artigo->slug) }}">{{ $artigo->title }}</a>
                     </h4>
                 </div>
             </div>
