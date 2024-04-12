@@ -17,7 +17,7 @@ class DepoimentosResource extends Resource
 {
     protected static ?string $model = Depoimentos::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-pencil-square';
 
     protected static ?string $navigationGroup = 'Configuração do Site';
 
