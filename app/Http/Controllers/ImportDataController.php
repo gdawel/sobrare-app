@@ -4,21 +4,15 @@
 /*  Este controlador tem por objetivo centralizar todas as importações de dados dos testes, via Excel. */
 namespace App\Http\Controllers;
 
-use App\Models\Testes;
-use App\Models\Question;
-
-use App\Models\Answeroption;
+use App\Models\testes;
 use Illuminate\Http\Request;
 use App\Imports\TestesImport;
 use App\Models\gruposDeTestes;
 use App\Imports\GrOpcRespostas;
 use App\Imports\PerguntasImport;
-
-use App\Models\GruposOpcRespostas;
 use App\Imports\OpcRespostasImport;
 use App\Models\grupoOpcoesResposta;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Imports\GrOpcRespostasImport;
 use App\Imports\GruposDeTestesImport;
 use App\Models\OpcoesRespostas;
 use App\Models\perguntas;
@@ -52,7 +46,7 @@ class ImportDataController extends Controller
     
     public function testes() 
     {
-        $listarTodosOsTestes = Testes::all();
+        $listarTodosOsTestes = testes::all();
 
         return view('importData.Testes', compact('listarTodosOsTestes'));
     }
