@@ -35,7 +35,12 @@
                             </div>
                             <p class="text-sm text-center italic"><br><br> O arquivo a ser selecionado nesta tela deve ter apenas a Tabela de Opções de Respostas.</p>
                         </form>
-
+                    <div class="flex-auto">
+                            <a href="/import" class="float-right bg-green-700 hover:bg-green-400 text-white text-sm    
+                                            font-bold py-2 px-4 rounded focus:outline-none 
+                                            focus:shadow-outline" type="button">Tela Principal
+                            </a>
+                    </div>
                         
                             
                 </div>
