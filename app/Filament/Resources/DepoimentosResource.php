@@ -20,6 +20,7 @@ class DepoimentosResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-pencil-square';
 
     protected static ?string $navigationGroup = 'Configuração do Site';
+    protected static ?string $modelLabel = 'Depoimento';
 
     public static function form(Form $form): Form
     {

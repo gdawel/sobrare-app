@@ -158,7 +158,7 @@
             <ul class="a" :class="{ 'tc': dropdown }">
               <li><a href="{{ route('pagina.show', ['key' => 'resiliencia-lideranca']) }}" class="xl" :class="{ 'ak': page === 'blog-grid' }">Resiliência para Lideranças</a></li>
               <li><a href="https://sobrarecursos.com.br/par/" target="_blank" rel="noopener noreferrer" class="xl" :class="{ 'ak': page === 'blog-grid' }">Resiliência para Psicoterapia</a></li>
-              <li><a href="https://sobrarecursos.com.br/construindo-resiliencia/" target="_blank" rel="noopener noreferrer" class="xl" :class="{ 'ak': page === 'blog-single' }">Kit Você + Resiliente</a></li>
+              <li><a href="https://sobrarecursos.com.br/construindo-resiliencia/" target="_blank" rel="noopener noreferrer" class="xl" :class="{ 'ak': page === 'blog-single' }">Apostilas e Cursos</a></li>
               
             </ul>
             <!-- Dropdown End -->

@@ -27,6 +27,11 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
+            ->navigationGroups([
+                    'NeuroDiv - Configurações',
+                    'Conteúdo do Blog',
+                    'Configuração do Site',
+                ])
             ->colors([
                 'primary' => Color::Amber,
             ])
