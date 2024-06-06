@@ -2,11 +2,9 @@
 
 namespace App\Imports;
 
-use App\Models\grupoOpcoesResposta;
+use App\Models\GrupoOpcoesResposta;
 use App\Models\Testes;
-use App\Models\Question;
-use App\Models\GruposOpcRespostas;
-use App\Models\perguntas;
+use App\Models\Perguntas;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
@@ -24,7 +22,7 @@ class PerguntasImport implements ToCollection, WithHeadingRow
                 if(! $getTestId) {
                     redirect('/import/perguntas')->with('status', 'Tabela Excel com Erro: Cód. Teste não encontrado');
                 }
-                $getOpcRespId = grupoOpcoesResposta::where('codGrupoOpcRespostas', $row['grupo_opc_respostas'])->first();
+                $getOpcRespId = GrupoOpcoesResposta::where('codGrupoOpcRespostas', $row['grupo_opc_respostas'])->first();
                 if(! $getOpcRespId) {
                     redirect('/import/perguntas')->with('status', 'Tabela Excel com Erro: Opc Resposta não encontrado');
                 }

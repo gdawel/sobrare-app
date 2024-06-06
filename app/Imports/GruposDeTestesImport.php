@@ -2,7 +2,7 @@
 
 namespace App\Imports;
 
-use App\Models\gruposDeTestes;
+use App\Models\GruposDeTestes;
 
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToCollection;
@@ -18,7 +18,7 @@ class GruposDeTestesImport implements ToCollection, WithHeadingRow
         foreach ($rows as $row) 
         {
             /* Verifica se o grupo de teste existe. Se sim, atualiza. Do contrário, inclui um novo registro */
-            $grupodeteste = gruposDeTestes::where('codGrupo', $row['cod_grupo'])->first();
+            $grupodeteste = GruposDeTestes::where('codGrupo', $row['cod_grupo'])->first();
             if($grupodeteste) {
 
                $grupodeteste->update([
@@ -34,7 +34,7 @@ class GruposDeTestesImport implements ToCollection, WithHeadingRow
 
             } else {
                         
-            gruposDeTestes::create([
+            GruposDeTestes::create([
                 'codGrupo' => $row['cod_grupo'], 
                 'nomeGrupo' => $row['short_description'], 
                 'slug' => $row['slug'], 

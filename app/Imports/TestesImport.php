@@ -2,9 +2,8 @@
 
 namespace App\Imports;
 
-use App\Models\grupos_de_testesTestes;
+use App\Models\Grupos_de_testesTestes;
 use App\Models\Testes;
-use App\Models\TestgroupTest;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
@@ -51,7 +50,7 @@ class TestesImport implements ToCollection, WithHeadingRow
             ]);
 
             $teste = Testes::where('codTeste', $row['cod_teste'])->first();
-            grupos_de_testesTestes::create([
+            Grupos_de_testesTestes::create([
 
                 'grupos_de_testes_id' => $row['group_id'],
                 'testes_id' => $teste['id']

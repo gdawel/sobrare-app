@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class testes extends Model
+class Testes extends Model
 {
     use HasFactory;
 
@@ -29,7 +29,7 @@ class testes extends Model
 
     public function gruposTestes(): BelongsToMany
     {
-        return $this->belongsToMany(gruposDeTestes::class);
+        return $this->belongsToMany(GruposDeTestes::class);
     }
 
     public function perguntas() {

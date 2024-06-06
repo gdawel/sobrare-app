@@ -21,6 +21,6 @@ class OpcoesRespostas extends Model
     ];
 
     public function grupoOpcoesRespostas() {
-        return $this->belongsTo(grupoOpcoesResposta::class);
+        return $this->belongsTo(GrupoOpcoesResposta::class);
     }
 }

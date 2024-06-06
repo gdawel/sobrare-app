@@ -55,6 +55,8 @@
                                         class="w-full py-1 ms-1 text-sm font-medium text-gray-900 dark:text-gray-300">{{ $opcresp->id }}-{{ $opcresp->textoResposta}}</label>
                                 </div>
                                 @endif
+
+                                
                             @endforeach
                         
                         </li>

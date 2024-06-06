@@ -105,7 +105,7 @@ class TestesResource extends Resource
                             ->preload()
                             ->multiple()
                             ->relationship('gruposTestes', 'nomeGrupo')    
-                            ->options(gruposDeTestes::all()->pluck('nomeGrupo', 'id')),
+                            ->options(GruposDeTestes::all()->pluck('nomeGrupo', 'id')),
                     ])->columnSpan(1),
                 
                 
