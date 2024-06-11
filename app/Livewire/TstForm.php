@@ -2,18 +2,12 @@
 
 namespace App\Livewire;
 
-use App\Models\Answeroption;
-use App\Models\grupoOpcoesResposta;
-use App\Models\gruposDeTestes;
+use App\Models\GruposDeTestes;
 use App\Models\OpcoesRespostas;
-use App\Models\perguntas;
-use App\Models\Question;
-use App\Models\Test;
-use App\Models\testes;
+use App\Models\Perguntas;
+use App\Models\Testes;
 use Livewire\Component;
-use App\Models\Testgroup;
-use App\Models\TestgroupTest;
-use App\Models\TestTestgroup;
+
 use Livewire\Attributes\Computed;
 
 class TstForm extends Component
@@ -76,7 +70,7 @@ class TstForm extends Component
     #[Computed()]
     public function grupoTestes() {
 
-        return gruposDeTestes::all();
+        return GruposDeTestes::all();
 
     }
 
