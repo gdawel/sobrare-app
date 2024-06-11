@@ -4,18 +4,18 @@
 /*  Este controlador tem por objetivo centralizar todas as importações de dados dos testes, via Excel. */
 namespace App\Http\Controllers;
 
-use App\Models\testes;
+use App\Models\Testes;
 use Illuminate\Http\Request;
 use App\Imports\TestesImport;
-use App\Models\gruposDeTestes;
+use App\Models\GruposDeTestes;
 use App\Imports\GrOpcRespostas;
 use App\Imports\PerguntasImport;
 use App\Imports\OpcRespostasImport;
-use App\Models\grupoOpcoesResposta;
+use App\Models\GrupoOpcoesResposta;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\GruposDeTestesImport;
 use App\Models\OpcoesRespostas;
-use App\Models\perguntas;
+use App\Models\Perguntas;
 
 class ImportDataController extends Controller
 {
@@ -23,7 +23,7 @@ class ImportDataController extends Controller
     
     public function gruposDeTestes() 
     {
-        $listarTodosOsGrupos = gruposDeTestes::all();
+        $listarTodosOsGrupos = GruposDeTestes::all();
 
         return view('importData.gruposDeTestes', compact('listarTodosOsGrupos'));
     }
@@ -46,7 +46,7 @@ class ImportDataController extends Controller
     
     public function testes() 
     {
-        $listarTodosOsTestes = testes::all();
+        $listarTodosOsTestes = Testes::all();
 
         return view('importData.Testes', compact('listarTodosOsTestes'));
     }
@@ -69,7 +69,7 @@ class ImportDataController extends Controller
     
     public function gropcrespostas() 
     {
-        $listarGrOpcRespostas = grupoOpcoesResposta::all();
+        $listarGrOpcRespostas = GrupoOpcoesResposta::all();
 
         return view('importData.grupoOpcRespostas', compact('listarGrOpcRespostas'));
     }
