@@ -35,4 +35,8 @@ class Testes extends Model
     public function perguntas() {
         return $this->hasMany(Perguntas::class);
     }
+
+    public function orderitens() {
+        return $this->hasMany(Orderitems::class);
+    }
 }

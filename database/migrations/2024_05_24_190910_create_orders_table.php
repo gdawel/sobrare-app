@@ -15,11 +15,11 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->references('id')->on('users')->cascadeOnDelete();
             $table->dateTime('orderDate');
-            $table->decimal('grand_total, 12, 2');
+            $table->decimal('grand_total', 12, 2);
             $table->string('paymentMethod')->nullable();
             $table->string('paymentStatus')->nullable();
             $table->enum('orderStatus', ['novo', 'pendente', 'concluido', 'cancelado' ])->default('novo');
-            $table->text('notes');
+            $table->text('notes')->nullable();
             $table->timestamps();
         });
     }

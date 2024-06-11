@@ -2,17 +2,35 @@
 
 namespace App\Filament\Resources;
 
+use DateTime;
 use Filament\Forms;
 use Filament\Tables;
 use App\Models\Orders;
+use App\Models\Testes;
+use Filament\Forms\Get;
+use Filament\Forms\Set;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
+use Illuminate\Support\Number;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Group;
+use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Section;
-use Filament\Forms\Components\ToggleButtons;
+use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\Textarea;
+use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Actions\ViewAction;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Forms\Components\TextInput;
+use Filament\Tables\Actions\ActionGroup;
+use Filament\Forms\Components\DatePicker;
+use Filament\Tables\Actions\DeleteAction;
 use Illuminate\Database\Eloquent\Builder;
+use Filament\Forms\Components\Placeholder;
+use Filament\Forms\Components\ToggleButtons;
+use Filament\Tables\Actions\BulkActionGroup;
+use Filament\Tables\Actions\DeleteBulkAction;
 use App\Filament\Resources\OrdersResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\OrdersResource\RelationManagers;
@@ -39,9 +57,13 @@ class OrdersResource extends Resource
                             ->label('Cliente')
                             ->searchable()
                             ->preload()
-                            ->relationship('user' , 'name')
-                            ->columnSpan(3),
+                            ->relationship('user' , 'name'),
+                        DatePicker::make('orderDate')
+                        ->label('Data do Pedido')
+                        ->required(),
+                
                         Select::make('paymentMethod')
+                        ->label('Forma Pagto')
                         ->options([
                             'stripe' => 'Stripe',
                             'pix' => 'Pix',
@@ -50,6 +72,7 @@ class OrdersResource extends Resource
                         ])
                         ->required(),
                         Select::make('paymentStatus')
+                        ->label('Status Pagto')
                         ->options([
                             'pendente' => 'Pendente',
                             'pago' => 'Pago',
@@ -58,13 +81,103 @@ class OrdersResource extends Resource
                         ->default('pendente')
                         ->required(),
                         ToggleButtons::make('orderStatus')
+                        ->label('Status Pedido')
+                        ->default('novo')
+                        ->inline()
+                        ->required()
                         ->options([
                             'novo' => 'Novo',
                             'pendente' => 'Pendente',
                             'concluido' => 'Concluído',
                             'cancelado' => 'Cancelado'
-                        ]),
+                        ])
+                        ->colors([
+                            'novo' => 'info',
+                            'pendente' => 'warning',
+                            'concluido' => 'success',
+                            'cancelado' => 'danger'
+                        ])
+                        ->icons([
+                            'novo' => 'heroicon-m-sparkles',
+                            'pendente' => 'heroicon-m-arrow-path',
+                            'concluido' => 'heroicon-m-check-badge',
+                            'cancelado' => 'heroicon-m-x-circle'
+                        ])
+                        ->columnSpanFull(),
+                        Textarea::make('notes')
+                        ->label('Notas do Pedido')
+                        ->columnSpanFull(),
                             
+                    ])->columns(2),
+
+                    Section::make('Itens do Pedido')->schema([
+                        Repeater::make('orderitem')
+                            ->label('Itens')
+                            ->relationship()
+                            ->schema([
+                                Select::make('testes_id')
+                                    ->relationship('testes', 'nomeTeste')
+                                    ->searchable()
+                                    ->preload()
+                                    ->required()
+                                    ->distinct()
+                                    ->disableOptionsWhenSelectedInSiblingRepeaterItems()
+                                    ->reactive()
+                                    ->afterStateUpdated(fn ($state, Set $set ) => $set('unitPrice', 
+                                                        Testes::find($state)?->precoTeste ?? 0
+                                                        ))
+                                    ->afterStateUpdated(fn ($state, Set $set ) => $set('itemTotal', 
+                                                        Testes::find($state)?->precoTeste ?? 0
+                                                        ))
+                                    ->columnSpan(9),
+                                TextInput::make('unitPrice')
+                                    ->label('Preço Unit.')
+                                    ->disabled()
+                                    ->dehydrated()
+                                    ->columnSpan(3),
+                                Hidden::make('itemTotal'),
+                                ToggleButtons::make('testeStatus')
+                                    ->label('Sit. do Teste')
+                                    ->default('novo')
+                                    ->inline()
+                                    ->required()
+                                    ->options([
+                                        'novo' => 'Novo',
+                                        'iniciado' => 'Iniciado',
+                                        'concluido' => 'Concluído'
+                                        
+                                    ])
+                                    ->colors([
+                                        'novo' => 'info',
+                                        'iniciado' => 'warning',
+                                        'concluido' => 'success'
+                                        
+                                    ])
+                                    ->icons([
+                                        'novo' => 'heroicon-m-sparkles',
+                                        'iniciado' => 'heroicon-m-arrow-path',
+                                        'concluido' => 'heroicon-m-check-badge'
+                                        
+                                    ])
+                                    ->columnSpanFull(),
+                            ])->columns(12),
+                        
+                        Placeholder::make('total_geral_placeholder')
+                                ->label('Total Geral do Pedido')
+                                ->content(function (Get $get, Set $set) {   
+                                    $total = 0;
+                                    if(!$repeaters = $get('orderitem')) {
+                                        return $total;
+                                    }
+                                    foreach ($repeaters as $key => $repeater) {
+                                        $total += $get("orderitem.{$key}.itemTotal");
+                                    }
+                                    $set('grand_total', $total);
+                                    return Number::currency($total, 'BRL');
+                                    }),
+                        Hidden::make('grand_total')
+                                    ->default(0)
+
                     ])
                 ])->columnSpanFull()
             ]);
@@ -74,14 +187,38 @@ class OrdersResource extends Resource
     {
         return $table
             ->columns([
-                //
+                TextColumn::make('user.name')
+                    ->label('Cliente')
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('grand_total')
+                    ->label('Total')
+                    ->numeric()
+                    ->searchable()
+                    ->sortable()
+                    ->money('BRL'),
+                TextColumn::make('paymentMethod')
+                    ->label('Forma Pagto')
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('paymentStatus')
+                    ->label('Sit.Pagto')
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('orderStatus')
+                    ->label('Sit.Pedido')
+                    ->searchable()
+                    ->sortable()
             ])
             ->filters([
                 //
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
+                ActionGroup::make([
+                    ViewAction::make(),
+                    EditAction::make(),
+                    DeleteAction::make()
+                ])
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

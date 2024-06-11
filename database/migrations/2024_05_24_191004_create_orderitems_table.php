@@ -13,11 +13,12 @@ return new class extends Migration
     {
         Schema::create('orderitems', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('order_id')->references('id')->on('orders')->cascadeOnDelete();
+            $table->foreignId('orders_id')->references('id')->on('orders')->cascadeOnDelete();
             $table->foreignId('testes_id')->references('id')->on('testes')->cascadeOnDelete();
             $table->decimal('unitPrice', 10, 2);
-            $table->integer('quantity')->default(1);
-            $table->decimal('itemTotal', 10, 2);
+            $table->integer('quantity')->default(1); // Neste caso, não usaremos quantidade. Cada cliente adquire apenas um teste.
+            $table->decimal('itemTotal', 10, 2); // Idem. Para uso futuro.
+            $table->string('testeStatus')->nullable();
             $table->timestamps();
         });
     }

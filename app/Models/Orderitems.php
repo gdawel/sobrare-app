@@ -10,18 +10,19 @@ class Orderitems extends Model
     use HasFactory;
 
     protected $fillable = [
-        'order_id',
-        'test_id',
+        'orders_id',
+        'testes_id',
         'unitPrice',
         'quantity',
-        'itemTotal'
+        'itemTotal',
+        'testeStatus'
     ];
 
     public function order() {
         return $this->belongsTo(Orders::class);
     }
 
-    public function test() {
-        return $this->belongsTo(Test::class);
+    public function testes() {
+        return $this->belongsTo(Testes::class);
     }
 }
