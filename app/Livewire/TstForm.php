@@ -104,6 +104,12 @@ class TstForm extends Component
 
         $this->dispatch('perguntaSelecionada', $this->questionId);
         
+
+        /* return Perguntas::where('id','$this->questionId')
+                            ->whereHas('opcoesRespostas', function($query) {
+                                $query->where('grupo_opcoes_respostas_id', 'codGrupoOpcRespostas');
+                            })->get(); */
+        
         return OpcoesRespostas::where('grupo_opcoes_respostas_id', $this->questionId)->get();   
     }
 

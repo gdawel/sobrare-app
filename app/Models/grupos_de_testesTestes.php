@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class grupos_de_testesTestes extends Model
+class Grupos_de_testesTestes extends Model
 {
     use HasFactory;
 
@@ -14,7 +14,7 @@ class grupos_de_testesTestes extends Model
 
     public function gruposTestes(): BelongsTo
     {
-        return $this->belongsTo(gruposDeTestes::class);
+        return $this->belongsTo(GruposDeTestes::class);
     }
  
     public function testes(): BelongsTo

@@ -2,9 +2,7 @@
 
 namespace App\Imports;
 
-use App\Models\Answeroption;
-use App\Models\grupoOpcoesResposta;
-use App\Models\GruposOpcRespostas;
+use App\Models\GrupoOpcoesResposta;
 use App\Models\OpcoesRespostas;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToCollection;
@@ -19,7 +17,7 @@ class OpcRespostasImport implements ToCollection, WithHeadingRow
     {
         foreach ($rows as $row) 
         {
-                $getGrOpcRespID = grupoOpcoesResposta::where('codGrupoOpcRespostas', $row['cod_gr_opc_respostas'])->first();
+                $getGrOpcRespID = GrupoOpcoesResposta::where('codGrupoOpcRespostas', $row['cod_gr_opc_respostas'])->first();
                 if(! $getGrOpcRespID) {
                     redirect('/import/opcoes-respostas')->with('status', 'Tabela Excel com Erro: Cód. Teste não encontrado');
                 }

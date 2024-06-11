@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class gruposDeTestes extends Model
+class GruposDeTestes extends Model
 {
     use HasFactory;
 
@@ -29,6 +29,6 @@ class gruposDeTestes extends Model
 
     public function gruposTestes_testes(): HasMany    
         {
-            return $this->hasMany(grupos_de_testesTestes::class);
+            return $this->hasMany(Grupos_de_testesTestes::class);
     }
 }

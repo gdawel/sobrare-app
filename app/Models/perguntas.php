@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class perguntas extends Model
+class Perguntas extends Model
 {
     use HasFactory;
 
@@ -23,10 +23,10 @@ class perguntas extends Model
     }
 
     public function grupoOpcoesRespostas () {
-        return $this->belongsTo(grupoOpcoesResposta::class);
+        return $this->belongsTo(GrupoOpcoesResposta::class);
     }
 
     public function opcoesRespostas() {
-        return $this->hasManyThrough(OpcoesRespostas::class, grupoOpcoesResposta::class);
+        return $this->hasManyThrough(OpcoesRespostas::class, GrupoOpcoesResposta::class);
     }
 }
