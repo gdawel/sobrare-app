@@ -11,6 +11,8 @@ use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use Filament\Resources\Pages\Page;
 use Forms\Components\SelectColumn;
+use Filament\Forms\Components\Group;
+use Filament\Forms\Components\Section;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Resources\Pages\CreateRecord;
 use App\Filament\Resources\UserResource\Pages;
@@ -23,37 +25,67 @@ class UserResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-users';
 
+    protected static ?string $modelLabel = 'Usuários / Cliente';
+
     public static function form(Form $form): Form
     {
         return $form
-            ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->label('Nome')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('email')
-                    ->email()
-                    ->label('E-mail')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\DateTimePicker::make('email_verified_at')
-                    ->label('E-mail verificado em:'),
-                Forms\Components\TextInput::make('password')
-                    ->password()
-                    ->label('Senha')
-                    ->dehydrated(fn ($state) => filled($state))
-                    ->required(fn (Page $livewire): bool => $livewire instanceof CreateRecord)
-                    ->maxLength(255),
-                Forms\Components\Select::make('usertype')
-                    ->options([
-                        'Admin' => 'Admin',
-                        'Gestor' => 'Gestor',
-                        'Cliente' => 'Cliente',
-                        'Convidado' => 'Convidado',
-                    ])
-                    ->label('Tipo de Usuário')
-                    ->required(),
-            ]);
+            
+                ->schema([
+                    Section::make('Informações Básicas do Usuário / Cliente')
+                    ->schema([
+                        Forms\Components\TextInput::make('name')
+                            ->required()
+                            ->label('Nome')
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('email')
+                            ->email()
+                            ->label('E-mail')
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\DateTimePicker::make('email_verified_at')
+                            ->label('E-mail verificado em:'),
+                        Forms\Components\TextInput::make('password')
+                            ->password()
+                            ->label('Senha')
+                            ->dehydrated(fn ($state) => filled($state))
+                            ->required(fn (Page $livewire): bool => $livewire instanceof CreateRecord)
+                            ->maxLength(255),
+                        Forms\Components\Select::make('usertype')
+                            ->options([
+                                'Admin' => 'Admin',
+                                'Gestor' => 'Gestor',
+                                'Cliente' => 'Cliente',
+                                'Convidado' => 'Convidado',
+                            ])
+                            ->label('Tipo de Usuário')
+                            ->required(),
+                            ])->columns(2),
+                
+            
+                    Section::make('Informações Estáticas do Cliente')
+                    ->schema([
+                        Forms\Components\DatePicker::make('data_nascimento')
+                            ->label('Data Nasc.'),
+                            
+                        Forms\Components\Select::make('sexo_biologico')
+                            ->label('Sexo Biológico')
+                            ->options([
+                                'F' => 'Feminino',
+                                'M' => 'Masculino'
+                            ]),
+                        Forms\Components\Select::make('estado_nascimento')
+                            ->label('UF do Nascimento')
+                            
+                            ->options([
+                                'BA' => 'BA',
+                                'SP' => 'SP',
+                                'PE' => 'PE'
+                            ]),
+                           /*  ->dehydrated()
+                            ->unique(Testes::class, 'slug', ignoreRecord: true), */
+                    ])->columns(3)
+                ]);
     }
 
     public static function table(Table $table): Table
