@@ -6,6 +6,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PaginaController;
 use App\Http\Controllers\ContatoController;
 use App\Http\Controllers\ImportDataController;
+use App\Livewire\TratarRespostas;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,11 +19,11 @@ use App\Http\Controllers\ImportDataController;
 |
 */
 
-/* As rotas abaixo, iniciadas com "import", tem por objetivo facilitar a entrada de dados dos testes,
+/*  As rotas abaixo, iniciadas com "import", tem por objetivo facilitar a entrada de dados dos testes,
       por meio da importação de dados do Excel (cada tabela em arquivo separado).
       
-      Estas rotas serão desabilitadas quando esta versão do sistema for colocada em produção.
-      */
+    Estas rotas serão desabilitadas quando esta versão do sistema for colocada em produção.
+*/
 Route::get('import/grupo-de-testes', [ImportDataController::class, 'gruposDeTestes']);
 Route::post('import/grupo-de-testes', [ImportDataController::class, 'importarGruposDeTestes']);
 Route::get('import/testes', [ImportDataController::class, 'testes']);
@@ -41,6 +42,15 @@ Route::get('import/verificar', function () {
     return view('importData.verificarTestes');
   });
 
+// Roteamento para teste de buscar o pedido e testes do cliente. Por ora, o user ID está fixo no componente  
+Route::get('layouts/neurodiv/tst-responder', function () {
+    return view('layouts.neurodiv.tst-responder');
+  });
+Route::get('/tratar-respostas/{key}', TratarRespostas::class);
+  
+
+
+// Rotas do site principal da SOBRARE
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/pagina/{key}', [PaginaController::class, 'show'])->name('pagina.show');
 Route::get('/publicacoes', [HomeController::class, 'blog'])->name('layouts.publicacoes');
@@ -48,19 +58,9 @@ Route::get('/publicacoes/{key}', [HomeController::class, 'blogSingle'])->name('l
 Route::get('/blogPorCategoria/{key}', [HomeController::class, 'blogPorCategoria'])->name('layouts.blogPorCategoria');
 Route::post('/contato', [ContatoController::class, 'enviar'])->name('contato.enviar');
 
+// Rota apontando para o sitema (legado) QUEST_Resiliencia
 Route::get('/quest', function () {
     return redirect(route(asset('/public/legacy/index.php')));
 });
 
-//Route::get('/publicacoes', function () {
-  //  $siteConfigData = SiteConfiguration::get()->first();
-    //return view('layouts.publicacoes')->with([
-      //      
-        //    'siteConfigData' => $siteConfigData,
-//
-  //      ]);
-//});
 
-Route::get('/texto', function () {
-    return view('layouts.pagina-texto');
-});

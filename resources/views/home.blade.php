@@ -1,26 +1,27 @@
+{{--  
+    Autor:  George Dawel
+    Data:   Fev/2024
+    Notas:  Este é o controlador principal do site sobrare.com.br.
+            Desenvolvido com:
+            - Laravel 10: framework base de toda a aplicação.
+            - FilamentPHP 3: para o painel de administração, aonde são feitas as configurações da página principal
+                             em siteConfiguration.
+            - Livewire 3: utilizado para as páginas dos testes de Neurodivergência.
+--}}
 
+
+{{-- Aqui é incluído o cabeçalho do site principal e passadas as configurações para montar a página principal,
+     configurações estas que vem do HomeController --}}
 @include('layouts.header', ['siteConfigData' => $siteConfigData])
 
 <main>
     <!-- ===== Hero Start ===== -->
     <section class="gj do ir hj sp jr i pg">
         <!-- Hero Images -->
-        <!--
-        <div class="xc fn zd/2 2xl:ud-w-187.5 bd 2xl:ud-h-171.5 h q r">
-            <img src="images/shape-01.svg" alt="shape" class="xc 2xl:ud-block h t -ud-left-[10%] ua" />
-            <img src="images/shape-02.svg" alt="shape" class="xc 2xl:ud-block h u p va" />
-            <img src="images/shape-03.svg" alt="shape" class="xc 2xl:ud-block h v w va" />
-            <img src="images/shape-04.svg" alt="shape" class="h q r" />
-            <img src="images/hero4.png" alt="Woman" class="h q r ua" />
-        </div>
-        -->
-
+        
         <div class="xc fn zd/2 2xl:ud-w-187.5 bd 2xl:ud-h-171.5 h q ba">
-            
-            <img src="images/especialistas-reduz.jpg" alt="Especialistas em Resiliência" class="h q b ua" />
-            
+             <img src="images/especialistas-reduz.jpg" alt="Especialistas em Resiliência" class="h q b ua" />
         </div>
-
 
         <!-- Hero Content -->
         <div class="bb ze ki xn 2xl:ud-px-0">
