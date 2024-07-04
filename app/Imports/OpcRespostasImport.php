@@ -29,6 +29,8 @@ class OpcRespostasImport implements ToCollection, WithHeadingRow
                     'valorResposta' => $row['valor_resposta'], 
                     'requer_comentarios' => $row['requer_comentarios'],
                     'requer_complemento' => $row['requer_complemento'],
+                    'validar_complemento' => $row['validar_complemento'],
+                    'validar_intensidade' => $row['validar_intensidade'],
                     'tipoOpcaoResposta' => $row['tipo_opc_resposta'],
                     'inputType' => $row['field_input_type']
                 ]);

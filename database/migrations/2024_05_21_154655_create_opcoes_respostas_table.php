@@ -19,6 +19,8 @@ return new class extends Migration
             $table->integer('valorResposta'); //Numérico, para cálculo em testes com fórmula
             $table->string('requer_comentarios'); // S ou N
             $table->string('requer_complemento'); // S ou N
+            $table->string('validar_complemento'); // S ou N
+            $table->string('validar_intensidade'); // S ou N
             $table->string('tipoOpcaoResposta'); // P - principal / C - Complementar
             $table->string('inputType'); // checkbox, radio, select
             $table->timestamps();

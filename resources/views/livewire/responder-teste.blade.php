@@ -1,13 +1,16 @@
 <div wire:key="TESTE">
-    <h1 class="font-sans text-xl text-gray-800 text-center">
-                    Care about people's approval and you will be their prisoner.<br>.....</h1>
+    
+<h1 class="mb-4 text-2xl font-extrabold text-gray-900 dark:text-white md:text-3xl lg:text-3xl"><span class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">Care about people's approval</span> and you will be their prisoner.</h1>
+<p class="text-lg font-normal text-gray-600 px-14 lg:text-xl dark:text-gray-400">Here at Dawel Web Solutions we focus on markets where technology, innovation, and capital<br> can unlock long-term value and drive economic growth.</p>
+
+                   {{--  Care about people's approval and you will be their prisoner.<br>.....</h1> --}}
     @if($testeSelecionado)
         
        
-        <h2 class="font-bold "> Teste Selecionado:  {{ $testeSelecionado['nomeTeste']}} - 
+        <h2 class="font-bold py-4"> Teste Selecionado:  {{ $testeSelecionado['nomeTeste']}} - 
              Total de Perguntas: {{ $totalPerguntas  }}<br></h2>
         {{-- <pre>  <php print_r($perguntas); ?> </pre> --}}
-        {{-- <h2>Pergunta ID: {{ $perguntas->id }}</h2> --}}
+        {{-- <h4>Pergunta ID: {{ $this->perguntaId }}</h4> --}}
        
     @foreach ($perguntas as $pergunta)
             <p wire:model="perguntaId" wire:key="{{ $pergunta->id }}" class="mt-4">Pergunta n.: {{ $pergunta->sequencia}} / {{ $pergunta->sexo}} / 
@@ -43,7 +46,7 @@
                             @foreach ($this->opcoesResposta as $opcresp)
                                 @if($opcresp->tipoOpcaoResposta == "C" && $opcresp->inputType == "Checkbox")
                                 <div class="flex items-center text-left ps-3">
-                                    <input wire:model="opcRespCheckbox" type="{{ $opcresp->inputType }}" id="{{ $opcresp->id }}-{{ $opcresp->inputType }}" name="resposta" value="{{ $opcresp->id}}"
+                                    <input wire:model.live="opcRespCheckbox" type="{{ $opcresp->inputType }}" id="{{ $opcresp->id }}-{{ $opcresp->inputType }}" name="resposta" value="{{ $opcresp->id}}"
                                     class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
                                     <label for="{{ $opcresp->id }}-{{ $opcresp->inputType }}"
                                         class="w-full py-1 ms-1 text-sm font-medium text-gray-900 dark:text-gray-300">{{ $opcresp->id }}-{{ $opcresp->textoResposta}}</label>
@@ -57,9 +60,9 @@
                         
                         </li>
                     </ul>
-                    @if ($opcresp->tipoOpcaoResposta == "C" )
+                    @if ($opcresp->tipoOpcaoResposta == "C" && $opcresp->inputType == "Select")
                         <label for="countries_disabled" class="px-4 mt-1 text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">Selecione a Intensidade:</label>
-                            <select wire:model="opcRespIntensidade" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <select wire:model.live="opcRespIntensidade" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                 <option selected>Intensidade</option>
                                     @foreach ($this->opcoesResposta as $opcresp)
                                         @if ($opcresp->inputType == "Select")
@@ -86,12 +89,20 @@
             @endif
             <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400">@error('opcoesRespostasId') {{ $message }} @enderror</div>
             @if($pergunta->sequencia == $totalPerguntas)
-                <button wire:click="finalizarTeste({{$pergunta->id}})" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                <button 
+                    @if(!$this->habilitarBotaoResposta) disabled 
+                        class="text-white bg-blue-400 dark:bg-blue-500 cursor-not-allowed font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                    @endif 
+                    wire:click="finalizarTeste({{$pergunta->id}})" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
                     Responder e Finalizar o Teste </button>
                 </div>
                 
             @else
-                <button wire:click="proximaPergunta({{$pergunta->id}})" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                <button 
+                    @if(!$this->habilitarBotaoResposta) disabled 
+                        class="text-white bg-blue-400 dark:bg-blue-500 cursor-not-allowed font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                    @endif 
+                    wire:click="proximaPergunta({{$pergunta->id}})" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
                 Responder </button>
             </div>
             @endif

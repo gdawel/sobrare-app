@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Livewire\Relatorios\RelatAutopercepcaoDoStress;
 use App\Models\GrupoOpcoesResposta;
 use App\Models\User;
 use App\Models\Orders;
@@ -11,6 +12,7 @@ use App\Models\Perguntas;
 use App\Models\Orderitems;
 use Livewire\Attributes\On;
 use App\Models\OpcoesRespostas;
+use App\Models\Useranswers;
 
 class MontaPergunta extends Component
 {
@@ -30,6 +32,11 @@ class MontaPergunta extends Component
 
     public $acionarResponder = false;
 
+    public $qualRelatorio;
+    public $tituloRelatorio;
+    public $resultadoTeste;
+
+    public $qualCliente;
     
     
 
@@ -112,6 +119,50 @@ class MontaPergunta extends Component
             //'perguntas' => $this->perguntas,
             //'opcoesResposta' => $this->opcoesResposta
         ]);
+
+    }
+
+    public function updatedqualCliente() {
+
+       $this->reset();
+    }
+
+    public function relatorios($qualRelatorio) {
+
+        $this->resultadoTeste = Orderitems::with('useranswers')
+                                        ->where('orders_id',$this->clienteSelecionado->id)
+                                        ->where('testes_id',$qualRelatorio)
+                                        ->get();
+        /* ('orders_id',$this->clienteSelecionado->id)
+                                        ->where('testes_id', $qualRelatorio)->first(); */
+        //$useranswerPerguntas = $numeroItemPedido->useranswers->pergunta_id;
+        $parametrosParaRelatorios = [
+            'user_id' => $this->dadosCliente->id,
+            'order_id' => $this->clienteSelecionado->id,
+            'orderItem_id' => $this->itensPedido[0]->id,
+            'teste_id' => $this->itensPedido[0]->testes_id
+        ];
+        /* $qualRelatorio = [
+            'pedidoCliente' => $this->clienteSelecionado,
+            'dadosCliente' => $this->dadosCliente,
+            'testeSelecionado' => $qualRelatorio,
+            'itensPedido' => $this->itensPedido
+
+        ]; */
+        //dd($qualRelatorio);
+        
+        $this->dispatch('resultadoTeste', orders_id: $this->clienteSelecionado->id,
+                                          testes_id: $qualRelatorio,
+                                          parametrosParaRelatorios: $parametrosParaRelatorios )
+                ->to(RelatAutopercepcaoDoStress::class);
+        //dd($this->resultadoTeste);
+        
+
+        
+
+        
+
+        
 
     }
 
