@@ -25,4 +25,8 @@ class Orderitems extends Model
     public function testes() {
         return $this->belongsTo(Testes::class);
     }
+
+    public function useranswers() {
+        return $this->hasMany(Useranswers::class);
+    }
 }

@@ -8,6 +8,7 @@ use App\Models\Perguntas;
 use App\Models\Orderitems;
 use Livewire\Attributes\On;
 use App\Models\OpcoesRespostas;
+use App\Models\Useranswers;
 use Livewire\Attributes\Validate;
 
 class ResponderTeste extends Component
@@ -25,13 +26,19 @@ class ResponderTeste extends Component
     public $opcoesRespostasId;
 
     public $respostaprimaria;
+    public $habilitarBotaoResposta = false;
     
     public $complementos = 'N';
+
+    public $inputType;
+
+    public $validar_complemento;
+    public $validar_intensidade;
     
-    #[Validate('required_if:complementos,S', message: 'Por favor, selecione uma das opções complementares acima.')] 
+    #[Validate('required_if:validar_complemento,S', message: 'Por favor, selecione uma ou mais das opções complementares acima.')] 
     public $opcRespCheckbox = [];   
     
-    #[Validate('required_if:tipoOpcaoResposta,C', message: 'Por favor, selecione uma das opções complementares acima.')] 
+    #[Validate('required_if:validar_intensidade,S', message: 'Por favor, selecione uma das opções complementares acima.')] 
     public $opcRespIntensidade;
     
     public $comentarios = 'N';
@@ -65,6 +72,23 @@ class ResponderTeste extends Component
         //$this->perguntas = Perguntas::with('grupoOpcoesRespostas')
 
         // LEMBRAR DE SELECIONAR O SEXO ANTES DE GERAR AS PERGUNTAS
+        $ultimaPerguntaRespondida = Useranswers::with('ordersItem')
+                                                 ->where('orderitems_id', $this->itemPedidoId)
+                                                 ->max('sequencia');
+        //dd($ultimaPerguntaRespondida);
+        
+        if($ultimaPerguntaRespondida) {
+            $this->qualPergunta = $ultimaPerguntaRespondida + 1;
+        } else {
+            $this->qualPergunta = 1;
+        }
+
+        $temporario = [
+            'teste-id' => $this->testeSelecionado['id'],
+            'sequencia' => $this->qualPergunta,
+            'sexo' => $this->sexoCliente
+        ];
+        //dd($temporario);
 
         $this->perguntas = Perguntas::with('grupoOpcoesRespostas')
                             ->where('testes_id', $this->testeSelecionado['id'])
@@ -74,6 +98,7 @@ class ResponderTeste extends Component
                                 ->orWhere('sexo', $this->sexoCliente);
                             })
                             ->get();
+        //dd($this->perguntas);
         /*
             Dawel: devido a estar selecionando um único registro no this->perguntas,
             na variável abaixo vai ser selecionada apenas o grupo da instãncia [0]. 
@@ -92,7 +117,17 @@ class ResponderTeste extends Component
             if($cadaOpcaoResposta->tipoOpcaoResposta == 'C') {
                 $this->tipoOpcaoResposta = 'C';
             }
+            if($cadaOpcaoResposta->tipoOpcaoResposta == 'I') {
+                $this->tipoOpcaoResposta = 'I';
+            }
+            if($cadaOpcaoResposta->inputType == 'Checkbox') {
+                $this->inputType = 'Checkbox';
+            }
+            if($cadaOpcaoResposta->inputType == 'Select') {
+                $this->inputType = 'Select';
+            }
         }
+        //dd($this->opcoesResposta);
         //$this->tipoOpcaoResposta = $this->opcoesResposta[0]->tipoOpcaoResposta;
 
         //dd($this->tipoOpcaoResposta);
@@ -103,6 +138,9 @@ class ResponderTeste extends Component
 
         
         $this->validate();
+        
+
+
         $retornoForm = [
             'itemPedidoId' => $this->itemPedidoId,
             'perguntaID' => $perguntaId,
@@ -115,7 +153,16 @@ class ResponderTeste extends Component
             dd($retornoForm);
         } */
         
-        
+        // Gravar as respostas de cada pergunta
+        Useranswers::create([
+            'orderitems_id' => $this->itemPedidoId,
+            'pergunta_id' => $perguntaId,
+            'sequencia' => $this->qualPergunta,
+            'opcoes_respostas_id' => $this->opcoesRespostasId,
+            'opcRespCheckbox' => json_encode($this->opcRespCheckbox),
+            'opcRespIntensidade' => $this->opcRespIntensidade,
+            'comentariosCliente' => $this->comentariosCliente
+        ]);
 
         // ANTES DE IR PARA A PRÓXIMA PERGUNTA, SALVAR A RESPOSTA NO BD.
 
@@ -125,6 +172,7 @@ class ResponderTeste extends Component
         $this->opcRespIntensidade = null;
         $this->opcRespCheckbox = [];
         $this->complementos = null;
+        $this->habilitarBotaoResposta = false;
         $this->perguntas = Perguntas::with('grupoOpcoesRespostas')
                             ->where('testes_id', $this->testeSelecionado['id'])
                             ->where('sequencia', $this->qualPergunta)
@@ -144,23 +192,63 @@ class ResponderTeste extends Component
             if($cadaOpcaoResposta->tipoOpcaoResposta == 'C') {
                 $this->tipoOpcaoResposta = 'C';
             }
+            if($cadaOpcaoResposta->tipoOpcaoResposta == 'I') {
+                $this->tipoOpcaoResposta = 'I';
+            }
+            if($cadaOpcaoResposta->inputType == 'Checkbox') {
+                $this->inputType = 'Checkbox';
+            }
+            if($cadaOpcaoResposta->inputType == 'Select') {
+                $this->inputType = 'Select';
+            }
         }
+        
         
     }
     
     public function updatedopcoesRespostasId() {
+
         $opcaoSel = OpcoesRespostas::where('id', $this->opcoesRespostasId)->first();
        /* if($this->qualPergunta == 2) {
         dd($opcaoSel);
        } */
         $this->comentarios = $opcaoSel->requer_comentarios;
         $this->complementos = $opcaoSel->requer_complemento;
+        $this->tipoOpcaoResposta = $opcaoSel->tipoOpcaoResposta;
+        $this->validar_complemento = $opcaoSel->validar_complemento;
+        $this->validar_intensidade = $opcaoSel->validar_intensidade;
         $this->opcRespCheckbox = [];
         $this->opcRespIntensidade = null;
         $this->comentariosCliente = null;
         //$this->respostaprimaria = null;
+
+        if($this->validate()) {
+            $this->habilitarBotaoResposta = true;
+        }
+
+        /* $this->dispatch('parametros', 
+            comentarios: $this->comentarios,
+            complementos: $this->complementos,
+            tipoOpcaoResposta: $this->tipoOpcaoResposta,
+            opcRespCheckbox: $this->opcRespCheckbox,
+            opcRespIntensidade: $this->opcRespIntensidade,
+            respostaprimaria: $this->respostaprimaria
+
+            )->to(TratarRespostas::class); */
         
         
+    }
+
+    public function updatedopcRespCheckbox() {
+        if($this->validate()) {
+            $this->habilitarBotaoResposta = true;
+        }
+    }
+
+    public function updatedopcRespIntensidade() {
+        if($this->validate()) {
+            $this->habilitarBotaoResposta = true;
+        }
     }
 
     public function finalizarTeste($perguntaId) {
@@ -173,6 +261,17 @@ class ResponderTeste extends Component
             'intensidade' => $this->opcRespIntensidade,
             'comentarios' => $this->comentariosCliente
         ];
+
+        // Gravar as respostas de cada pergunta
+        Useranswers::create([
+            'orderitems_id' => $this->itemPedidoId,
+            'pergunta_id' => $perguntaId,
+            'sequencia' => $this->qualPergunta,
+            'opcoes_respostas_id' => $this->opcoesRespostasId,
+            'opcRespCheckbox' => json_encode($this->opcRespCheckbox),
+            'opcRespIntensidade' => $this->opcRespIntensidade,
+            'comentariosCliente' => $this->comentariosCliente
+        ]);
 
         Orderitems::where('id', $this->itemPedidoId,)->update(['testeStatus' => 'concluido']);
 

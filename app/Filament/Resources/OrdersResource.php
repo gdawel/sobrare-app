@@ -118,6 +118,7 @@ class OrdersResource extends Resource
                                 Select::make('testes_id')
                                     ->relationship('testes', 'nomeTeste')
                                     ->searchable()
+                                    /* ->options(Testes::where('isActive', true)->get()) */
                                     ->preload()
                                     ->required()
                                     ->distinct()

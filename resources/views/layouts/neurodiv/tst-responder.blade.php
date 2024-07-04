@@ -35,7 +35,15 @@
             </div>
             <div class="border-solid border-2 border-indigo-600 p-6">
                 <div class=" font-sans text-md text-gray-800 text-center">
+                    
                     @livewire('responder-teste')
+                            
+                </div>
+            </div>
+            <div class="border-solid border-2 border-indigo-600 p-6">
+                <div class=" font-sans text-md text-gray-800 text-center">
+                    
+                    @livewire('relatorios.relat-autopercepcao-do-stress')
                             
                 </div>
             </div>

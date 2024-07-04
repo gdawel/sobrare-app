@@ -94,7 +94,7 @@ class TestesResource extends Resource
                             ->label('Preço deste Teste')
                             ->prefix('R$')
                             ->numeric(),
-                        Forms\Components\Toggle::make('is_active')
+                        Forms\Components\Toggle::make('isActive')
                             ->label('Está ativo?')
                             ->default(true)
                             ->required(),
