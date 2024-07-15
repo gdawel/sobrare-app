@@ -24,15 +24,22 @@ class RelatAutopercepcaoDoStress extends Component
     #[On('resultadoTeste')]
     public function montarRelatorio($orders_id, $testes_id, $parametrosParaRelatorios) {
         
+        
+
         $this->resultadoTeste = Orderitems::with('useranswers')
                                         ->where('orders_id',$orders_id)
                                         ->where('testes_id',$testes_id)
                                         ->get();
+        // Em 03/07/2024 - Testar de pegar todos os dados pelo Useranswers.
+        //$testandoDadosPeloUseranswers = Useranswers::with('perguntas', 'opcoesderespostas')->get();
+        //  INCOMPLETO  03/07/2024 ///
+
         $this->orders_id = $this->resultadoTeste[0]->orders_id;
         $this->testes_id = $this->resultadoTeste[0]->testes_id;
         $this->useranswers = $this->resultadoTeste[0]->useranswers;
         $dadosDoTeste = Testes::where('id',$this->testes_id)->first();
         $this->tituloTeste = $dadosDoTeste->nomeTeste;
+        
         //dd($testes_id);
         //dd($parametrosParaRelatorios);
        /*  $this->colecaoRespostas = Useranswers::with('pergunta', 'opcaoresposta')

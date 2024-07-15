@@ -1,12 +1,14 @@
 <?php
 
+use App\Livewire\TratarRespostas;
 use App\Models\SiteConfiguration;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PaginaController;
 use App\Http\Controllers\ContatoController;
 use App\Http\Controllers\ImportDataController;
-use App\Livewire\TratarRespostas;
+use App\Livewire\HomeNeuroDiv;
+use App\Livewire\Relatorios\OrdenacaoAssuntos;
 
 /*
 |--------------------------------------------------------------------------
@@ -47,7 +49,14 @@ Route::get('layouts/neurodiv/tst-responder', function () {
     return view('layouts.neurodiv.tst-responder');
   });
 Route::get('/tratar-respostas/{key}', TratarRespostas::class);
+Route::get('/ordenacao-assuntos', OrdenacaoAssuntos::class);
   
+/*  As rotas abaixo tem por objetivo implementar o E-Comm e Testes de neurodiversidade.
+      
+    Dawel: 15/07/2024
+*/
+// Rota para a página principal do projeto NeuroDiversidade
+Route::get('/neurodiv', HomeNeuroDiv::class);
 
 
 // Rotas do site principal da SOBRARE

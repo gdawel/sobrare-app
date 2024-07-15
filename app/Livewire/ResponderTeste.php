@@ -42,17 +42,22 @@ class ResponderTeste extends Component
     public $opcRespIntensidade;
     
     public $comentarios = 'N';
+
+    //#[Validate('max:250', message: 'Tamanho máximo do comentário é de 250 caracteres')]
     public $comentariosCliente;
 
     public $totalPerguntas = 0;
+    public $pedidoCliente;
     public $sexoCliente;
     
 
     #[On('testeSelecionado')]
-    public function montar($testeSelecionado, $itensPedido, $sexoCliente){
+    public function montar($testeSelecionado, $itensPedido, $pedidoCliente, $sexoCliente){
         $this->testeSelecionado = $testeSelecionado;
         $this->itensPedido = $itensPedido;
         $this->sexoCliente = $sexoCliente;
+        $this->pedidoCliente = $pedidoCliente;
+        //dd($this->pedidoCliente);
 
         //Orderitems::where('testes_id', $testeSelecionado)->update(['testeStatus' => "iniciado"]);
         // Saber qual o # do item do pedido para gravar as respostas com a referência (FK) do pedido a que se refere
@@ -155,7 +160,9 @@ class ResponderTeste extends Component
         
         // Gravar as respostas de cada pergunta
         Useranswers::create([
+            'users_id' => $this->pedidoCliente['user_id'],
             'orderitems_id' => $this->itemPedidoId,
+            'testes_id' => $this->pedidoCliente['id'],
             'pergunta_id' => $perguntaId,
             'sequencia' => $this->qualPergunta,
             'opcoes_respostas_id' => $this->opcoesRespostasId,
@@ -264,7 +271,9 @@ class ResponderTeste extends Component
 
         // Gravar as respostas de cada pergunta
         Useranswers::create([
+            'users_id' => $this->pedidoCliente['user_id'],
             'orderitems_id' => $this->itemPedidoId,
+            'testes_id' => $this->pedidoCliente['id'],
             'pergunta_id' => $perguntaId,
             'sequencia' => $this->qualPergunta,
             'opcoes_respostas_id' => $this->opcoesRespostasId,

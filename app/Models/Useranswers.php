@@ -12,7 +12,9 @@ class Useranswers extends Model
     use HasFactory;
 
     protected $fillable = [
+        'users_id',
         'orderitems_id',
+        'testes_id',
         'pergunta_id',
         'sequencia',
         'opcoes_respostas_id',
