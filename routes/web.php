@@ -7,7 +7,14 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PaginaController;
 use App\Http\Controllers\ContatoController;
 use App\Http\Controllers\ImportDataController;
+use App\Livewire\Auth\EsqueceuSenhaPage;
+use App\Livewire\Auth\LoginPage;
+use App\Livewire\Auth\RecuperarSenhaPage;
+use App\Livewire\Auth\RegistroUsuarioPage;
 use App\Livewire\HomeNeuroDiv;
+use App\Livewire\Layouts\Ecomm\CarrinhoPage;
+use App\Livewire\Layouts\Ecomm\GruposPage;
+use App\Livewire\Layouts\Ecomm\ProdutoDetalhesPage;
 use App\Livewire\Relatorios\OrdenacaoAssuntos;
 
 /*
@@ -57,6 +64,14 @@ Route::get('/ordenacao-assuntos', OrdenacaoAssuntos::class);
 */
 // Rota para a página principal do projeto NeuroDiversidade
 Route::get('/neurodiv', HomeNeuroDiv::class);
+Route::get('/grupos', GruposPage::class);
+Route::get('/produtos/{slug}', ProdutoDetalhesPage::class);
+Route::get('/carrinho', CarrinhoPage::class);
+Route::get('/login', LoginPage::class);
+Route::get('/registro', RegistroUsuarioPage::class);
+Route::get('/esqueceu-senha', EsqueceuSenhaPage::class);
+Route::get('/recuperar-senha', RecuperarSenhaPage::class);
+
 
 
 // Rotas do site principal da SOBRARE
