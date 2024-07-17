@@ -69,7 +69,7 @@ class GruposDeTestesResource extends Resource
                             ->label('Descrição externa (loja) para o Grupo de Testes')
                             ->required()
                             ->columnSpanFull(),
-                        Forms\Components\FileUpload::make('groupimage')
+                        Forms\Components\FileUpload::make('imagemGrupo')
                             ->label('Imagem - aparece na loja')
                             ->image()
                             ->columnSpan(2),
@@ -117,7 +117,7 @@ class GruposDeTestesResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('nomeGrupo')
                     ->searchable(),
-                Tables\Columns\ImageColumn::make('groupimage'),
+                Tables\Columns\ImageColumn::make('imagemGrupo'),
                 // Tables\Columns\TextColumn::make('slug')
                 //    ->searchable(),
                 Tables\Columns\TextColumn::make('precoGrupo')

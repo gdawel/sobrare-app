@@ -13,7 +13,9 @@ return new class extends Migration
     {
         Schema::create('useranswers', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('users_id')->references('id')->on('users')->cascadeOnDelete();
             $table->foreignId('orderitems_id')->references('id')->on('orderitems')->cascadeOnDelete();
+            $table->foreignId('testes_id')->references('id')->on('testes')->cascadeOnDelete();
             $table->integer('sequencia');
             $table->foreignId('pergunta_id')->references('id')->on('perguntas')->cascadeOnDelete();
             $table->foreignId('opcoes_respostas_id')->references('id')->on('opcoes_respostas')->cascadeOnDelete();

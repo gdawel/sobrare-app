@@ -113,6 +113,7 @@ class MontaPergunta extends Component
         //$this->testeId = $testeId;
         $this->dispatch('testeSelecionado', testeSelecionado: $this->testeSelecionado,
                                             itensPedido: $this->itensPedido,
+                                            pedidoCliente: $this->clienteSelecionado,
                                             sexoCliente: $this->sexoCliente,)->to(ResponderTeste::class);
         return view('livewire.responder-teste', [
             'testeSelecionado' => $this->testeSelecionado,
@@ -129,19 +130,29 @@ class MontaPergunta extends Component
 
     public function relatorios($qualRelatorio) {
 
-        $this->resultadoTeste = Orderitems::with('useranswers')
-                                        ->where('orders_id',$this->clienteSelecionado->id)
-                                        ->where('testes_id',$qualRelatorio)
-                                        ->get();
-        /* ('orders_id',$this->clienteSelecionado->id)
-                                        ->where('testes_id', $qualRelatorio)->first(); */
-        //$useranswerPerguntas = $numeroItemPedido->useranswers->pergunta_id;
+        // 13/07/2024 - Aqui começo a testar a formatação do relatório.
         $parametrosParaRelatorios = [
             'user_id' => $this->dadosCliente->id,
             'order_id' => $this->clienteSelecionado->id,
             'orderItem_id' => $this->itensPedido[0]->id,
             'teste_id' => $this->itensPedido[0]->testes_id
         ];
+        
+        /* if($qualRelatorio == 4) {
+            //dd($qualRelatorio);
+            
+            $this->redirect('/ordenacao-assuntos');
+        } */
+        
+        $this->resultadoTeste = Orderitems::with('useranswers')
+                                        ->where('orders_id',$this->clienteSelecionado->id)
+                                        ->where('testes_id',$qualRelatorio)
+                                        ->get();
+        //dd($this->resultadoTeste);
+        /* ('orders_id',$this->clienteSelecionado->id)
+                                        ->where('testes_id', $qualRelatorio)->first(); */
+        //$useranswerPerguntas = $numeroItemPedido->useranswers->pergunta_id;
+        
         /* $qualRelatorio = [
             'pedidoCliente' => $this->clienteSelecionado,
             'dadosCliente' => $this->dadosCliente,
