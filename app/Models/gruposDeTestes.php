@@ -15,8 +15,8 @@ class GruposDeTestes extends Model
         'codGrupo', 
         'nomeGrupo', 
         'slug', 
-        'memoInterno', 
-        'descricaoExterna', 
+        'descricaoCurta', 
+        'descricaoLonga', 
         'imagemGrupo', 
         'precoGrupo', 
         'isActive'
