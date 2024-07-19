@@ -23,10 +23,10 @@ class GruposDeTestesImport implements ToCollection, WithHeadingRow
 
                $grupodeteste->update([
                  
-                'nomeGrupo' => $row['short_description'], 
+                'nomeGrupo' => $row['titulo'], 
                 'slug' => $row['slug'], 
-                'memoInterno' => $row['memo_interno'], 
-                'descricaoExterna' => $row['long_description'], 
+                'descricaoCurta' => $row['short_description'], 
+                'descricaoLonga' => $row['long_description'], 
                 'imagemGrupo' => '', 
                 'precoGrupo' => $row['price'], 
                 'isActive' => true
@@ -36,10 +36,10 @@ class GruposDeTestesImport implements ToCollection, WithHeadingRow
                         
             GruposDeTestes::create([
                 'codGrupo' => $row['cod_grupo'], 
-                'nomeGrupo' => $row['short_description'], 
+                'nomeGrupo' => $row['titulo'], 
                 'slug' => $row['slug'], 
-                'memoInterno' => $row['memo_interno'], 
-                'descricaoExterna' => $row['long_description'], 
+                'descricaoCurta' => $row['short_description'], 
+                'descricaoLonga' => $row['long_description'], 
                 'imagemGrupo' => '', 
                 'precoGrupo' => $row['price'], 
                 'isActive' => true

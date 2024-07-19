@@ -16,8 +16,8 @@ return new class extends Migration
             $table->string('codGrupo')->unique();
             $table->string('nomeGrupo');
             $table->string('slug')->unique();
-            $table->text('memoInterno');
-            $table->longText('descricaoExterna');
+            $table->longText('descricaoCurta');
+            $table->longText('descricaoLonga');
             $table->string('imagemGrupo')->nullable();
             $table->decimal('precoGrupo', 12, 2);
             $table->boolean('isActive')->default(true);

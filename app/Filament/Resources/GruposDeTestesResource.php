@@ -10,6 +10,7 @@ use Filament\Tables\Table;
 use Illuminate\Support\Str;
 use App\Models\GruposDeTestes;
 use Filament\Resources\Resource;
+use AmidEsfahani\FilamentTinyEditor\TinyEditor;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Section;
@@ -60,13 +61,13 @@ class GruposDeTestesResource extends Resource
                             ->required()
                             ->unique(GruposDeTestes::class, 'slug', ignoreRecord: true)
                             ->columnSpan(2),
-                        Forms\Components\Textarea::make('memoInterno')
-                            ->label('Memo Interno')
+                        TinyEditor::make('descricaoCurta')
+                            ->label('Descrição Curta')
                             ->required()
                             ->maxLength(65535)
                             ->columnSpanFull(),
-                        Forms\Components\MarkdownEditor::make('descricaoExterna')
-                            ->label('Descrição externa (loja) para o Grupo de Testes')
+                        Forms\Components\MarkdownEditor::make('descricaoLonga')
+                            ->label('Descrição Longa para o Grupo de Testes')
                             ->required()
                             ->columnSpanFull(),
                         Forms\Components\FileUpload::make('imagemGrupo')
@@ -114,22 +115,29 @@ class GruposDeTestesResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('codGrupo')
+                    ->label('Código')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('nomeGrupo')
+                    ->label('Título')
                     ->searchable(),
-                Tables\Columns\ImageColumn::make('imagemGrupo'),
+                Tables\Columns\ImageColumn::make('imagemGrupo')
+                    ->label('Imagem'),
                 // Tables\Columns\TextColumn::make('slug')
                 //    ->searchable(),
                 Tables\Columns\TextColumn::make('precoGrupo')
-                    ->numeric()
-                    ->sortable(),
+                    ->label('Preço')
+                    ->numeric(),
+                    
                 Tables\Columns\IconColumn::make('isActive')
+                    ->label('Ativo?')
                     ->boolean(),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label('Data de Criação')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
+                    ->label('Data de Alteração')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),

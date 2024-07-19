@@ -58,8 +58,8 @@
                         <th>Cod.Grupo</th>
                         <th>Nome do Grupo</th>
                         <th>Slug</th>
-                        <th>Memo Interno</th>
-                        <th>Descrição Externa</th>
+                        <th>Descrição Curta</th>
+                        <th>Descrição Longa</th>
                         <th>Preço</th>
                         <th>Está Ativo?</th>
                     </tr>
@@ -73,8 +73,8 @@
                                     <td>{{ $grupo->codGrupo }}</td>
                                     <td>{{ $grupo->nomeGrupo }}</td>
                                     <td>{{ $grupo->slug }}</td>
-                                    <td>{{ $grupo->memoInterno }}</td>
-                                    <td>{{ $grupo->descricaoExterna }}</td>
+                                    <td>{{ $grupo->descricaoCurta }}</td>
+                                    <td>{{ $grupo->descricaoLonga }}</td>
                                     <td>{{ $grupo->precoGrupo }}</td>
                                     <td>{{ $grupo->isActive }}</td>
                                  </tr>   
