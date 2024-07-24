@@ -1,21 +1,26 @@
 <?php
 
+use App\Livewire\HomeNeuroDiv;
+use App\Livewire\Auth\LoginPage;
 use App\Livewire\TratarRespostas;
 use App\Models\SiteConfiguration;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\PaginaController;
-use App\Http\Controllers\ContatoController;
-use App\Http\Controllers\ImportDataController;
 use App\Livewire\Auth\EsqueceuSenhaPage;
-use App\Livewire\Auth\LoginPage;
 use App\Livewire\Auth\RecuperarSenhaPage;
+use App\Http\Controllers\PaginaController;
 use App\Livewire\Auth\RegistroUsuarioPage;
-use App\Livewire\HomeNeuroDiv;
-use App\Livewire\Layouts\Ecomm\CarrinhoPage;
 use App\Livewire\Layouts\Ecomm\GruposPage;
-use App\Livewire\Layouts\Ecomm\ProdutoDetalhesPage;
+use App\Http\Controllers\ContatoController;
+use App\Livewire\Layouts\Ecomm\CarrinhoPage;
+use App\Livewire\Layouts\Ecomm\CheckoutPage;
+use App\Http\Controllers\ImportDataController;
+use App\Livewire\Layouts\Ecomm\MeusPedidosPage;
+use App\Livewire\Layouts\Ecomm\PedidoCanceladoPage;
+use App\Livewire\Layouts\Ecomm\PedidoDetalhesPage;
+use App\Livewire\Layouts\Ecomm\PedidoSucessoPage;
 use App\Livewire\Relatorios\OrdenacaoAssuntos;
+use App\Livewire\Layouts\Ecomm\ProdutoDetalhesPage;
 
 /*
 |--------------------------------------------------------------------------
@@ -67,10 +72,27 @@ Route::get('/neurodiv', HomeNeuroDiv::class);
 Route::get('/grupos', GruposPage::class);
 Route::get('/produtos/{slug}', ProdutoDetalhesPage::class);
 Route::get('/carrinho', CarrinhoPage::class);
-Route::get('/login', LoginPage::class);
-Route::get('/registro', RegistroUsuarioPage::class);
-Route::get('/esqueceu-senha', EsqueceuSenhaPage::class);
-Route::get('/recuperar-senha', RecuperarSenhaPage::class);
+
+
+Route::middleware('guest')->group(function () {
+    Route::get('/login', LoginPage::class)->name('login');
+    Route::get('/registro', RegistroUsuarioPage::class);
+    Route::get('/esqueceu-senha', EsqueceuSenhaPage::class)->name('password.request');
+    Route::get('/recuperar-senha/{token}', RecuperarSenhaPage::class)->name('password.reset');
+});
+
+
+Route::middleware('auth')->group(function () {
+    Route::get('logout', function(){
+      auth()->logout();
+      return redirect('/neurodiv');
+    });
+    Route::get('/checkout', CheckoutPage::class);
+    Route::get('/meus-pedidos', MeusPedidosPage::class);
+    Route::get('/meus-pedidos/{pedido}', PedidoDetalhesPage::class);
+    Route::get('/pedido-sucesso', PedidoSucessoPage::class);
+    Route::get('/pedido-cancelado', PedidoCanceladoPage::class);
+});
 
 
 
