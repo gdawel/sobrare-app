@@ -147,4 +147,4 @@ function Is(i,e){return function(){return i.apply(e,arguments)}}const{toString:l
  * @author: HTMLStream
  * @license: Licensed under MIT (https://preline.co/docs/license.html)
  * Copyright 2023 HTMLStream
- */const Uo={getClassProperty:L,afterTransition:U,autoInit(i="all"){i==="all"?Cs.forEach(({fn:e})=>{e==null||e.autoInit()}):Cs.forEach(({key:e,fn:t})=>{i.includes(e)&&(t==null||t.autoInit())})}};typeof window<"u"&&(window.HSStaticMethods=Uo);document.addEventListener("livewire:navigated",()=>{windows.HSStaticMethods.autoInit()});
+ */const Uo={getClassProperty:L,afterTransition:U,autoInit(i="all"){i==="all"?Cs.forEach(({fn:e})=>{e==null||e.autoInit()}):Cs.forEach(({key:e,fn:t})=>{i.includes(e)&&(t==null||t.autoInit())})}};typeof window<"u"&&(window.HSStaticMethods=Uo);document.addEventListener("livewire:navigated",()=>{window.HSStaticMethods.autoInit()});
