@@ -30,8 +30,8 @@
             <a wire:navigate class="font-medium {{ request()->is('neurodiv') ? 'text-blue-600' : 'text-gray-500' }}  py-3 md:py-6 dark:text-blue-500 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" href="/neurodiv" aria-current="page">
               NeuroDiv Home</a>
 
-            <a wire:navigate class="font-medium {{ request()->is('grupos') ? 'text-blue-600' : 'text-gray-500' }} hover:text-gray-400 py-3 md:py-6 dark:text-gray-400 dark:hover:text-gray-500 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" href="/grupos">
-              Grupos
+            <a wire:navigate class="font-medium {{ request()->is('vitrine') ? 'text-blue-600' : 'text-gray-500' }} hover:text-gray-400 py-3 md:py-6 dark:text-gray-400 dark:hover:text-gray-500 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" href="/vitrine">
+              Vitrine de Produtos
             </a>
 
             {{-- <a wire:navigate class="font-medium text-gray-500 hover:text-gray-400 py-3 md:py-6 dark:text-gray-400 dark:hover:text-gray-500 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" href="/produtos">

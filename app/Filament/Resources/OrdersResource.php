@@ -67,6 +67,7 @@ class OrdersResource extends Resource
                         ->options([
                             'stripe' => 'Stripe',
                             'pix' => 'Pix',
+                            'direto' => 'Direto',
                             'dinheiro' => 'Dinheiro',
                             'link' => 'Link Pgto'
                         ])
