@@ -2,17 +2,19 @@
 
 namespace App\Livewire;
 
-use App\Livewire\Relatorios\RelatAutopercepcaoDoStress;
-use App\Models\GrupoOpcoesResposta;
+use App\Livewire\Relatorios\ControladorRelatorios;
 use App\Models\User;
 use App\Models\Orders;
 use App\Models\Testes;
 use Livewire\Component;
 use App\Models\Perguntas;
 use App\Models\Orderitems;
-use Livewire\Attributes\On;
-use App\Models\OpcoesRespostas;
 use App\Models\Useranswers;
+use Livewire\Attributes\On;
+use Livewire\Attributes\Url;
+use App\Models\OpcoesRespostas;
+use App\Models\GrupoOpcoesResposta;
+use App\Livewire\Relatorios\RelatAutopercepcaoDoStress;
 
 class MontaPergunta extends Component
 {
@@ -26,6 +28,7 @@ class MontaPergunta extends Component
     public $testes;
     public $itensPedido;
     public $testeId;
+    public $orderId;
     public $testeSelecionado;
     public $perguntas;
     public $opcoesResposta;
@@ -38,16 +41,28 @@ class MontaPergunta extends Component
 
     public $qualCliente;
     
-    
+    #[Url]
+    public $cctt;
+    #[Url]
+    public $ccxx;
 
     //#[On('clienteSelecionado')]
     public function mount() {
 
-        $this->clienteSelecionado = Orders::whereHas('user', function($query) {
-                                $query->where('users.id', $this->clienteSelecionado);
-                            })->first();
+        /*  cctt: código do teste testes_id
+            ccxx: código do pedido orders_is
+        */
 
-        $userId = $this->clienteSelecionado->user_id;
+        $this->testeId = $this->cctt;
+        $this->orderId = $this->ccxx;
+
+        dd($this->testeId);
+
+       /*  $this->clienteSelecionado = Orders::whereHas('user', function($query) {
+                                $query->where('users.id', $this->clienteSelecionado);
+                            })->first(); */
+
+        $userId = auth()->user()->id;
         $this->dadosCliente = User::where('id', $userId)->first();
         $this->sexoCliente = $this->dadosCliente->sexo_biologico;
 
@@ -165,7 +180,8 @@ class MontaPergunta extends Component
         $this->dispatch('resultadoTeste', orders_id: $this->clienteSelecionado->id,
                                           testes_id: $qualRelatorio,
                                           parametrosParaRelatorios: $parametrosParaRelatorios )
-                ->to(RelatAutopercepcaoDoStress::class);
+                /* ->to(RelatAutopercepcaoDoStress::class); */
+                ->to(ControladorRelatorios::class);
         //dd($this->resultadoTeste);
         
 

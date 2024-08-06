@@ -6,10 +6,9 @@ use App\Models\Testes;
 use Livewire\Component;
 use App\Models\Perguntas;
 use App\Models\Orderitems;
-use App\Models\Useranswers;
 use Livewire\Attributes\On;
-use Livewire\Attributes\Url;
 use App\Models\OpcoesRespostas;
+use App\Models\Useranswers;
 use Livewire\Attributes\Validate;
 
 class ResponderTeste extends Component
@@ -50,46 +49,18 @@ class ResponderTeste extends Component
     public $totalPerguntas = 0;
     public $pedidoCliente;
     public $sexoCliente;
-    public $nomeTeste;
-
-    #[Url]
-    public $cctt;
-    #[Url]
-    public $ccxx;
-    #[Url]
-    public $ccii;
     
 
     #[On('testeSelecionado')]
-    /* Dawel: Substituído em 29/07/2024 public function montar($testeSelecionado, $itensPedido, $pedidoCliente, $sexoCliente){
-    */
-    public function mount(){
-        
-        /*  cctt: código do teste testes_id
-            ccxx: código do pedido orders_id
-            ccii: códito do item do pedido orderItems_id
-        */
-
-        $this->testeSelecionado = $this->cctt;
-        $this->pedidoCliente = $this->ccxx;
-        $this->itemPedidoId = $this->ccii;
-        $this->sexoCliente = auth()->user()->sexo_biologico;
-        $this->nomeTeste = Testes::where('id', $this->testeSelecionado)->first('nomeTeste')->nomeTeste;
-
-        /* $paramentros = "Teste: " . $this->testeSelecionado . " | Pedido: " . $this->pedidoCliente 
-                        . " | Item ID: " . $this->ccii . " | Sexo: " . auth()->user()->sexo_biologico;
-        dd($paramentros);
- */
-        /*  Dawel - removido em 29/07/2024
+    public function montar($testeSelecionado, $itensPedido, $pedidoCliente, $sexoCliente){
         $this->testeSelecionado = $testeSelecionado;
         $this->itensPedido = $itensPedido;
         $this->sexoCliente = $sexoCliente;
         $this->pedidoCliente = $pedidoCliente;
-        //dd($this->pedidoCliente); */
+        //dd($this->pedidoCliente);
 
         //Orderitems::where('testes_id', $testeSelecionado)->update(['testeStatus' => "iniciado"]);
         // Saber qual o # do item do pedido para gravar as respostas com a referência (FK) do pedido a que se refere
-        /* Dawel: retirado em 29/07/2024
         foreach ($this->itensPedido as $item) {
             if ($item['testes_id'] == $testeSelecionado['id']) {
             $this->itemPedidoId = $item['id'];
@@ -101,7 +72,7 @@ class ResponderTeste extends Component
         $this->qualPergunta = 1;
         $this->comentarios = null;
         $this->complementos = null;
-        $this->opcoesRespostasId = null; */
+        $this->opcoesRespostasId = null;
        
         //$this->perguntas = Perguntas::with('grupoOpcoesRespostas')
 
@@ -118,14 +89,14 @@ class ResponderTeste extends Component
         }
 
         $temporario = [
-            'teste-id' => $this->testeSelecionado,
+            'teste-id' => $this->testeSelecionado['id'],
             'sequencia' => $this->qualPergunta,
             'sexo' => $this->sexoCliente
         ];
         //dd($temporario);
 
         $this->perguntas = Perguntas::with('grupoOpcoesRespostas')
-                            ->where('testes_id', $this->testeSelecionado)
+                            ->where('testes_id', $this->testeSelecionado['id'])
                             ->where('sequencia', $this->qualPergunta)
                             ->where(function ($query) {
                                 $query->where('sexo', 'I')
@@ -138,7 +109,7 @@ class ResponderTeste extends Component
             na variável abaixo vai ser selecionada apenas o grupo da instãncia [0]. 
         */
         $grupoRespostas = $this->perguntas[0]->grupo_opcoes_respostas_id;
-        $this->totalPerguntas = Perguntas::where('testes_id', $this->testeSelecionado)
+        $this->totalPerguntas = Perguntas::where('testes_id', $this->testeSelecionado['id'])
                                            ->where(function ($query) {
                                                 $query->where('sexo', 'I')
                                                 ->orWhere('sexo', $this->sexoCliente);
@@ -189,9 +160,9 @@ class ResponderTeste extends Component
         
         // Gravar as respostas de cada pergunta
         Useranswers::create([
-            'users_id' => auth()->user()->id,
+            'users_id' => $this->pedidoCliente['user_id'],
             'orderitems_id' => $this->itemPedidoId,
-            'testes_id' => $this->testeSelecionado,
+            'testes_id' => $this->pedidoCliente['id'],
             'pergunta_id' => $perguntaId,
             'sequencia' => $this->qualPergunta,
             'opcoes_respostas_id' => $this->opcoesRespostasId,
@@ -210,7 +181,7 @@ class ResponderTeste extends Component
         $this->complementos = null;
         $this->habilitarBotaoResposta = false;
         $this->perguntas = Perguntas::with('grupoOpcoesRespostas')
-                            ->where('testes_id', $this->testeSelecionado)
+                            ->where('testes_id', $this->testeSelecionado['id'])
                             ->where('sequencia', $this->qualPergunta)
                             ->get();
         /*
@@ -218,8 +189,7 @@ class ResponderTeste extends Component
             na variável abaixo vai ser selecionada apenas o grupo da instãncia [0]. 
         */
         $grupoRespostas = $this->perguntas[0]->grupo_opcoes_respostas_id;
-        /* Retirado Dawel: 29/07/2024
-            $this->totalPerguntas = Perguntas::where('testes_id', $this->testeSelecionado)->count(); */
+        $this->totalPerguntas = Perguntas::where('testes_id', $this->testeSelecionado['id'])->count();
         //dd($this->perguntas);
         $this->opcoesResposta = OpcoesRespostas::where('grupo_opcoes_respostas_id', $grupoRespostas)->get();
         $this->tipoOpcaoResposta = $this->opcoesResposta[0]->tipoOpcaoResposta;
@@ -301,9 +271,9 @@ class ResponderTeste extends Component
 
         // Gravar as respostas de cada pergunta
         Useranswers::create([
-            'users_id' => auth()->user()->id,
+            'users_id' => $this->pedidoCliente['user_id'],
             'orderitems_id' => $this->itemPedidoId,
-            'testes_id' => $this->testeSelecionado,
+            'testes_id' => $this->pedidoCliente['id'],
             'pergunta_id' => $perguntaId,
             'sequencia' => $this->qualPergunta,
             'opcoes_respostas_id' => $this->opcoesRespostasId,
@@ -328,7 +298,7 @@ class ResponderTeste extends Component
         $this->opcRespIntensidade = null;
         $this->opcRespCheckbox = [];
         
-        $this->redirect('/meus-pedidos');
+        $this->redirect('tst-responder');
     }
 
     public function render()

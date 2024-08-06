@@ -17,6 +17,7 @@ class PedidoDetalhesPage extends Component
     public $itensDoPedido=[];
     public $pedido;
     public $detalhesCliente;
+    public $temHistoricoMedico=[];
 
     public function mount($order_id) {
         $this->order_id = $order_id;
@@ -51,7 +52,9 @@ class PedidoDetalhesPage extends Component
         
         $this->pedido = Orders::where('id', $this->order_id)->first();
         $this->detalhesCliente = Orderclientdetails::where('orders_id', $this->order_id)->first();
-        //dd($this->pedido);
+        $this->temHistoricoMedico = Orders::with('historicomedico')->where('id', $this->order_id)->first();
+
+        //dd($this->temHistoricoMedico);
         if ($this->pedido->paymentStatus == 'pago') {
             $this->itensDoPedido = Orderitems::with('testes')
                             ->where('orders_id', $this->order_id)
@@ -61,4 +64,6 @@ class PedidoDetalhesPage extends Component
         }
         return view('livewire.layouts.ecomm.pedido-detalhes-page');
     }
+
+    
 }

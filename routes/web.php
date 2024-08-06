@@ -15,12 +15,16 @@ use App\Http\Controllers\ContatoController;
 use App\Livewire\Layouts\Ecomm\CarrinhoPage;
 use App\Livewire\Layouts\Ecomm\CheckoutPage;
 use App\Http\Controllers\ImportDataController;
+use App\Livewire\HistoricoMedico;
 use App\Livewire\Layouts\Ecomm\MeusPedidosPage;
 use App\Livewire\Layouts\Ecomm\PedidoCanceladoPage;
 use App\Livewire\Layouts\Ecomm\PedidoDetalhesPage;
 use App\Livewire\Layouts\Ecomm\PedidoSucessoPage;
 use App\Livewire\Relatorios\OrdenacaoAssuntos;
 use App\Livewire\Layouts\Ecomm\ProdutoDetalhesPage;
+use App\Livewire\MontaPergunta;
+use App\Livewire\Relatorios\ControladorRelatorios;
+use App\Livewire\ResponderTeste;
 
 /*
 |--------------------------------------------------------------------------
@@ -90,8 +94,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/checkout', CheckoutPage::class);
     Route::get('/meus-pedidos', MeusPedidosPage::class);
     Route::get('/meus-pedidos/{order_id}', PedidoDetalhesPage::class);
+    Route::get('/historico/{order_id}', HistoricoMedico::class);
     Route::get('/pedido-sucesso', PedidoSucessoPage::class)->name('success');
     Route::get('/pedido-cancelado', PedidoCanceladoPage::class)->name('cancel');
+    Route::get('/responderteste', ResponderTeste::class)->name('responder');
+    Route::get('/relatorios', ControladorRelatorios::class)->name('relatorio');
+    
 });
 
 

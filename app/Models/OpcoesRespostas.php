@@ -28,6 +28,6 @@ class OpcoesRespostas extends Model
     }
 
     public function useranswers(): HasMany {
-        return $this->hasMany(useranswers::class);
+        return $this->hasMany(Useranswers::class, 'opcoes_respostas_id');
     }
 }

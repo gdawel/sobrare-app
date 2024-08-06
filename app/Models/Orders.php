@@ -30,4 +30,8 @@ class Orders extends Model
     public function orderitem() {
         return $this->hasMany(Orderitems::class);
     }
+
+    public function historicomedico() {
+        return $this->hasOne(Historicomedicos::class);
+    }
 }

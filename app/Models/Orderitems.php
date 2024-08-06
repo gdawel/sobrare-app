@@ -27,6 +27,10 @@ class Orderitems extends Model
         return $this->belongsTo(Testes::class);
     }
 
+    public function pergunta() {
+        return $this->hasManyThrough(Perguntas::class, Testes::class);
+    }
+
     public function useranswers() {
         return $this->hasMany(Useranswers::class);
     }
