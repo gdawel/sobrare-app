@@ -112,122 +112,161 @@
   </div>
   <!-- End Grid -->
 
-  <div class="flex flex-col md:flex-row gap-4 mt-4">
-    <div class="w-full">
+  @if($pedido->paymentStatus != 'pago' ) 
+      <div class="bg-white overflow-x-auto rounded-lg shadow-md py-6 px-16 mt-4">
+        
+              <p class="text-center"><strong>PEDIDO PENDENTE DE PAGAMENTO: </strong>nosso sistema identificou que o pedido está com o pagamento pendente.<br>
+                 Para que os testes sejam liberados é importante efetuar o pagamento.<br>
+                 Caso já tenha efetuado o pagamento, entre em contato com o suporte da SOBRARE.<br>
+                 
+              </p>
+              <a href="/#support" class="bg-red-500 block text-center text-white py-2 px-4 rounded-lg mt-4 w-full">
+                VER FORMAS DE CONTATO COM A SOBRARE</a>
+        </div>
+  
+
+  @elseif(!$temHistoricoMedico->historicomedico) 
+      <div class="bg-white overflow-x-auto rounded-lg shadow-md py-6 px-16 mt-4">
+        
+              <p><strong>PREENCHER HISTÓRICO MÉDICO: </strong>nosso sistema identificou que o histórico médico
+                          ainda não foi preenchido. Para que os testes sejam liberados é importante preencher o histórico médico.
+              </p>
+              <a href="/historico/{{ $pedido->id}}" class="bg-green-500 block text-center text-white py-2 px-4 rounded-lg mt-4 w-full">
+                PREENCHER HISTÓRICO MÉDICO</a>
+        </div>
+  
       
-      <div class="bg-white overflow-x-auto rounded-lg shadow-md py-6 px-16 ">
-       
-            <p><strong>IMPORTANTE SABER:</strong> os testes são inteiramente controlados pelo sistema. Devem ser respondidos 
-              na ordem que forem liberados. Ao finalizar um teste, o próximo será liberado, bem como a emissão
-              do relatório do(s) teste(s) finalizado(s).
-            </p>
-          </div>
-          </div>
-          </div>
+  @else 
 
-  <div class="flex flex-col md:flex-row gap-4 mt-4">
-    <div class="w-full">
-      
-      <div class="bg-white overflow-x-auto rounded-lg shadow-md p-6 mb-4">
-        <table class="w-full">
-          <thead>
-            <tr>
-              <th class="text-left font-semibold uppercase">Nome do Teste</th>
-              <th class="text-left font-semibold uppercase">Situação</th>
-              <th class="text-left font-semibold uppercase">Ação</th>
-              {{-- <th class="text-left font-semibold">Total</th> --}}
-            </tr>
-          </thead>
-          <tbody>
-            @foreach ($itensDoPedido as $item)
-                <tr wire:key="{{ $item->id }}">
-              <td class="py-4">
-                <div class="flex items-center">
-                  <img class="h-16 w-16 mr-4" src="{{ asset('storage/sobrare_logo_redondo.png') }}" alt="$item->testes->nomeTeste">
-                  <span class="font-semibold">{{ $item->testes->nomeTeste }}</span>
-                </div>
-              </td>
-              <td class="py-4">{{ $item->testeStatus }}</td>
-              {{-- <td class="py-4">
-                <span class="text-center w-8">1</span>
-              </td> --}}
-              <td class="py-4">
-
-              @if( $item->testeStatus == "novo") 
-                              <button disabled wire:click="montateste({{ $item->testes->id }})"
-                                    class="text-gray-900 bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
-                                    >
-                                    Aguardando
-                              </button>
-                                                   
-                           @elseif ( $item->testeStatus == "iniciado" ) 
-                              <button wire:click="montateste({{ $item->testes->id }})"
-                                    class="text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
-                                    >
-                                    Responder
-                              </button>
-                           
-                           @else 
-                              <button wire:click="relatorios(
-                                                      {{ $item->testes->id }}
-                                                       )"
-                                    class="text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
-                                    >
-                                    Relatório
-                              </button>
-
-                           
-                               
-                           @endif
-                        </td>
-            </tr>
-            @endforeach
-            <!--[if BLOCK]><![endif]-->
-            
-            
-            <!--[if ENDBLOCK]><![endif]-->
-
-          </tbody>
-        </table>
+    <div class="flex flex-col md:flex-row gap-4 mt-4">
+      <div class="w-full">
+        
+        <div class="bg-white overflow-x-auto rounded-lg shadow-md py-6 px-16 ">
+        
+              <p><strong>IMPORTANTE SABER:</strong> os testes são inteiramente controlados pelo sistema. Devem ser respondidos 
+                na ordem que forem liberados. Ao finalizar um teste, o próximo será liberado, bem como a emissão
+                do relatório do(s) teste(s) finalizado(s).
+              </p>
+        </div>
       </div>
+    </div>
 
-      {{-- <div class="bg-white overflow-x-auto rounded-lg shadow-md p-6 mb-4">
-        <h1 class="font-3xl font-bold text-slate-500 mb-3">Shipping Address</h1>
-        <div class="flex justify-between items-center">
-          <div>
-            <p>42227 Zoila Glens, Oshkosh, Michigan, 55928</p>
+  @endif
+
+    <div class="flex flex-col md:flex-row gap-4 mt-4">
+      <div class="w-full">
+        
+        <div class="bg-white overflow-x-auto rounded-lg shadow-md p-6 mb-4">
+          <table class="w-full">
+            <thead>
+              <tr>
+                <th class="text-left font-semibold uppercase">Nome do Teste</th>
+                <th class="text-left font-semibold uppercase">Situação</th>
+                <th class="text-left font-semibold uppercase">Ação</th>
+                {{-- <th class="text-left font-semibold">Total</th> --}}
+              </tr>
+            </thead>
+            <tbody>
+              @foreach ($itensDoPedido as $item)
+                  <tr wire:key="{{ $item->id }}">
+                <td class="py-4">
+                  <div class="flex items-center">
+                    <img class="h-16 w-16 mr-4" src="{{ asset('storage/sobrare_logo_redondo.png') }}" alt="$item->testes->nomeTeste">
+                    <span class="font-semibold">{{ $item->testes->nomeTeste }}</span>
+                  </div>
+                </td>
+                <td class="py-4">{{ $item->testeStatus }}</td>
+                {{-- <td class="py-4">
+                  <span class="text-center w-8">1</span>
+                </td> --}}
+
+                <td class="py-4">
+                @if($pedido->paymentStatus != 'pago' ) 
+                        <button disabled 
+                                      class="text-gray-900 bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+                                      >
+                                      Aguardando Pagamento
+                        </button>
+                      {{-- </td> --}}
+
+                @elseif( $item->testeStatus == "novo") 
+                                <button disabled wire:click="montateste({{ $item->testes->id }})"
+                                      class="text-gray-900 bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+                                      >
+                                      Aguardando
+                                </button>
+                                                    
+                            @elseif ( $item->testeStatus == "iniciado" ) 
+                                <a wire:navigate disabled href="/responderteste?cctt={{ $item->testes->id }}&ccxx={{ $pedido->id}}&ccii={{ $item->id }}"
+                                                                  
+                                      class="text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+                                      >
+                                      Responder
+                                </a>
+                            
+                            @else 
+                                <a wire:navigate href="/relatorios?cctt={{ $item->testes->id }}&ccxx={{ $pedido->id}}&ccii={{ $item->id }}"
+                                                       
+                                      class="text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+                                      >
+                                      Relatório
+                                </a>
+
+                            
+                                
+                            @endif
+                          </td>
+              </tr>
+              @endforeach
+              <!--[if BLOCK]><![endif]-->
+              
+              
+              <!--[if ENDBLOCK]><![endif]-->
+
+            </tbody>
+          </table>
+        </div>
+
+        {{-- <div class="bg-white overflow-x-auto rounded-lg shadow-md p-6 mb-4">
+          <h1 class="font-3xl font-bold text-slate-500 mb-3">Shipping Address</h1>
+          <div class="flex justify-between items-center">
+            <div>
+              <p>42227 Zoila Glens, Oshkosh, Michigan, 55928</p>
+            </div>
+            <div>
+              <p class="font-semibold">Phone:</p>
+              <p>023-509-0009</p>
+            </div>
           </div>
-          <div>
-            <p class="font-semibold">Phone:</p>
-            <p>023-509-0009</p>
+        </div> --}}
+
+      </div>
+      {{-- <div class="md:w-1/4">
+        <div class="bg-white rounded-lg shadow-md p-6">
+          <h2 class="text-lg font-semibold mb-4">Summary</h2>
+          <div class="flex justify-between mb-2">
+            <span>Subtotal</span>
+            <span>₹404,999.00</span>
           </div>
+          <div class="flex justify-between mb-2">
+            <span>Taxes</span>
+            <span>₹0.00</span>
+          </div>
+          <div class="flex justify-between mb-2">
+            <span>Shipping</span>
+            <span>₹0.00</span>
+          </div>
+          <hr class="my-2">
+          <div class="flex justify-between mb-2">
+            <span class="font-semibold">Grand Total</span>
+            <span class="font-semibold">₹404,999.00</span>
+          </div>
+
         </div>
       </div> --}}
-
     </div>
-    {{-- <div class="md:w-1/4">
-      <div class="bg-white rounded-lg shadow-md p-6">
-        <h2 class="text-lg font-semibold mb-4">Summary</h2>
-        <div class="flex justify-between mb-2">
-          <span>Subtotal</span>
-          <span>₹404,999.00</span>
-        </div>
-        <div class="flex justify-between mb-2">
-          <span>Taxes</span>
-          <span>₹0.00</span>
-        </div>
-        <div class="flex justify-between mb-2">
-          <span>Shipping</span>
-          <span>₹0.00</span>
-        </div>
-        <hr class="my-2">
-        <div class="flex justify-between mb-2">
-          <span class="font-semibold">Grand Total</span>
-          <span class="font-semibold">₹404,999.00</span>
-        </div>
-
-      </div>
-    </div> --}}
-  </div>
+    
+      
+  
 </div>
 </div>
