@@ -27,10 +27,11 @@ static public function addItemToCart( $produto_id ) {
         // verificar como será tratado quando o item existir
         
     } else {
-        $grupo = GruposDeTestes::where('id', $produto_id)->first(['id', 'nomeGrupo', 'precoGrupo', 'imagemGrupo']);
+        $grupo = GruposDeTestes::where('id', $produto_id)->first(['id', 'codGrupo','nomeGrupo', 'precoGrupo', 'imagemGrupo']);
         if ($grupo) {
             $cart_items[] = [
                 'produto_id' => $produto_id,
+                'codGrupo' => $grupo->codGrupo,
                 'nomeGrupo' => $grupo->nomeGrupo,
                 'imagemGrupo' => $grupo->imagemGrupo,
                 'quantidade' => 1,

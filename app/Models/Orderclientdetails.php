@@ -10,7 +10,7 @@ class Orderclientdetails extends Model
     use HasFactory;
 
     protected $fillable = [
-        'order_id',
+        'orders_id',
         'firstName',
         'lastName',
         'phone',

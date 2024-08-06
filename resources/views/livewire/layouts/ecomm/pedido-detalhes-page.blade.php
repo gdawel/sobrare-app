@@ -1,6 +1,6 @@
 <div>
     <div class="w-full max-w-[85rem] py-10 px-4 sm:px-6 lg:px-8 mx-auto">
-  <h1 class="text-4xl font-bold text-slate-500">Order Details</h1>
+  <h1 class="text-4xl font-bold text-slate-500">Detalhes do Pedido</h1>
 
   <!-- Grid -->
   <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mt-5">
@@ -19,11 +19,11 @@
         <div class="grow">
           <div class="flex items-center gap-x-2">
             <p class="text-xs uppercase tracking-wide text-gray-500">
-              Customer
+              Cliente
             </p>
           </div>
           <div class="mt-1 flex items-center gap-x-2">
-            <div>Jace Grimes</div>
+            <div>{{ $detalhesCliente->firstName }}  {{ $detalhesCliente->lastName }}</div>
           </div>
         </div>
       </div>
@@ -45,12 +45,12 @@
         <div class="grow">
           <div class="flex items-center gap-x-2">
             <p class="text-xs uppercase tracking-wide text-gray-500">
-              Order Date
+              Data do Pedido / Nº 
             </p>
           </div>
           <div class="mt-1 flex items-center gap-x-2">
             <h3 class="text-xl font-medium text-gray-800 dark:text-gray-200">
-              17-02-2024
+              {{ $pedido->created_at->format('d-m-Y') }} / {{ $pedido->id}}
             </h3>
           </div>
         </div>
@@ -71,11 +71,12 @@
         <div class="grow">
           <div class="flex items-center gap-x-2">
             <p class="text-xs uppercase tracking-wide text-gray-500">
-              Order Status
+              Situação do Pedido
             </p>
           </div>
           <div class="mt-1 flex items-center gap-x-2">
-            <span class="bg-yellow-500 py-1 px-3 rounded text-white shadow">Processing</span>
+            <span class="bg-yellow-500 py-1 px-3 rounded text-white shadow">
+                {{ $pedido->orderStatus }}</span>
           </div>
         </div>
       </div>
@@ -97,11 +98,12 @@
         <div class="grow">
           <div class="flex items-center gap-x-2">
             <p class="text-xs uppercase tracking-wide text-gray-500">
-              Payment Status
+              Situação do Pagamento
             </p>
           </div>
           <div class="mt-1 flex items-center gap-x-2">
-            <span class="bg-green-500 py-1 px-3 rounded text-white shadow">Paid</span>
+            <span class="bg-green-500 py-1 px-3 rounded text-white shadow">
+                {{ $pedido->paymentStatus }}</span>
           </div>
         </div>
       </div>
@@ -111,53 +113,85 @@
   <!-- End Grid -->
 
   <div class="flex flex-col md:flex-row gap-4 mt-4">
-    <div class="md:w-3/4">
+    <div class="w-full">
+      
+      <div class="bg-white overflow-x-auto rounded-lg shadow-md py-6 px-16 ">
+       
+            <p><strong>IMPORTANTE SABER:</strong> os testes são inteiramente controlados pelo sistema. Devem ser respondidos 
+              na ordem que forem liberados. Ao finalizar um teste, o próximo será liberado, bem como a emissão
+              do relatório do(s) teste(s) finalizado(s).
+            </p>
+          </div>
+          </div>
+          </div>
+
+  <div class="flex flex-col md:flex-row gap-4 mt-4">
+    <div class="w-full">
+      
       <div class="bg-white overflow-x-auto rounded-lg shadow-md p-6 mb-4">
         <table class="w-full">
           <thead>
             <tr>
-              <th class="text-left font-semibold">Product</th>
-              <th class="text-left font-semibold">Price</th>
-              <th class="text-left font-semibold">Quantity</th>
-              <th class="text-left font-semibold">Total</th>
+              <th class="text-left font-semibold uppercase">Nome do Teste</th>
+              <th class="text-left font-semibold uppercase">Situação</th>
+              <th class="text-left font-semibold uppercase">Ação</th>
+              {{-- <th class="text-left font-semibold">Total</th> --}}
             </tr>
           </thead>
           <tbody>
-
-            <!--[if BLOCK]><![endif]-->
-            <tr wire:key="53">
+            @foreach ($itensDoPedido as $item)
+                <tr wire:key="{{ $item->id }}">
               <td class="py-4">
                 <div class="flex items-center">
-                  <img class="h-16 w-16 mr-4" src="http://localhost:8000/storage/products/01HND3J5XS7ZC5J84BK5YDM6Z2.jpg" alt="Product image">
-                  <span class="font-semibold">Samsung Galaxy Watch6</span>
+                  <img class="h-16 w-16 mr-4" src="{{ asset('storage/sobrare_logo_redondo.png') }}" alt="$item->testes->nomeTeste">
+                  <span class="font-semibold">{{ $item->testes->nomeTeste }}</span>
                 </div>
               </td>
-              <td class="py-4">₹29,999.00</td>
-              <td class="py-4">
+              <td class="py-4">{{ $item->testeStatus }}</td>
+              {{-- <td class="py-4">
                 <span class="text-center w-8">1</span>
-              </td>
-              <td class="py-4">₹29,999.00</td>
-            </tr>
-            <tr wire:key="54">
+              </td> --}}
               <td class="py-4">
-                <div class="flex items-center">
-                  <img class="h-16 w-16 mr-4" src="http://localhost:8000/storage/products/01HND30J0P7C6MWQ1XQK7YDQKA.jpg" alt="Product image">
-                  <span class="font-semibold">Samsung Galaxy Book3</span>
-                </div>
-              </td>
-              <td class="py-4">₹75,000.00</td>
-              <td class="py-4">
-                <span class="text-center w-8">5</span>
-              </td>
-              <td class="py-4">₹375,000.00</td>
+
+              @if( $item->testeStatus == "novo") 
+                              <button disabled wire:click="montateste({{ $item->testes->id }})"
+                                    class="text-gray-900 bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+                                    >
+                                    Aguardando
+                              </button>
+                                                   
+                           @elseif ( $item->testeStatus == "iniciado" ) 
+                              <button wire:click="montateste({{ $item->testes->id }})"
+                                    class="text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+                                    >
+                                    Responder
+                              </button>
+                           
+                           @else 
+                              <button wire:click="relatorios(
+                                                      {{ $item->testes->id }}
+                                                       )"
+                                    class="text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+                                    >
+                                    Relatório
+                              </button>
+
+                           
+                               
+                           @endif
+                        </td>
             </tr>
+            @endforeach
+            <!--[if BLOCK]><![endif]-->
+            
+            
             <!--[if ENDBLOCK]><![endif]-->
 
           </tbody>
         </table>
       </div>
 
-      <div class="bg-white overflow-x-auto rounded-lg shadow-md p-6 mb-4">
+      {{-- <div class="bg-white overflow-x-auto rounded-lg shadow-md p-6 mb-4">
         <h1 class="font-3xl font-bold text-slate-500 mb-3">Shipping Address</h1>
         <div class="flex justify-between items-center">
           <div>
@@ -168,10 +202,10 @@
             <p>023-509-0009</p>
           </div>
         </div>
-      </div>
+      </div> --}}
 
     </div>
-    <div class="md:w-1/4">
+    {{-- <div class="md:w-1/4">
       <div class="bg-white rounded-lg shadow-md p-6">
         <h2 class="text-lg font-semibold mb-4">Summary</h2>
         <div class="flex justify-between mb-2">
@@ -193,7 +227,7 @@
         </div>
 
       </div>
-    </div>
+    </div> --}}
   </div>
 </div>
 </div>

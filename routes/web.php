@@ -68,8 +68,8 @@ Route::get('/ordenacao-assuntos', OrdenacaoAssuntos::class);
     Dawel: 15/07/2024
 */
 // Rota para a página principal do projeto NeuroDiversidade
-Route::get('/neurodiv', HomeNeuroDiv::class);
-Route::get('/grupos', GruposPage::class);
+Route::get('/neurodiv', HomeNeuroDiv::class)->name('neurodiv');
+Route::get('/vitrine', GruposPage::class);
 Route::get('/produtos/{slug}', ProdutoDetalhesPage::class);
 Route::get('/carrinho', CarrinhoPage::class);
 
@@ -89,9 +89,9 @@ Route::middleware('auth')->group(function () {
     });
     Route::get('/checkout', CheckoutPage::class);
     Route::get('/meus-pedidos', MeusPedidosPage::class);
-    Route::get('/meus-pedidos/{pedido}', PedidoDetalhesPage::class);
-    Route::get('/pedido-sucesso', PedidoSucessoPage::class);
-    Route::get('/pedido-cancelado', PedidoCanceladoPage::class);
+    Route::get('/meus-pedidos/{order_id}', PedidoDetalhesPage::class);
+    Route::get('/pedido-sucesso', PedidoSucessoPage::class)->name('success');
+    Route::get('/pedido-cancelado', PedidoCanceladoPage::class)->name('cancel');
 });
 
 
