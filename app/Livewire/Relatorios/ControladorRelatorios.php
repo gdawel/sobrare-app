@@ -2,24 +2,24 @@
 
 namespace App\Livewire\Relatorios;
 
-use App\Models\Historicomedicos;
 use App\Models\User;
+use App\Models\Orders;
 use App\Models\Testes;
 use Livewire\Component;
 use App\Models\Perguntas;
 use App\Models\Orderitems;
-use App\Models\Orders;
 use App\Models\Useranswers;
 use Livewire\Attributes\On;
-
 use Livewire\Attributes\Url;
 
-//use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Carbon;
+
+//use Barryvdh\DomPDF\Facade\Pdf;
+
 use Livewire\Attributes\Layout;
+use App\Models\Historicomedicos;
 //use Spatie\LaravelPdf\Facades\Pdf;
 //use function Spatie\LaravelPdf\Support\pdf;
-
 use Spatie\Browsershot\Browsershot;
 
 class ControladorRelatorios extends Component
@@ -131,18 +131,26 @@ class ControladorRelatorios extends Component
 
             case '01-HstCrpEnrdvrgc':
 
-                /* Pdf::view('livewire.relatorios.relat-01-HstCrpEnrdvrgc', ['useranswers' => $this->useranswers])
+                $relatorio = $this->dadosRelatorio;
+                /* Spatie Laravel-pdf */
+                /* Pdf::view('livewire.relatorios.relat-01-HstCrpEnrdvrgc', 
+                        ['dadosRelatorio' => $relatorio])
                     ->format('a4')
-                    ->save('01-HstCrpEnrdvrg.pdf'); */
+                    ->save(storage_path('01HstCrpEnrdvrg6gd.pdf')); 
+                    return ("DONE!"); */
 
                 /* 
-                ==> dompdf                
-                $pdf = Pdf::loadView('livewire.relatorios.relat-01-HstCrpEnrdvrgc', [
-                        'resultadoTeste' => $this->resultadoTeste,
-                        'dadosCliente' => $this->dadosCliente,
-                        'dadosCabecalho' => $this->dadosCabecalho
-                ]);
-                return $pdf->download('invoice.pdf'); */
+                ==> dompdf   */   
+                /* $template = view('livewire.relatorios.relat-01-HstCrpEnrdvrgc', ['dadosRelatorio' => $this->dadosRelatorio])->render();  */
+                /* $pdf = Pdf::loadView('livewire.relatorios.relat-01-HstCrpEnrdvrgc', [
+                        'dadosRelatorio' => $relatorio
+                ]); */
+                $teste = "<html><body><h1>Hey George!</h1></body></html>";
+                /*return Pdf::loadFile($template)->save(storage_path('/app/livewire-tmp/my_stored_file.pdf'))->stream('download.pdf'); */
+                /* $pdf->loadHTML($teste); */
+                //dd($pdf);
+                /* $pdf->save(storage_path('GDinvoice.pdf')); 
+                return redirect()->intended(); */
            /*  return pdf()
                 ->view('livewire.relatorios.relat-01-HstCrpEnrdvrgc', $this->dadosRelatorio)
                 ->name('01-HstCrpEnrdvrg.pdf')
@@ -150,14 +158,14 @@ class ControladorRelatorios extends Component
 
                 /*  BROWSERSHOT */
 
-                $template = view('livewire.relatorios.relat-01-HstCrpEnrdvrgc', ['dadosRelatorio' => $this->dadosRelatorio])->render();
+                /* $template = view('livewire.relatorios.relat-01-HstCrpEnrdvrgc', ['dadosRelatorio' => $this->dadosRelatorio])->render();
                 //dd($template);
-                Browsershot::html($template)->timeout(360)->save(storage_path('app/relat-01-HstCrpEnrdvrgc-gd5S.pdf'));
-                return "Done";
+                Browsershot::html($template)->timeout(300)->save(storage_path('relat-01-HstCrpEnrdvrgc-gd0S.pdf'));
+                return url('/meus-pedidos'); */
                 
-                /* return view('livewire.relatorios.relat-01-HstCrpEnrdvrgc', [
+                return view('livewire.relatorios.relat-01-HstCrpEnrdvrgc', [
                     'dadosRelatorio' => $this->dadosRelatorio
-                ]); */
+                ]);
             break;
 
             case '09-InvntrTDA_TDAH':
@@ -178,7 +186,7 @@ class ControladorRelatorios extends Component
             break;
 
              default:
-                return view('livewire.relatorios.relat-autopercepcao-do-stress');
+                return view('livewire.relatorios.respostas-gravadas-bd');
 
         }
 

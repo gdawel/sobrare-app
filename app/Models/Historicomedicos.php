@@ -16,6 +16,7 @@ class Historicomedicos extends Model
              'maoMaisAgil',
              'cidadeQueReside',
              'outrosIdiomas',
+             'grauEscolar',
              'deficitAtencao',
              'anorexiaNervosa',
              'transtornoAnsiedade',

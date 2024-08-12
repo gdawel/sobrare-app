@@ -116,6 +116,11 @@ class OrdersResource extends Resource
                             ->label('Itens')
                             ->relationship()
                             ->schema([
+                                TextInput::make('id')
+                                    ->label('N. Item')
+                                    ->disabled()
+                                    ->dehydrated()
+                                    ->columnSpan(1),
                                 Select::make('testes_id')
                                     ->relationship('testes', 'nomeTeste')
                                     ->searchable()
@@ -131,7 +136,7 @@ class OrdersResource extends Resource
                                     ->afterStateUpdated(fn ($state, Set $set ) => $set('itemTotal', 
                                                         Testes::find($state)?->precoTeste ?? 0
                                                         ))
-                                    ->columnSpan(9),
+                                    ->columnSpan(8),
                                 TextInput::make('unitPrice')
                                     ->label('Preço Unit.')
                                     ->disabled()
@@ -189,6 +194,10 @@ class OrdersResource extends Resource
     {
         return $table
             ->columns([
+                TextColumn::make('id')
+                    ->label('N. Ped.')
+                    ->searchable()
+                    ->sortable(),
                 TextColumn::make('user.name')
                     ->label('Cliente')
                     ->searchable()

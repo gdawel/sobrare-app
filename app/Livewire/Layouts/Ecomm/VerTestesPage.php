@@ -2,17 +2,21 @@
 
 namespace App\Livewire\Layouts\Ecomm;
 
-use App\Models\Orderclientdetails;
+use App\Models\Orders;
 use Livewire\Component;
 use App\Models\Orderitems;
-use App\Models\Orders;
 use Livewire\Attributes\Title;
+use App\Models\Orderclientdetails;
 
+/* 
+    Esta classe (dentro desse componente Livewire) foi inicialmente copiada da PedidosDetalhesPage.
+    Porém, para ter maior controle na página "Meus Pedidos", o botão de acesso (Ver Testes) de acesso 
+    a esta classe só será exibido se o pedido estiver pago.
+*/
 
-#[Title('SOBRARE | Neurodiversidade | Detalhes do Pedido')]
-class PedidoDetalhesPage extends Component
+#[Title('SOBRARE | Neurodiversidade | Ver Testes')]
+class VerTestesPage extends Component
 {
-    
     public $order_id;
     public $itensDoPedido=[];
     public $pedido;
@@ -27,7 +31,7 @@ class PedidoDetalhesPage extends Component
     {
         // Marcar o primeiro "novo" teste como "iniciado, para liberar para responder no blade.
         // Caso já exista um teste marcado como iniciado, não será mudado o status de nenhum teste. 
-        /* $buscarTodosOsItensDoPedido = Orderitems::with('testes')
+        $buscarTodosOsItensDoPedido = Orderitems::with('testes')
                         ->where('orders_id', $this->order_id)
                         ->get();
         $contaIniciado = 0;
@@ -47,7 +51,7 @@ class PedidoDetalhesPage extends Component
             if($buscarPrimeiroItemNovo) {              
                 Orderitems::where('id', $buscarPrimeiroItemNovo->id)->update(['testeStatus' => "iniciado"]);
             }
-        } */
+        }
         
         
         $this->pedido = Orders::where('id', $this->order_id)->first();
@@ -62,8 +66,6 @@ class PedidoDetalhesPage extends Component
             //dd($itensDoPedido);
             
         
-        return view('livewire.layouts.ecomm.pedido-detalhes-page');
+        return view('livewire.layouts.ecomm.ver-testes-page');
     }
-
-    
 }

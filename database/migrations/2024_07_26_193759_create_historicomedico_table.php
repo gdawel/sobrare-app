@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('maoMaisAgil')->nullable();
             $table->string('cidadeQueReside')->nullable();
             $table->string('outrosIdiomas')->nullable();
+            $table->string('grauEscolar')->nullable();
             $table->string('deficitAtencao')->nullable();
             $table->string('anorexiaNervosa')->nullable();
             $table->string('transtornoAnsiedade')->nullable();
@@ -39,14 +40,14 @@ return new class extends Migration
             $table->string('ouvidoAbsoluto')->nullable();
             $table->string('talentoPintar')->nullable();
             $table->string('faixaSuperiorQI')->nullable();
-            $table->string('qtdIrmasBio')->nullable();
-            $table->string('qtdIrmaosBio')->nullable();
-            $table->string('qtdFilhosBio')->nullable();
+            $table->integer('qtdIrmasBio')->default(0);
+            $table->integer('qtdIrmaosBio')->default(0);
+            $table->integer('qtdFilhosBio')->default(0);
             $table->string('familiaNuclear')->nullable();
-            $table->string('diagnosticoParentes')->nullable();
-            $table->string('filhosSobCuidados')->nullable();
-            $table->string('descendentesPrecisamAvaliacao')->nullable();
-            $table->string('filhosComDiagnostico')->nullable();
+            $table->integer('diagnosticoParentes')->default(0);
+            $table->integer('filhosSobCuidados')->default(0);
+            $table->integer('descendentesPrecisamAvaliacao')->default(0);
+            $table->integer('filhosComDiagnostico')->default(0);
             $table->string('ocupacaoPrincipal')->nullable();
 
             $table->timestamps();

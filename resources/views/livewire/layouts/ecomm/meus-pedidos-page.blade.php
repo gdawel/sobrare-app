@@ -34,10 +34,12 @@
                     <a href="/meus-pedidos/{{ $pedido->id }}" class="bg-slate-600 text-white py-2 px-4 rounded-md hover:bg-slate-500">
                       Ver Detalhes</a>
                   </td>
+                  @if( $pedido->paymentStatus == 'pago')
                   <td class="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
-                    <a href="/meus-pedidos/{{ $pedido->id }}" class="bg-slate-600 text-white py-2 px-4 rounded-md hover:bg-slate-500">
+                    <a href="/ver-testes/{{ $pedido->id }}" class="bg-slate-600 text-white py-2 px-4 rounded-md hover:bg-slate-500">
                       Ver Testes</a>
                   </td>
+                  @endif
                 </tr>
               @endforeach
 
