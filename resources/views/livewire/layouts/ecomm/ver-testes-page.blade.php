@@ -123,7 +123,35 @@
               <a href="/#support" class="bg-red-500 block text-center text-white py-2 px-4 rounded-lg mt-4 w-full">
                 VER FORMAS DE CONTATO COM A SOBRARE</a>
         </div>
-  @endif
+  
+
+  @elseif(!$temHistoricoMedico->historicomedico) 
+      <div class="bg-white overflow-x-auto rounded-lg shadow-md py-6 px-16 mt-4">
+        
+              <p><strong>PREENCHER HISTÓRICO MÉDICO: </strong>nosso sistema identificou que o histórico médico
+                          ainda não foi preenchido. Para que os testes sejam liberados é importante preencher o histórico médico.
+              </p>
+              <a href="/historico/{{ $pedido->id}}" class="bg-green-500 block text-center text-white py-2 px-4 rounded-lg mt-4 w-full">
+                PREENCHER HISTÓRICO MÉDICO</a>
+      </div>
+  
+      
+    @else 
+
+    <div class="flex flex-col md:flex-row gap-4 mt-4">
+      <div class="w-full">
+        
+        <div class="bg-white overflow-x-auto rounded-lg shadow-md py-6 px-16 ">
+        
+              <p><strong>IMPORTANTE SABER:</strong> os testes são inteiramente controlados pelo sistema. Devem ser respondidos 
+                na ordem que forem liberados. Ao finalizar um teste, o próximo será liberado, bem como a emissão
+                do relatório do(s) teste(s) finalizado(s).
+              </p>
+        </div>
+      </div>
+    </div>
+
+  
 
     <div class="flex flex-col md:flex-row gap-4 mt-4">
       <div class="w-full">
@@ -134,8 +162,7 @@
               <tr>
                 <th class="text-left font-semibold uppercase">Nome do Teste</th>
                 <th class="text-left font-semibold uppercase">Situação</th>
-                <th class="text-left font-semibold uppercase">N. Ítem</th>
-                {{-- <th class="text-left font-semibold uppercase">Ação</th> --}}
+                <th class="text-left font-semibold uppercase">Ação</th>
                 {{-- <th class="text-left font-semibold">Total</th> --}}
               </tr>
             </thead>
@@ -149,12 +176,38 @@
                     </div>
                   </td>
                   <td class="py-4">{{ $item->testeStatus }}</td>
-                  <td class="py-4">{{ $item->id }}</td>
                 {{-- <td class="py-4">
                   <span class="text-center w-8">1</span>
                 </td> --}}
 
-                
+                <td class="py-4">
+                  @if( $item->testeStatus == "novo") 
+                                <button disabled wire:click="montateste({{ $item->testes->id }})"
+                                      class="text-gray-900 bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+                                      >
+                                      Aguardando
+                                </button>
+                                                    
+                            @elseif ( $item->testeStatus == "iniciado" ) 
+                                <a wire:navigate disabled href="/responderteste?cctt={{ $item->testes->id }}&ccxx={{ $pedido->id}}&ccii={{ $item->id }}"
+                                                                  
+                                      class="text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+                                      >
+                                      Responder
+                                </a>
+                            
+                            @else 
+                                <a wire:navigate href="/relatorios?cctt={{ $item->testes->id }}&ccxx={{ $pedido->id}}&ccii={{ $item->id }} " target="_blank"
+                                                       
+                                      class="text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+                                      >
+                                      Relatório
+                                </a>
+
+                            
+                                
+                    @endif
+                  </td>
               </tr>
               @endforeach
              
@@ -190,7 +243,8 @@
       </div> --}}
     </div>
   {{-- 12/08/2024 - Retirei o endif desta posição para testar inativar o botão qdo não pago  --}}  
-
+@endif
   
 </div>
 </div>
+

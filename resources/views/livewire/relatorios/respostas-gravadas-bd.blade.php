@@ -2,8 +2,8 @@
     {{-- Close your eyes. Count to one. That is how long forever feels. --}}
     <h4 class="text-2xl font-bold dark:text-white">{{ $this->tituloTeste  }}</h4>
 
-    <h3>Order Id: {{$this->orders_id}}</h3>
-    <h3>Teste Id: {{$this->testes_id}} - {{ $this->tituloTeste  }}</h3>
+    <h3>Order Id: {{ $dadosRelatorio['orders_id'] }}</h3>
+    <h3>Teste Id: {{ $testes_id }} - {{ $dadosRelatorio['tituloTeste'] }}</h3>
     <h3>--------------------------------</h3>
 
     <table class="w-full table-auto">
@@ -39,7 +39,7 @@
         </thead>
         <tbody >
 
-            @foreach ($this->useranswers as $item)
+            @foreach ($dadosRelatorio['resultadoTeste'] as $item)
                 <tr wire:key="{{ $item->sequencia }}">
                         
                     <td

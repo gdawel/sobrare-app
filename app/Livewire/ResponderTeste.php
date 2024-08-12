@@ -11,9 +11,12 @@ use Livewire\Attributes\On;
 use Livewire\Attributes\Url;
 use App\Models\OpcoesRespostas;
 use Livewire\Attributes\Validate;
+use Jantinnerezo\LivewireAlert\LivewireAlert;
 
 class ResponderTeste extends Component
 {
+    use LivewireAlert;
+    
     public $testeSelecionado;
     public $perguntas;
     public $itensPedido;
@@ -132,12 +135,25 @@ class ResponderTeste extends Component
                                 ->orWhere('sexo', $this->sexoCliente);
                             })
                             ->get();
+        /* ERRO RT001 - Não encontrou o teste acima no DB. Verificar importação das perguntas */
+
+        if($this->perguntas->count() == 0) {
+
+            $this->alert('error', 'Erro Interno n. RT001 - Por favor informe SOBRARE', [
+                'position' => 'center',
+                'timer' => 5000,
+                'toast' => true,
+                'timerProgressBar' => true,
+                ]);
+            return;
+        }
         //dd($this->perguntas);
         /*
             Dawel: devido a estar selecionando um único registro no this->perguntas,
             na variável abaixo vai ser selecionada apenas o grupo da instãncia [0]. 
         */
         $grupoRespostas = $this->perguntas[0]->grupo_opcoes_respostas_id;
+        
         $this->totalPerguntas = Perguntas::where('testes_id', $this->testeSelecionado)
                                            ->where(function ($query) {
                                                 $query->where('sexo', 'I')
