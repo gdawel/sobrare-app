@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Relatorios;
 
+use App\Jobs\GerarRelatorios;
 use App\Models\User;
 use App\Models\Orders;
 use App\Models\Testes;
@@ -31,6 +32,9 @@ class ControladorRelatorios extends Component
     public $orderItem_id;
     public $testes_id;
     public $tituloTeste;
+    public $textoIntro; 
+    public $textoFecha; 
+    public $textoRodape; 
     public $parametrosParaRelatorios =[];
     public $useranswers =[];
     public $perguntas = [];
@@ -73,9 +77,13 @@ class ControladorRelatorios extends Component
                                     ->where('testes_id', $this->testes_id)
                                     ->get();
         //dd($this->resultadoTeste);
+
+        
+
         $this->dataFinalTeste = $this->resultadoTeste->max('created_at')->format('d-m-Y');
         //dd($this->dataFinalTeste);
-        $this->useranswers = $this->resultadoTeste[0]->useranswers;
+        
+
         //dd($this->useranswers);
         $user = User::where('id', auth()->user()->id)->first();
         $this->nomeCliente = $user['name'];
@@ -99,9 +107,16 @@ class ControladorRelatorios extends Component
         $dadosDoTeste = Testes::where('id',$this->testes_id)->first();
         $this->tituloTeste = $dadosDoTeste->nomeTeste;
         $this->codTeste = $dadosDoTeste->codTeste;
-
+        $this->textoIntro = $dadosDoTeste->textoIntro;
+        $this->textoFecha = $dadosDoTeste->textoFecha;
+        $this->textoRodape = $dadosDoTeste->textoRodape;
+        
         $this->dadosRelatorio = [
             'tituloTeste' => $this->tituloTeste,
+            'codTeste' => $this->codTeste,
+            'textoIntro' => $this->textoIntro,
+            'textoFecha' => $this->textoFecha,
+            'textoRodape' => $this->textoRodape,
             'orders_id' => $this->orders_id,
             'idadeCliente' => $this->idadeCliente,
             'estadoNascimentoCliente' => $this->estadoNascimentoCliente,
@@ -132,6 +147,8 @@ class ControladorRelatorios extends Component
             case '01-HstCrpEnrdvrgc':
 
                 $relatorio = $this->dadosRelatorio;
+                GerarRelatorios::dispatch($relatorio);
+                //return url('/meus-pedidos');
                 /* Spatie Laravel-pdf */
                 /* Pdf::view('livewire.relatorios.relat-01-HstCrpEnrdvrgc', 
                         ['dadosRelatorio' => $relatorio])
@@ -166,6 +183,31 @@ class ControladorRelatorios extends Component
                 return view('livewire.relatorios.relat-01-HstCrpEnrdvrgc', [
                     'dadosRelatorio' => $this->dadosRelatorio
                 ]);
+            break;
+
+            case '02-PrcpStrss':
+
+                $somaTudo = 0;
+                $somaB = 0;
+                foreach ($this->resultadoTeste as $items) {
+                
+                    if($items->sequencia == 3 or $items->sequencia == 6 or $items->sequencia == 19 or $items->sequencia == 20) {
+                        $somaB = $somaB + $items->opcaoResposta->valorResposta; 
+                    }
+                    $somaTudo = $somaTudo + $items->opcaoResposta->valorResposta;
+                }
+                $somaA = $somaTudo - $somaB;
+                $somaC = 32 - $somaB;
+                $somaD = $somaA + $somaC;
+                $resultado = $somaD / 21;
+                $checa = "t=".$somaTudo."/a=".$somaA."/b=".$somaB."/c=".$somaC."/d=".$somaD." => Resultado=".$resultado;
+                //dd($checa);
+
+                return view('livewire.relatorios.relat-02-PrcpStrss', [
+                    'dadosRelatorio' => $this->dadosRelatorio,
+                    'resultado' => $resultado
+                ]);
+
             break;
 
             case '09-InvntrTDA_TDAH':

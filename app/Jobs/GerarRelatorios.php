@@ -32,12 +32,14 @@ class GerarRelatorios implements ShouldQueue
     {
         Pdf::view('livewire.relatorios.relat-01-HstCrpEnrdvrgc', ['dadosRelatorio' => $this->dadosRelatorio])
                         ->format('A4')
-                        ->margins(10,10,10,10)
+                        ->margins(10,4,18,4)
+                        //->footerHtml('<p style="font-family: Verdana; font-size: 10px; text-align:center;">© 2024 SOBRARE - Todos os direitos reservados.</p>')
                         ->withBrowsershot(function (Browsershot $browsershot) {
                             $browsershot
                                 ->setNodeBinary('C:\Program Files\nodejs\node.exe')
                                 ->setNpmBinary('C:\Program Files\nodejs\npm.exe')
                                 ->timeout(300)
+                                
                                 ->setOption('newHeadless', true);
                         })
                         ->save(storage_path('app/pdf/relat_01_'. $this->dadosRelatorio['orders_id'] . '_' . $this->dadosRelatorio['nomeCliente'] . '.pdf'));
