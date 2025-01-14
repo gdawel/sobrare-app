@@ -1,16 +1,26 @@
 {
+  "public/css/amidesfahani/filament-tinyeditor/tiny-css.css": {
+    "file": "assets/tiny-css-2fdb0c93.css",
+    "isEntry": true,
+    "src": "public/css/amidesfahani/filament-tinyeditor/tiny-css.css"
+  },
+  "public/css/styles.css": {
+    "file": "assets/styles-a61f51d2.css",
+    "isEntry": true,
+    "src": "public/css/styles.css"
+  },
   "resources/css/app.css": {
-    "file": "assets/app-903c09ea.css",
+    "file": "assets/app-dff22124.css",
     "isEntry": true,
     "src": "resources/css/app.css"
   },
   "resources/css/filament/admin/theme.css": {
-    "file": "assets/theme-a3fbebbd.css",
+    "file": "assets/theme-3f0f68f2.css",
     "isEntry": true,
     "src": "resources/css/filament/admin/theme.css"
   },
   "resources/js/app.js": {
-    "file": "assets/app-5f01c8c8.js",
+    "file": "assets/app-d597959f.js",
     "isEntry": true,
     "src": "resources/js/app.js"
   }

@@ -55,6 +55,19 @@ class ControladorRelatorios extends Component
     public $dadosCliente=[];
     public $dataEmissao;
     public $dadosRelatorio=[];
+
+    public $comunicacao = 0;
+    public $pensamento = 0;
+    public $atencao = 0;
+    public $tensao = 0;
+    public $social = 0;
+    public $emocional = 0;
+    public $mental = 0;
+    public $sexualidade = 0;
+
+    public $cerebroSocial = 0;
+    public $cerebroMesclado = 0;
+    public $cerebroSistematizador = 0;
     
     /* Dawel: retirado: 30/07/2024 - #[On('resultadoTeste')] */
     public function mount() {
@@ -209,6 +222,112 @@ class ControladorRelatorios extends Component
                 ]);
 
             break;
+
+            case '03-OrdncAsst':
+
+                
+                foreach ($this->resultadoTeste as $items) {
+                
+                    /* A Minha Comunicação */
+                    if($items->sequencia == 1 or $items->sequencia == 9 or $items->sequencia == 12 or 
+                                                $items->sequencia == 14) {
+                        $this->comunicacao = $this->comunicacao + $items->opcaoResposta->valorResposta; 
+                    }
+
+                    /* Meu Pensamento */
+                    if($items->sequencia == 3 or $items->sequencia == 4 or $items->sequencia == 13 or 
+                                                $items->sequencia == 21 or $items->sequencia == 26 or $items->sequencia == 27) {
+                        $this->pensamento = $this->pensamento + $items->opcaoResposta->valorResposta; 
+                    }
+                    
+                    /* Meu Processo de Atenção */
+                    if($items->sequencia == 5 or $items->sequencia == 7 or $items->sequencia == 17 or 
+                                                $items->sequencia == 18 or $items->sequencia == 19) {
+                        $this->atencao = $this->atencao + $items->opcaoResposta->valorResposta; 
+                    }
+                    
+                    /* Minha Tensão Muscular */
+                    if($items->sequencia == 6 or $items->sequencia == 10 or $items->sequencia == 20 or 
+                                                $items->sequencia == 23) {
+                        $this->tensao = $this->tensao + $items->opcaoResposta->valorResposta; 
+                    }
+                    
+                    /* Meu Desempenho Social */
+                    if($items->sequencia == 2 or $items->sequencia == 8 or $items->sequencia == 15) {
+                        $this->social = $this->social + $items->opcaoResposta->valorResposta; 
+                    }
+
+                    /* Meus Estados Emocionais */
+                    if($items->sequencia == 11 or $items->sequencia == 22 or $items->sequencia == 24 or 
+                                                $items->sequencia == 25) {
+                        $this->emocional = $this->emocional + $items->opcaoResposta->valorResposta; 
+                    }
+
+                    /* Condições Mentais e Físicas */
+                    if($items->sequencia == 28 or $items->sequencia == 29 or $items->sequencia == 30) {
+                        $this->mental = $this->mental + $items->opcaoResposta->valorResposta; 
+                    }
+
+                    /* Minha Sexualidade e Lazer */
+                    if($items->sequencia == 31 or $items->sequencia == 32 or $items->sequencia == 33 or 
+                                                $items->sequencia == 34) {
+                        $this->sexualidade = $this->sexualidade + $items->opcaoResposta->valorResposta; 
+                    }
+                }
+                
+
+                return view('livewire.relatorios.relat-03-OrdncAsst', [
+                    'dadosRelatorio' => $this->dadosRelatorio,
+                    'comunicacao' => $this->comunicacao,
+                    'pensamento' => $this->pensamento,
+                    'atencao' => $this->atencao,
+                    'tensao' => $this->tensao,
+                    'social' => $this->social,
+                    'emocional' => $this->emocional,
+                    'mental' => $this->mental,
+                    'sexualidade' => $this->sexualidade
+                ]);
+
+                case '04-CmCrbrFcn':
+
+                    //dd($this->resultadoTeste);
+                    foreach ($this->resultadoTeste as $items) {
+                    
+                        /* Cérebro Social */
+                        if($items->opcaoResposta->textoResposta == 'Concordo Totalmente') {
+                            if($items->sequencia >= 1 and $items->sequencia <= 11) {
+                                $this->cerebroSocial = $this->cerebroSocial + $items->opcaoResposta->valorResposta; 
+                            }
+                        }
+
+                        /* Cérebro Mesclado */
+                        if($items->opcaoResposta->textoResposta == 'Discordo Totalmente') {
+                            
+                                $this->cerebroMesclado = $this->cerebroMesclado + $items->opcaoResposta->valorResposta; 
+                            
+                        }
+                        
+                        /* Cérebro Sistematizador */
+                        if($items->opcaoResposta->textoResposta == 'Concordo Totalmente') {
+                            if($items->sequencia >= 11 and $items->sequencia <= 20) {
+                                $this->cerebroSistematizador = $this->cerebroSistematizador + $items->opcaoResposta->valorResposta; 
+                            }
+                        }
+                        
+                        
+                    }
+                    
+    
+                    return view('livewire.relatorios.relat-04-CmCrbrFcn', [
+                        'dadosRelatorio' => $this->dadosRelatorio,
+                        'cerebroSocial' => $this->cerebroSocial,
+                        'cerebroMesclado' => $this->cerebroMesclado,
+                        'cerebroSistematizador' => $this->cerebroSistematizador
+                        
+                    ]);
+
+            break;
+
 
             case '09-InvntrTDA_TDAH':
 

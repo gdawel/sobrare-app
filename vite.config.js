@@ -8,6 +8,8 @@ export default defineConfig({
                 "resources/css/app.css",
                 "resources/js/app.js",
                 "resources/css/filament/admin/theme.css",
+                "public/css/amidesfahani/filament-tinyeditor/tiny-css.css",
+                "public/css/styles.css"
             ],
             refresh: true,
         }),

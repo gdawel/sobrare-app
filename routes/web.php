@@ -54,6 +54,14 @@ Route::get('import/perguntas', [ImportDataController::class, 'perguntas']);
 Route::post('import/perguntas', [ImportDataController::class, 'importarPerguntas']);
 Route::get('import/opcoes-respostas', [ImportDataController::class, 'opcoesRespostas']);
 Route::post('import/opcoes-respostas', [ImportDataController::class, 'importarOpcoesRespostas']);
+Route::get('import/genero', [ImportDataController::class, 'genero']);
+Route::post('import/genero', [ImportDataController::class, 'importarGenero']);
+Route::get('import/descendencias', [ImportDataController::class, 'descendencias']);
+Route::post('import/descendencias', [ImportDataController::class, 'importarDescendencias']);
+Route::get('import/estados', [ImportDataController::class, 'estados']);
+Route::post('import/estados', [ImportDataController::class, 'importarEstados']);
+Route::get('import/grau-escolar', [ImportDataController::class, 'grauEscolar']);
+Route::post('import/grau-escolar', [ImportDataController::class, 'importarGrauEscolar']);
 
 Route::get('import/', function () {
     return view('importData.import');
