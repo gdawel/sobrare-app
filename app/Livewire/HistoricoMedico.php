@@ -4,6 +4,10 @@ namespace App\Livewire;
 
 use Carbon\Carbon;
 use App\Models\User;
+use App\Models\Descendencias;
+use App\Models\Estados;
+use App\Models\Generos;
+use App\Models\GrausEscolares;
 use Livewire\Component;
 use Livewire\Attributes\Url;
 use App\Models\Historicomedicos;
@@ -18,66 +22,72 @@ class HistoricoMedico extends Component
     #[Validate('required', message: 'Por favor, selecione o sexo biológico atribuído a você')] 
     public  $sexoBiologico;
     #[Validate('required', message: 'Por favor, selecione o Estado em que você nasceu')] 
-    public  $estadoNasc;	     
+    public  $estadoNasc;
+    #[Validate('required', message: 'Por favor, selecione o gênero')] 	     
     public	$genero;
+    #[Validate('required', message: 'Por favor, selecione sua etnia')] 
     public  $etnia;
+    #[Validate('required', message: 'Por favor, selecione qual a sua mão mais ágil')] 
     public  $maoMaisAgil;
+    #[Validate('required', message: 'Por favor, informe a cidade em que reside atualmente')] 
     public  $cidadeQueReside;
     public  $outrosIdiomas;
+    #[Validate('required', message: 'Por favor, selecione seu grau escolar')] 
     public	$grauEscolar;
 
-    #[Validate('required', message: 'Por favor, selecione Sim ou Não; ou Branco, caso não queira responder')] 
+    #[Validate('required', message: 'Por favor, selecione Sim ou Não.')] 
     public  $deficitAtencao;
 
-    #[Validate('required', message: 'Por favor, selecione Sim ou Não; ou Branco, caso não queira responder')] 
+    #[Validate('required', message: 'Por favor, selecione Sim ou Não.')] 
     public  $anorexiaNervosa;
 
-    #[Validate('required', message: 'Por favor, selecione Sim ou Não; ou Branco, caso não queira responder')] 
+    #[Validate('required', message: 'Por favor, selecione Sim ou Não.')] 
     public  $transtornoAnsiedade;
     
-    #[Validate('required', message: 'Por favor, selecione Sim ou Não; ou Branco, caso não queira responder')] 
+    #[Validate('required', message: 'Por favor, selecione Sim ou Não.')] 
     public  $autismoNivel1;
 
-    #[Validate('required', message: 'Por favor, selecione Sim ou Não; ou Branco, caso não queira responder')] 
+    #[Validate('required', message: 'Por favor, selecione Sim ou Não.')] 
     public  $transtornoBipolar;
 
-    #[Validate('required', message: 'Por favor, selecione Sim ou Não; ou Branco, caso não queira responder')] 
+    #[Validate('required', message: 'Por favor, selecione Sim ou Não.')] 
     public  $depressao;
 
-    #[Validate('required', message: 'Por favor, selecione Sim ou Não; ou Branco, caso não queira responder')] 
+    #[Validate('required', message: 'Por favor, selecione Sim ou Não.')] 
     public  $transtornoHistrionico;
     
-    #[Validate('required', message: 'Por favor, selecione Sim ou Não; ou Branco, caso não queira responder')] 
+    #[Validate('required', message: 'Por favor, selecione Sim ou Não.')] 
     public  $transtornoAnancastico;
-    #[Validate('required', message: 'Por favor, selecione Sim ou Não; ou Branco, caso não queira responder')] 
+    #[Validate('required', message: 'Por favor, selecione Sim ou Não.')] 
     public  $transtornoIntelectual;
-    #[Validate('required', message: 'Por favor, selecione Sim ou Não; ou Branco, caso não queira responder')] 
+    #[Validate('required', message: 'Por favor, selecione Sim ou Não.')] 
     public  $dificuldadeExpressar;
-    #[Validate('required', message: 'Por favor, selecione Sim ou Não; ou Branco, caso não queira responder')] 
+    #[Validate('required', message: 'Por favor, selecione Sim ou Não.')] 
     public  $toc;
-    #[Validate('required', message: 'Por favor, selecione Sim ou Não; ou Branco, caso não queira responder')] 
+    #[Validate('required', message: 'Por favor, selecione Sim ou Não.')] 
     public  $transtornoDePersonalidade;
-    #[Validate('required', message: 'Por favor, selecione Sim ou Não; ou Branco, caso não queira responder')] 
+    #[Validate('required', message: 'Por favor, selecione Sim ou Não.')] 
     public  $fobias;
-    #[Validate('required', message: 'Por favor, selecione Sim ou Não; ou Branco, caso não queira responder')] 
+    #[Validate('required', message: 'Por favor, selecione Sim ou Não.')] 
     public  $esquizofrenia;
     #[Validate('max:250', message: 'Por favor, limite seu comentário a 250 caracteres.')] 
     public  $outroEspecificar;
 
-    #[Validate('required', message: 'Por favor, selecione Sim ou Não; ou Branco, caso não queira responder')] 
+    #[Validate('required', message: 'Por favor, selecione Sim ou Não.')] 
     public  $hiperlexia;
-    #[Validate('required', message: 'Por favor, selecione Sim ou Não; ou Branco, caso não queira responder')] 
+    #[Validate('required', message: 'Por favor, selecione Sim ou Não.')] 
     public  $hipercalculia;
-    #[Validate('required', message: 'Por favor, selecione Sim ou Não; ou Branco, caso não queira responder')] 
+    #[Validate('required', message: 'Por favor, selecione Sim ou Não.')] 
     public  $ouvidoAbsoluto;
-    #[Validate('required', message: 'Por favor, selecione Sim ou Não; ou Branco, caso não queira responder')] 
+    #[Validate('required', message: 'Por favor, selecione Sim ou Não.')] 
     public  $talentoPintar;
-    #[Validate('required', message: 'Por favor, selecione Sim ou Não; ou Branco, caso não queira responder')] 
+    #[Validate('required', message: 'Por favor, selecione Sim ou Não.')] 
     public  $faixaSuperiorQI;
     
     public  $qtdIrmasBio=0;
     public  $qtdIrmaosBio=0;
     public  $qtdFilhosBio=0;
+    #[Validate('required', message: 'Por favor, selecione uma opção')]
     public  $familiaNuclear;
     public  $diagnosticoParentes=0;
     public  $filhosSobCuidados=0;
@@ -86,9 +96,24 @@ class HistoricoMedico extends Component
     #[Validate('required', message: 'Por favor, informe sua ocupação')] 
     #[Validate('max:60', message: 'Máximo de caracteres permitido nesta informação é 60 caracteres')] 
     public  $ocupacaoPrincipal; 
+    public  $descendencias;
+    public  $estados;
+    public  $generos; 
+    public  $grausEscolares; 
+
 
     #[Url]
     public  $order_id;
+
+    public function mount() {
+        /* 
+            Selecionar as informações necessárias ao preenchimento do Histórico Médico 
+        */
+        $this->descendencias = Descendencias::all();
+        $this->estados = Estados::all();
+        $this->generos = Generos::all();
+        $this->grausEscolares = GrausEscolares::all();
+    }
     
     public function salvarHistorico(){
         //dd($this->diagnosticoParentes);

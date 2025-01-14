@@ -11,11 +11,19 @@ use App\Models\GruposDeTestes;
 use App\Imports\GrOpcRespostas;
 use App\Imports\PerguntasImport;
 use App\Imports\OpcRespostasImport;
+use App\Imports\GenerosImport;
+use App\Imports\estadosImport;
+use App\Imports\DescendenciasImport;
+use App\Imports\GrausEscolaresImport;
 use App\Models\GrupoOpcoesResposta;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\GruposDeTestesImport;
+use App\Models\Descendencias;
 use App\Models\OpcoesRespostas;
 use App\Models\Perguntas;
+use App\Models\Generos;
+use App\Models\Estados;
+use App\Models\GrausEscolares;
 
 class ImportDataController extends Controller
 {
@@ -132,5 +140,97 @@ class ImportDataController extends Controller
         Excel::import(new OpcRespostasImport, $request->file('import_file'));
 
         return redirect('/import/opcoes-respostas')->with('status', 'Arquivo Importado com Sucesso');
+    }
+
+    /* === Importação da Tabela de Gêneros === */
+    
+    public function genero() 
+    {
+        $listarGeneros = Generos::all();
+
+        return view('importData.generos', compact('listarGeneros'));
+    }
+
+    public function importarGenero(Request $request) 
+    {
+        $request->validate([
+            'import_file' => [
+                'required',
+                
+            ],
+        ]);
+
+        Excel::import(new GenerosImport, $request->file('import_file'));
+
+        return redirect('/import/genero')->with('status', 'Arquivo Importado com Sucesso');
+    }
+
+    /* === Importação da Tabela de Descendências === */
+    
+    public function descendencias() 
+    {
+        $listarDescendencias = Descendencias::all();
+
+        return view('importData.Descendencias', compact('listarDescendencias'));
+    }
+
+    public function importarDescendencias(Request $request) 
+    {
+        $request->validate([
+            'import_file' => [
+                'required',
+                
+            ],
+        ]);
+
+        Excel::import(new DescendenciasImport, $request->file('import_file'));
+
+        return redirect('/import/descendencias')->with('status', 'Arquivo Importado com Sucesso');
+    }
+
+    /* === Importação da Tabela de Estados === */
+    
+    public function estados() 
+    {
+        $listarEstados = Estados::all();
+
+        return view('importData.Estados', compact('listarEstados'));
+    }
+
+    public function importarEstados(Request $request) 
+    {
+        $request->validate([
+            'import_file' => [
+                'required',
+                
+            ],
+        ]);
+
+        Excel::import(new EstadosImport, $request->file('import_file'));
+
+        return redirect('/import/estados')->with('status', 'Arquivo Importado com Sucesso');
+    }
+
+    /* === Importação da Tabela de Graus Escolares === */
+    
+    public function grauEscolar() 
+    {
+        $listarGrausEscolares = GrausEscolares::all();
+
+        return view('importData.GrausEscolares', compact('listarGrausEscolares'));
+    }
+
+    public function importarGrauEscolar(Request $request) 
+    {
+        $request->validate([
+            'import_file' => [
+                'required',
+                
+            ],
+        ]);
+
+        Excel::import(new GrausEscolaresImport, $request->file('import_file'));
+
+        return redirect('/import/grau-escolar')->with('status', 'Arquivo Importado com Sucesso');
     }
 }
