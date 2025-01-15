@@ -188,7 +188,7 @@ class ImportDataController extends Controller
         return redirect('/import/descendencias')->with('status', 'Arquivo Importado com Sucesso');
     }
 
-    /* === Importação da Tabela de Estados === */
+    /*  === Importação da Tabela de Estados === */
     
     public function estados() 
     {
