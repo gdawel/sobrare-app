@@ -26,7 +26,7 @@ class EstadosResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('UF')
+                Forms\Components\TextInput::make('uf')
                     ->required()
                     ->label('UF')
                     ->maxLength(255),
@@ -41,7 +41,7 @@ class EstadosResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('UF')
+                Tables\Columns\TextColumn::make('uf')
                     ->label('UF')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('estado')
