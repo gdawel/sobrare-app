@@ -92,418 +92,385 @@
       <div class="hidden sm:block border-b border-gray-200 dark:border-neutral-700"></div>
 
       <!-- Icon Blocks -->
-<div class="max-w-[85rem] px-2 py-4 sm:px-6 lg:px-4 lg:py-6 ">
-  <div class="grid sm:grid-cols-2 lg:grid-cols-4 items-center gap-6">
-    <!-- Card -->
-    {{-- <a class="group flex gap-y-6 size-full hover:bg-gray-100 focus:outline-none focus:bg-gray-100 rounded-lg p-5 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800" href="#"> --}}
-      
-      <div>
-        <div>
-          <h3 class="block font-bold text-gray-800 dark:text-white">Sexo Biológico</h3>
-          <p class="text-gray-600 dark:text-neutral-400">{{ $dadosRelatorio['sexoBiologico'] }}</p>
-        </div>
-        
-      </div>
-    {{-- </a> --}}
-    <!-- End Card -->
-
-    <!-- Card -->
-    {{-- <a class="group flex gap-y-6 size-full hover:bg-gray-100 focus:outline-none focus:bg-gray-100 rounded-lg p-5 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800" href="#"> --}}
-    
-      <div>
-        <div>
-          <h3 class="block font-bold text-gray-800 dark:text-white">Gênero</h3>
-          <p class="text-gray-600 dark:text-neutral-400">{{ $dadosRelatorio['dadosCliente']['genero'] }}</p>
-        </div>
-        
-      </div>
-    {{-- </a> --}}
-    <!-- End Card -->
-
-    <!-- Card -->
-    {{-- <a class="group flex gap-y-6 size-full hover:bg-gray-100 focus:outline-none focus:bg-gray-100 rounded-lg p-5 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800" href="#"> --}}
-      
-      <div>
-        <div>
-          <h3 class="block font-bold text-gray-800 dark:text-white">Etnia</h3>
-          <p class="text-gray-600 dark:text-neutral-400">{{ $dadosRelatorio['dadosCliente']['etnia'] }}</p>
-        </div>
-       
-      </div>
-    {{-- </a> --}}
-    <!-- End Card -->
-
-    <!-- Card -->
-    {{-- <a class="group flex gap-y-6 size-full hover:bg-gray-100 focus:outline-none focus:bg-gray-100 rounded-lg p-5 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800" href="#"> --}}
-      
-      <div>
-        <div>
-          <h3 class="block font-bold text-gray-800 dark:text-white">Mão mais ágil</h3>
-          <p class="text-gray-600 dark:text-neutral-400">{{ $dadosRelatorio['dadosCliente']['maoMaisAgil'] }}</p>
-        </div>
-        
-      </div>
-    {{-- </a> --}}
-    <!-- End Card -->
-  </div>
-
-  <div class="grid sm:grid-cols-2 lg:grid-cols-4 items-center gap-6">
-    <!-- Card -->
-    {{-- <a class="group flex gap-y-6 size-full hover:bg-gray-100 focus:outline-none focus:bg-gray-100 rounded-lg p-5 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800" href="#"> --}}
-      
-      <div>
-        <div>
-          <h3 class="block font-bold text-gray-800 dark:text-white">Estado de Nascimento</h3>
-          <p class="text-gray-600 dark:text-neutral-400">{{ $dadosRelatorio['estadoNascimentoCliente'] }}</p>
-        </div>
-        
-      </div>
-    {{-- </a> --}}
-    <!-- End Card -->
-
-    <!-- Card -->
-    {{-- <a class="group flex gap-y-6 size-full hover:bg-gray-100 focus:outline-none focus:bg-gray-100 rounded-lg p-5 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800" href="#"> --}}
-    
-      <div>
-        <div>
-          <h3 class="block font-bold text-gray-800 dark:text-white">Cidade que Reside</h3>
-          <p class="text-gray-600 dark:text-neutral-400">{{ $dadosRelatorio['dadosCliente']['cidadeQueReside'] }}</p>
-        </div>
-        
-      </div>
-   {{--  </a> --}}
-    <!-- End Card -->
-
-    <!-- Card -->
-    {{-- <a class="group flex gap-y-6 size-full hover:bg-gray-100 focus:outline-none focus:bg-gray-100 rounded-lg p-5 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800" href="#"> --}}
-      
-      <div>
-        <div>
-          <h3 class="block font-bold text-gray-800 dark:text-white">Outros Idiomas</h3>
-          <p class="text-gray-600 dark:text-neutral-400">{{ $dadosRelatorio['dadosCliente']['outrosIdiomas'] }}</p>
-        </div>
-       
-      </div>
-    {{-- </a> --}}
-    <!-- End Card -->
-
-    <!-- Card -->
-    {{-- <a class="group flex gap-y-6 size-full hover:bg-gray-100 focus:outline-none focus:bg-gray-100 rounded-lg p-5 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800" href="#"> --}}
-      
-      <div>
-        <div>
-          <h3 class="block font-bold text-gray-800 dark:text-white">Grau escolar</h3>
-          <p class="text-gray-600 dark:text-neutral-400">{{ $dadosRelatorio['dadosCliente']['grauEscolar'] }}</p>
-        </div>
-        
-      </div>
-    {{-- </a> --}}
-    <!-- End Card -->
-  </div>
-</div>
-<!-- End Icon Blocks -->
-
-<div class="pt-8 hidden sm:block border-b border-gray-200 dark:border-neutral-700"></div>
-        {{-- Subtítulo da Seção --}}
-      <div class="text-2xl text-center font-semibold text-gray-400">
-        Respostas sobre o Diagnostico Pessoal e Familiar quanto a Saúde Mental
-      </div>
-      <div class="text-sm text-center font-semibold text-gray-500">
-                    Você já foi diagnosticado formalmente em uma das áreas abaixo?</div>  
-      
-        {{-- linha de separação --}}
-      <div class="hidden sm:block border-b border-gray-200 dark:border-neutral-700"></div>
-
-      <div class="mt-6">
-        <div class="border border-gray-200 p-6 rounded-lg space-y-6 dark:border-neutral-700">
-          <div class="grid grid-cols-12 ">
-            <div class="col-span-6 text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">Pergunta do teste</div>
+      <div class="max-w-[85rem] px-2 py-4 sm:px-6 lg:px-4 lg:py-6 ">
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 items-center gap-6">
+          <!-- Card -->
+          {{-- <a class="group flex gap-y-6 size-full hover:bg-gray-100 focus:outline-none focus:bg-gray-100 rounded-lg p-5 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800" href="#"> --}}
             
-            <div class="col-span-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">Resposta</div>
-            <div class="col-span-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-neutral-500"> </div>
-          </div>
+            <div>
+              <div>
+                <h3 class="block font-bold text-gray-800 dark:text-white">Sexo Biológico</h3>
+                <p class="text-gray-600 dark:text-neutral-400">{{ $dadosRelatorio['sexoBiologico'] }}</p>
+              </div>
+              
+            </div>
+          {{-- </a> --}}
+          <!-- End Card -->
 
-          <div class=" border-b border-gray-200 dark:border-neutral-700"></div>
-      <div class="grid grid-cols-12 ">
-        
-          <div class="text-sm col-span-6 block font-bold text-gray-800 dark:text-white">
-              Déficit de atenção com ou sem hiperatividade</div>
-          <div class="text-sm col-span-3 text-gray-600 dark:text-neutral-400">
-              {{ $dadosRelatorio['dadosCliente']['deficitAtencao'] }}</div>
-
-          <div class="pt-2 pr-1 text-sm col-span-6 block font-bold text-gray-800 dark:text-white">
-              Anorexia nervosa</div>
-          <div class="pt-2 pr-1 text-sm col-span-3 text-gray-600 dark:text-neutral-400">
-              {{ $dadosRelatorio['dadosCliente']['anorexiaNervosa'] }}</div>
+          <!-- Card -->
+          {{-- <a class="group flex gap-y-6 size-full hover:bg-gray-100 focus:outline-none focus:bg-gray-100 rounded-lg p-5 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800" href="#"> --}}
           
-          <div class="pt-2 text-sm col-span-6 block font-bold text-gray-800 dark:text-white">
-              Transtorno de Ansiedade (por exemplo, Ansiedade Generalizada)</div>
-          <div class="pt-2 pr-1 text-sm col-span-3 text-gray-600 dark:text-neutral-400">
-              {{ $dadosRelatorio['dadosCliente']['transtornoAnsiedade'] }}</div>
+            <div>
+              <div>
+                <h3 class="block font-bold text-gray-800 dark:text-white">Gênero</h3>
+                <p class="text-gray-600 dark:text-neutral-400">{{ $dadosRelatorio['dadosCliente']['genero'] }}</p>
+              </div>
+              
+            </div>
+          {{-- </a> --}}
+          <!-- End Card -->
 
-          <div class="pt-2 pr-1 text-sm col-span-6 block font-bold text-gray-800 dark:text-white">
-              Autismo Nível 1 (Antiga Síndrome de Asperger)</div>
-          <div class="pt-2 text-sm col-span-3 text-gray-600 dark:text-neutral-400">
-              {{ $dadosRelatorio['dadosCliente']['autismoNivel1'] }}</div>
+          <!-- Card -->
+          {{-- <a class="group flex gap-y-6 size-full hover:bg-gray-100 focus:outline-none focus:bg-gray-100 rounded-lg p-5 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800" href="#"> --}}
+            
+            <div>
+              <div>
+                <h3 class="block font-bold text-gray-800 dark:text-white">Etnia</h3>
+                <p class="text-gray-600 dark:text-neutral-400">{{ $dadosRelatorio['dadosCliente']['etnia'] }}</p>
+              </div>
+            
+            </div>
+          {{-- </a> --}}
+          <!-- End Card -->
 
-          <div class="pt-2 pr-1 text-sm col-span-6 block font-bold text-gray-800 dark:text-white">
-              Transtorno Bipolar ( Alternância entre episódios de euforismo, exaltação e estados de tristeza, depressivos. A alternância, por vezes, pode ser semanais, trimestrais, ou em períodos maiores.</div>
-          <div class="pt-2 text-sm col-span-3 text-gray-600 dark:text-neutral-400">
-              {{ $dadosRelatorio['dadosCliente']['transtornoBipolar'] }}</div>
-
-          <div class="pt-2 pr-1 text-sm col-span-6 block font-bold text-gray-800 dark:text-white">
-              Depressão</div>
-          <div class="pt-2 text-sm col-span-3 text-gray-600 dark:text-neutral-400">
-              {{ $dadosRelatorio['dadosCliente']['depressao'] }}</div>
-
-          <div class="pt-2 pr-1 text-sm col-span-6 block font-bold text-gray-800 dark:text-white">
-              Transtorno Histriônico - Ampliar os feitos e realizações pessoais. Agir de modo sedutor(a) ou provocativa(o) ou manipuladora(or). Usar a aparência física como uma vitrine. Agir e atuar de modo inapropriado e todas estas possibilidades usadas como estratégia para  chamar a atenção ou vencer as pessoas pela argumentação.</div>
-          <div class="pt-2 text-sm col-span-3 text-gray-600 dark:text-neutral-400">
-              {{ $dadosRelatorio['dadosCliente']['transtornoHistrionico'] }}</div>
-
-          <div class="pt-2 pr-1 text-sm col-span-6 block font-bold text-gray-800 dark:text-white">
-              Transtorno Intelectual (por exemplo, Dificuldade de Aprendizagem)</div>
-          <div class="pt-2 text-sm col-span-3 text-gray-600 dark:text-neutral-400">
-              {{ $dadosRelatorio['dadosCliente']['transtornoIntelectual'] }}</div>
-
-          <div class="pt-2 pr-1 text-sm col-span-6 block font-bold text-gray-800 dark:text-white">
-              Atraso, déficit ou dificuldades de expressar nosso idioma (por exemplo, certas dificuldades na fala ou comunicação, como entender predominantemente o literal do que lhe é dito, dificuldades com o uso de gírias, voz monótona (sem modulações), fala demasiada formal ou refinada e até com termos técnicos - sem ser profissional da área técnica.</div>
-          <div class="pt-2 text-sm col-span-3 text-gray-600 dark:text-neutral-400">
-              {{ $dadosRelatorio['dadosCliente']['dificuldadeExpressar'] }}</div>
-
-          <div class="pt-2 pr-1 text-sm col-span-6 block font-bold text-gray-800 dark:text-white">
-              Transtorno Obsessivo Compulsivo (TOC)</div>
-          <div class="pt-2 text-sm col-span-3 text-gray-600 dark:text-neutral-400">
-              {{ $dadosRelatorio['dadosCliente']['toc'] }}</div>
-
-          <div class="pt-2 pr-1 text-sm col-span-6 block font-bold text-gray-800 dark:text-white">
-              Transtorno de Personalidade do tipo Borderline, Narcisista, Esquizotípico, Evitativo ou Psicótico</div>
-          <div class="pt-2 text-sm col-span-3 text-gray-600 dark:text-neutral-400">
-              {{ $dadosRelatorio['dadosCliente']['transtornoDePersonalidade'] }}</div>
-
-          <div class="pt-2 pr-1 text-sm col-span-6 block font-bold text-gray-800 dark:text-white">
-              Fobias</div>
-          <div class="pt-2 text-sm col-span-3 text-gray-600 dark:text-neutral-400">
-              {{ $dadosRelatorio['dadosCliente']['fobias'] }}</div>
-
-          <div class="pt-2 pr-1 text-sm col-span-6 block font-bold text-gray-800 dark:text-white">
-              Transtorno de Esquizofrenia</div>
-          <div class="pt-2 text-sm col-span-3 text-gray-600 dark:text-neutral-400">
-              {{ $dadosRelatorio['dadosCliente']['esquizofrenia'] }}</div>
-
-          <div class="pt-2 pr-1 text-sm col-span-6 block font-bold text-gray-800 dark:text-white">
-              Outro (por favor especifique):</div>
-          <div class="pt-2 text-sm col-span-3 text-gray-600 dark:text-neutral-400">
-              {{ $dadosRelatorio['dadosCliente']['outroEspecificar'] }}</div>
+          <!-- Card -->
+          {{-- <a class="group flex gap-y-6 size-full hover:bg-gray-100 focus:outline-none focus:bg-gray-100 rounded-lg p-5 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800" href="#"> --}}
+            
+            <div>
+              <div>
+                <h3 class="block font-bold text-gray-800 dark:text-white">Mão mais ágil</h3>
+                <p class="text-gray-600 dark:text-neutral-400">{{ $dadosRelatorio['dadosCliente']['maoMaisAgil'] }}</p>
+              </div>
+              
+            </div>
+          {{-- </a> --}}
+          <!-- End Card -->
         </div>
 
-          {{-- linha de separação --}}
-          <div class="hidden sm:block border-b border-gray-200 dark:border-neutral-700"></div>
-          <div class="text-xl text-center font-semibold text-gray-400">
-            A pergunta formulada para os ítens abaixo foi: "Quando criança, você tinha alguma habilidade excepcional (muito além do normal) em algum destes talentos?
-          </div>
-          <div class="text-sm text-center font-semibold text-gray-500">
-            Você respondeu Sim ou Não (Branco para não responder) se você tinha alguma habilidade muito além do normal em uma das áreas abaixo.</div>  
-      
-          {{-- linha de separação --}}
-          <div class="hidden sm:block border-b border-gray-200 dark:border-neutral-700"></div>
-          <div class="grid grid-cols-12 ">
-            <div class="col-span-6 text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">Pergunta do teste</div>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 items-center gap-6">
+          <!-- Card -->
+          {{-- <a class="group flex gap-y-6 size-full hover:bg-gray-100 focus:outline-none focus:bg-gray-100 rounded-lg p-5 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800" href="#"> --}}
             
-            <div class="col-span-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">Resposta</div>
-            <div class="col-span-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-neutral-500"> </div>
-          </div>
+            <div>
+              <div>
+                <h3 class="block font-bold text-gray-800 dark:text-white">Estado de Nascimento</h3>
+                <p class="text-gray-600 dark:text-neutral-400">{{ $dadosRelatorio['estadoNascimentoCliente'] }}</p>
+              </div>
+              
+            </div>
+          {{-- </a> --}}
+          <!-- End Card -->
 
-          <div class=" border-b border-gray-200 dark:border-neutral-700"></div>
-              <div class="grid grid-cols-12 ">
-                <div class=" pr-1 text-sm col-span-6 block font-bold text-gray-800 dark:text-white">
-                  Hiperlexia (aprendeu a ler antes dos 3 anos de idade)</div>
-                <div class=" text-sm col-span-3 text-gray-600 dark:text-neutral-400">
-                  {{ $dadosRelatorio['dadosCliente']['hiperlexia'] }}</div>
+          <!-- Card -->
+          {{-- <a class="group flex gap-y-6 size-full hover:bg-gray-100 focus:outline-none focus:bg-gray-100 rounded-lg p-5 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800" href="#"> --}}
+          
+            <div>
+              <div>
+                <h3 class="block font-bold text-gray-800 dark:text-white">Cidade que Reside</h3>
+                <p class="text-gray-600 dark:text-neutral-400">{{ $dadosRelatorio['dadosCliente']['cidadeQueReside'] }}</p>
+              </div>
+              
+            </div>
+        {{--  </a> --}}
+          <!-- End Card -->
 
-                <div class="pt-2 pr-1 text-sm col-span-6 block font-bold text-gray-800 dark:text-white">
-                  Hipercalculia (antes dos 4 anos com habilidade em matemática significativamente acima da expectativa de idade - cálculos / lógica /astronomia / geometria)</div>
-                <div class="pt-2 text-sm col-span-3 text-gray-600 dark:text-neutral-400">
-                  {{ $dadosRelatorio['dadosCliente']['hipercalculia'] }}</div>
+          <!-- Card -->
+          {{-- <a class="group flex gap-y-6 size-full hover:bg-gray-100 focus:outline-none focus:bg-gray-100 rounded-lg p-5 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800" href="#"> --}}
+            
+            <div>
+              <div>
+                <h3 class="block font-bold text-gray-800 dark:text-white">Outros Idiomas</h3>
+                <p class="text-gray-600 dark:text-neutral-400">{{ $dadosRelatorio['dadosCliente']['outrosIdiomas'] }}</p>
+              </div>
+            
+            </div>
+          {{-- </a> --}}
+          <!-- End Card -->
 
-                <div class="pt-2 pr-1 text-sm col-span-6 block font-bold text-gray-800 dark:text-white">
-                  Ouvido absoluto (musical)</div>
-                <div class="pt-2 text-sm col-span-3 text-gray-600 dark:text-neutral-400">
-                  {{ $dadosRelatorio['dadosCliente']['ouvidoAbsoluto'] }}</div>
+          <!-- Card -->
+          {{-- <a class="group flex gap-y-6 size-full hover:bg-gray-100 focus:outline-none focus:bg-gray-100 rounded-lg p-5 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800" href="#"> --}}
+            
+            <div>
+              <div>
+                <h3 class="block font-bold text-gray-800 dark:text-white">Grau escolar</h3>
+                <p class="text-gray-600 dark:text-neutral-400">{{ $dadosRelatorio['dadosCliente']['grauEscolar'] }}</p>
+              </div>
+              
+            </div>
+          {{-- </a> --}}
+          <!-- End Card -->
+        </div>
+      </div>
+      <!-- End Icon Blocks -->
 
-                <div class="pt-2 pr-1 text-sm col-span-6 block font-bold text-gray-800 dark:text-white">
-                  Talento para pintar / desenhar antes dos 04 anos</div>
-                <div class="pt-2 text-sm col-span-3 text-gray-600 dark:text-neutral-400">
-                  {{ $dadosRelatorio['dadosCliente']['talentoPintar'] }}</div>
+      <div class="pt-8 hidden sm:block border-b border-gray-200 dark:border-neutral-700"></div>
+              {{-- Subtítulo da Seção --}}
+            <div class="text-2xl text-center font-semibold text-gray-400">
+              Respostas sobre o Diagnostico Pessoal e Familiar quanto a Saúde Mental
+            </div>
+            <div class="text-sm text-center font-semibold text-gray-500">
+                          Você já foi diagnosticado formalmente em uma das áreas abaixo?</div>  
+            
+              {{-- linha de separação --}}
+            <div class="hidden sm:block border-b border-gray-200 dark:border-neutral-700"></div>
 
-                <div class="pt-2 pr-1 text-sm col-span-6 block font-bold text-gray-800 dark:text-white">
-                  Faixa superdotada de QI para a idade</div>
-                <div class="pt-2 text-sm col-span-3 text-gray-600 dark:text-neutral-400">
-                  {{ $dadosRelatorio['dadosCliente']['faixaSuperiorQI'] }}</div>
+            <div class="mt-6">
+              <div class="border border-gray-200 p-6 rounded-lg space-y-6 dark:border-neutral-700">
+                <div class="grid grid-cols-12 ">
+                  <div class="col-span-6 text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">Pergunta do teste</div>
+                  
+                  <div class="col-span-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">Resposta</div>
+                  <div class="col-span-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-neutral-500"> </div>
                 </div>
 
-            <div class="text-sm text-left font-semibold text-gray-500">
-             - Note que mais de uma excepcionalidade, implica em ter uma alta dotação de algum talento ou aptidão, por ex., matemática (cálculos lógicos), artes (pintura), música (tocar), prática ou atividades físicas (contorcionismo / evoluções), em conjunto com outra ou outras característica(s) em neurodivergência (como, TDAH, Dislexia, Discalculia, TEA, Sensibilidades exacerbadas (sensorial), Linguagem (por exemplo, a interpretação literal do que escuta ou fala [literalismo]). É comum se constatar nestes quadros, que o desenvolvimento emocional, intelectual ou psicológico acontece em tempos ou fases diferentes ou não concomitantes - tal situação é conhecida como assincronia no desenvolvimento). Comumente também se chama de dupla excepcionalidade e não se restringe a apenas duas ocorrências, pode-se encontrar mais de duas.</div>  
-      
-          {{-- linha de separação --}}
-          <div class="hidden sm:block border-b border-gray-200 dark:border-neutral-700"></div>
-          <div class="grid grid-cols-12 ">
-            <div class="col-span-6 text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">Pergunta do teste</div>
-            
-            <div class="col-span-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">Resposta</div>
-            <div class="col-span-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-neutral-500"> </div>
-          </div>
-          <div class=" border-b border-gray-200 dark:border-neutral-700"></div>
-              <div class="grid grid-cols-12 ">
-                <div class=" pr-1 text-sm col-span-6 block font-bold text-gray-800 dark:text-white">
-                  Quantas irmãs biológicas você tem?</div>
-                <div class=" text-sm col-span-3 text-gray-600 dark:text-neutral-400">
-                  {{ $dadosRelatorio['dadosCliente']['qtdIrmasBio'] }}</div>
+                <div class=" border-b border-gray-200 dark:border-neutral-700"></div>
+            <div class="grid grid-cols-12 ">
+              
+                <div class="text-sm col-span-6 block font-bold text-gray-800 dark:text-white">
+                    Déficit de atenção com ou sem hiperatividade</div>
+                <div class="text-sm col-span-3 text-gray-600 dark:text-neutral-400">
+                    {{ $dadosRelatorio['dadosCliente']['deficitAtencao'] }}</div>
 
                 <div class="pt-2 pr-1 text-sm col-span-6 block font-bold text-gray-800 dark:text-white">
-                  Quantos irmãos biológicos você tem?</div>
-                <div class="pt-2 text-sm col-span-3 text-gray-600 dark:text-neutral-400">
-                  {{ $dadosRelatorio['dadosCliente']['qtdIrmaosBio'] }}</div>
+                    Anorexia nervosa</div>
+                <div class="pt-2 pr-1 text-sm col-span-3 text-gray-600 dark:text-neutral-400">
+                    {{ $dadosRelatorio['dadosCliente']['anorexiaNervosa'] }}</div>
                 
-                <div class="pt-2 pr-1 text-sm col-span-6 block font-bold text-gray-800 dark:text-white">
-                  Quantos filhos e filhas biológicos você tem? (Trás a carga genética sua ou do[a] parceiro[a] em gestações assistidas)</div>
-                <div class="pt-2 text-sm col-span-3 text-gray-600 dark:text-neutral-400">
-                  {{ $dadosRelatorio['dadosCliente']['qtdFilhosBio'] }}</div>
+                <div class="pt-2 text-sm col-span-6 block font-bold text-gray-800 dark:text-white">
+                    Transtorno de Ansiedade (por exemplo, Ansiedade Generalizada)</div>
+                <div class="pt-2 pr-1 text-sm col-span-3 text-gray-600 dark:text-neutral-400">
+                    {{ $dadosRelatorio['dadosCliente']['transtornoAnsiedade'] }}</div>
 
                 <div class="pt-2 pr-1 text-sm col-span-6 block font-bold text-gray-800 dark:text-white">
-                  Algum membro da sua família nuclear (pai, mãe, irmãos/irmãs) foi diagnosticado com TEA (Espectro do autismo)?</div>
+                    Autismo Nível 1 (Antiga Síndrome de Asperger)</div>
                 <div class="pt-2 text-sm col-span-3 text-gray-600 dark:text-neutral-400">
-                  {{ $dadosRelatorio['dadosCliente']['familiaNuclear'] }}</div>
+                    {{ $dadosRelatorio['dadosCliente']['autismoNivel1'] }}</div>
 
                 <div class="pt-2 pr-1 text-sm col-span-6 block font-bold text-gray-800 dark:text-white">
-                  Algum de seus avós, tios(as) ou primos(as), tem um diagnóstico formal de neurodivergência como Hipersensibilidade sensorial, autismo, TDAH, Dislexia etc.? E, em caso afirmativo, quantos?</div>
+                    Transtorno Bipolar ( Alternância entre episódios de euforismo, exaltação e estados de tristeza, depressivos. A alternância, por vezes, pode ser semanais, trimestrais, ou em períodos maiores.</div>
                 <div class="pt-2 text-sm col-span-3 text-gray-600 dark:text-neutral-400">
-                  {{ $dadosRelatorio['dadosCliente']['diagnosticoParentes'] }}</div>
+                    {{ $dadosRelatorio['dadosCliente']['transtornoBipolar'] }}</div>
 
                 <div class="pt-2 pr-1 text-sm col-span-6 block font-bold text-gray-800 dark:text-white">
-                  Você tem filhos e filhas não biológicos sob seus cuidados?</div>
+                    Depressão</div>
                 <div class="pt-2 text-sm col-span-3 text-gray-600 dark:text-neutral-400">
-                  {{ $dadosRelatorio['dadosCliente']['filhosSobCuidados'] }}</div>
+                    {{ $dadosRelatorio['dadosCliente']['depressao'] }}</div>
 
                 <div class="pt-2 pr-1 text-sm col-span-6 block font-bold text-gray-800 dark:text-white">
-                  Algum destes seus filhos ou filhas / netos "deve ser" encaminhado para uma avaliação de diagnóstico de neurodivergência (Hipersensibilidade, autismo, TDAH, TEA, Dislexia etc.) e, em caso afirmativo, quantos?</div>
+                    Transtorno Histriônico - Ampliar os feitos e realizações pessoais. Agir de modo sedutor(a) ou provocativa(o) ou manipuladora(or). Usar a aparência física como uma vitrine. Agir e atuar de modo inapropriado e todas estas possibilidades usadas como estratégia para  chamar a atenção ou vencer as pessoas pela argumentação.</div>
                 <div class="pt-2 text-sm col-span-3 text-gray-600 dark:text-neutral-400">
-                  {{ $dadosRelatorio['dadosCliente']['descendentesPrecisamAvaliacao'] }}</div>
+                    {{ $dadosRelatorio['dadosCliente']['transtornoHistrionico'] }}</div>
 
                 <div class="pt-2 pr-1 text-sm col-span-6 block font-bold text-gray-800 dark:text-white">
-                  Algum de seus filhos/ filhas foi formalmente diagnosticado em neurodivergência por um profissional (Hipersensibilidade sensorial, TDAH, TEA, Dislexia e etc.)? Em caso afirmativo, quantos?</div>
+                    Transtorno Intelectual (por exemplo, Dificuldade de Aprendizagem)</div>
                 <div class="pt-2 text-sm col-span-3 text-gray-600 dark:text-neutral-400">
-                  {{ $dadosRelatorio['dadosCliente']['filhosComDiagnostico'] }}</div>
+                    {{ $dadosRelatorio['dadosCliente']['transtornoIntelectual'] }}</div>
 
                 <div class="pt-2 pr-1 text-sm col-span-6 block font-bold text-gray-800 dark:text-white">
-                  Qual é a sua ocupação (ou ocupação passada se aposentado ou atualmente desempregado)?</div>
+                    Atraso, déficit ou dificuldades de expressar nosso idioma (por exemplo, certas dificuldades na fala ou comunicação, como entender predominantemente o literal do que lhe é dito, dificuldades com o uso de gírias, voz monótona (sem modulações), fala demasiada formal ou refinada e até com termos técnicos - sem ser profissional da área técnica.</div>
                 <div class="pt-2 text-sm col-span-3 text-gray-600 dark:text-neutral-400">
-                  {{ $dadosRelatorio['dadosCliente']['ocupacaoPrincipal'] }}</div>
+                    {{ $dadosRelatorio['dadosCliente']['dificuldadeExpressar'] }}</div>
+
+                <div class="pt-2 pr-1 text-sm col-span-6 block font-bold text-gray-800 dark:text-white">
+                    Transtorno Obsessivo Compulsivo (TOC)</div>
+                <div class="pt-2 text-sm col-span-3 text-gray-600 dark:text-neutral-400">
+                    {{ $dadosRelatorio['dadosCliente']['toc'] }}</div>
+
+                <div class="pt-2 pr-1 text-sm col-span-6 block font-bold text-gray-800 dark:text-white">
+                    Transtorno de Personalidade do tipo Borderline, Narcisista, Esquizotípico, Evitativo ou Psicótico</div>
+                <div class="pt-2 text-sm col-span-3 text-gray-600 dark:text-neutral-400">
+                    {{ $dadosRelatorio['dadosCliente']['transtornoDePersonalidade'] }}</div>
+
+                <div class="pt-2 pr-1 text-sm col-span-6 block font-bold text-gray-800 dark:text-white">
+                    Fobias</div>
+                <div class="pt-2 text-sm col-span-3 text-gray-600 dark:text-neutral-400">
+                    {{ $dadosRelatorio['dadosCliente']['fobias'] }}</div>
+
+                <div class="pt-2 pr-1 text-sm col-span-6 block font-bold text-gray-800 dark:text-white">
+                    Transtorno de Esquizofrenia</div>
+                <div class="pt-2 text-sm col-span-3 text-gray-600 dark:text-neutral-400">
+                    {{ $dadosRelatorio['dadosCliente']['esquizofrenia'] }}</div>
+
+                <div class="pt-2 pr-1 text-sm col-span-6 block font-bold text-gray-800 dark:text-white">
+                    Outro (por favor especifique):</div>
+                <div class="pt-2 text-sm col-span-3 text-gray-600 dark:text-neutral-400">
+                    {{ $dadosRelatorio['dadosCliente']['outroEspecificar'] }}</div>
+              </div>
+
+                {{-- linha de separação --}}
+                <div class="hidden sm:block border-b border-gray-200 dark:border-neutral-700"></div>
+                <div class="text-xl text-center font-semibold text-gray-400">
+                  A pergunta formulada para os ítens abaixo foi: "Quando criança, você tinha alguma habilidade excepcional (muito além do normal) em algum destes talentos?
                 </div>
+                <div class="text-sm text-center font-semibold text-gray-500">
+                  Você respondeu Sim ou Não (Branco para não responder) se você tinha alguma habilidade muito além do normal em uma das áreas abaixo.</div>  
+            
+                {{-- linha de separação --}}
+                <div class="hidden sm:block border-b border-gray-200 dark:border-neutral-700"></div>
+                <div class="grid grid-cols-12 ">
+                  <div class="col-span-6 text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">Pergunta do teste</div>
+                  
+                  <div class="col-span-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">Resposta</div>
+                  <div class="col-span-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-neutral-500"> </div>
                 </div>
 
-            <div class="text-sm text-left font-bold text-gray-500">
-             Adaptação e ampliação: Dr. George Barbosa CRP: 6/45 154 				
-</div>  
+                <div class=" border-b border-gray-200 dark:border-neutral-700"></div>
+                    <div class="grid grid-cols-12 ">
+                      <div class=" pr-1 text-sm col-span-6 block font-bold text-gray-800 dark:text-white">
+                        Hiperlexia (aprendeu a ler antes dos 3 anos de idade)</div>
+                      <div class=" text-sm col-span-3 text-gray-600 dark:text-neutral-400">
+                        {{ $dadosRelatorio['dadosCliente']['hiperlexia'] }}</div>
+
+                      <div class="pt-2 pr-1 text-sm col-span-6 block font-bold text-gray-800 dark:text-white">
+                        Hipercalculia (antes dos 4 anos com habilidade em matemática significativamente acima da expectativa de idade - cálculos / lógica /astronomia / geometria)</div>
+                      <div class="pt-2 text-sm col-span-3 text-gray-600 dark:text-neutral-400">
+                        {{ $dadosRelatorio['dadosCliente']['hipercalculia'] }}</div>
+
+                      <div class="pt-2 pr-1 text-sm col-span-6 block font-bold text-gray-800 dark:text-white">
+                        Ouvido absoluto (musical)</div>
+                      <div class="pt-2 text-sm col-span-3 text-gray-600 dark:text-neutral-400">
+                        {{ $dadosRelatorio['dadosCliente']['ouvidoAbsoluto'] }}</div>
+
+                      <div class="pt-2 pr-1 text-sm col-span-6 block font-bold text-gray-800 dark:text-white">
+                        Talento para pintar / desenhar antes dos 04 anos</div>
+                      <div class="pt-2 text-sm col-span-3 text-gray-600 dark:text-neutral-400">
+                        {{ $dadosRelatorio['dadosCliente']['talentoPintar'] }}</div>
+
+                      <div class="pt-2 pr-1 text-sm col-span-6 block font-bold text-gray-800 dark:text-white">
+                        Faixa superdotada de QI para a idade</div>
+                      <div class="pt-2 text-sm col-span-3 text-gray-600 dark:text-neutral-400">
+                        {{ $dadosRelatorio['dadosCliente']['faixaSuperiorQI'] }}</div>
+                      </div>
+
+                  <div class="text-sm text-left font-semibold text-gray-500">
+                  - Note que mais de uma excepcionalidade, implica em ter uma alta dotação de algum talento ou aptidão, por ex., matemática (cálculos lógicos), artes (pintura), música (tocar), prática ou atividades físicas (contorcionismo / evoluções), em conjunto com outra ou outras característica(s) em neurodivergência (como, TDAH, Dislexia, Discalculia, TEA, Sensibilidades exacerbadas (sensorial), Linguagem (por exemplo, a interpretação literal do que escuta ou fala [literalismo]). É comum se constatar nestes quadros, que o desenvolvimento emocional, intelectual ou psicológico acontece em tempos ou fases diferentes ou não concomitantes - tal situação é conhecida como assincronia no desenvolvimento). Comumente também se chama de dupla excepcionalidade e não se restringe a apenas duas ocorrências, pode-se encontrar mais de duas.</div>  
+            
+                {{-- linha de separação --}}
+                <div class="hidden sm:block border-b border-gray-200 dark:border-neutral-700"></div>
+                <div class="grid grid-cols-12 ">
+                  <div class="col-span-6 text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">Pergunta do teste</div>
+                  
+                  <div class="col-span-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">Resposta</div>
+                  <div class="col-span-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-neutral-500"> </div>
+                </div>
+                <div class=" border-b border-gray-200 dark:border-neutral-700"></div>
+                    <div class="grid grid-cols-12 ">
+                      <div class=" pr-1 text-sm col-span-6 block font-bold text-gray-800 dark:text-white">
+                        Quantas irmãs biológicas você tem?</div>
+                      <div class=" text-sm col-span-3 text-gray-600 dark:text-neutral-400">
+                        {{ $dadosRelatorio['dadosCliente']['qtdIrmasBio'] }}</div>
+
+                      <div class="pt-2 pr-1 text-sm col-span-6 block font-bold text-gray-800 dark:text-white">
+                        Quantos irmãos biológicos você tem?</div>
+                      <div class="pt-2 text-sm col-span-3 text-gray-600 dark:text-neutral-400">
+                        {{ $dadosRelatorio['dadosCliente']['qtdIrmaosBio'] }}</div>
+                      
+                      <div class="pt-2 pr-1 text-sm col-span-6 block font-bold text-gray-800 dark:text-white">
+                        Quantos filhos e filhas biológicos você tem? (Trás a carga genética sua ou do[a] parceiro[a] em gestações assistidas)</div>
+                      <div class="pt-2 text-sm col-span-3 text-gray-600 dark:text-neutral-400">
+                        {{ $dadosRelatorio['dadosCliente']['qtdFilhosBio'] }}</div>
+
+                      <div class="pt-2 pr-1 text-sm col-span-6 block font-bold text-gray-800 dark:text-white">
+                        Algum membro da sua família nuclear (pai, mãe, irmãos/irmãs) foi diagnosticado com TEA (Espectro do autismo)?</div>
+                      <div class="pt-2 text-sm col-span-3 text-gray-600 dark:text-neutral-400">
+                        {{ $dadosRelatorio['dadosCliente']['familiaNuclear'] }}</div>
+
+                      <div class="pt-2 pr-1 text-sm col-span-6 block font-bold text-gray-800 dark:text-white">
+                        Algum de seus avós, tios(as) ou primos(as), tem um diagnóstico formal de neurodivergência como Hipersensibilidade sensorial, autismo, TDAH, Dislexia etc.? E, em caso afirmativo, quantos?</div>
+                      <div class="pt-2 text-sm col-span-3 text-gray-600 dark:text-neutral-400">
+                        {{ $dadosRelatorio['dadosCliente']['diagnosticoParentes'] }}</div>
+
+                      <div class="pt-2 pr-1 text-sm col-span-6 block font-bold text-gray-800 dark:text-white">
+                        Você tem filhos e filhas não biológicos sob seus cuidados?</div>
+                      <div class="pt-2 text-sm col-span-3 text-gray-600 dark:text-neutral-400">
+                        {{ $dadosRelatorio['dadosCliente']['filhosSobCuidados'] }}</div>
+
+                      <div class="pt-2 pr-1 text-sm col-span-6 block font-bold text-gray-800 dark:text-white">
+                        Algum destes seus filhos ou filhas / netos "deve ser" encaminhado para uma avaliação de diagnóstico de neurodivergência (Hipersensibilidade, autismo, TDAH, TEA, Dislexia etc.) e, em caso afirmativo, quantos?</div>
+                      <div class="pt-2 text-sm col-span-3 text-gray-600 dark:text-neutral-400">
+                        {{ $dadosRelatorio['dadosCliente']['descendentesPrecisamAvaliacao'] }}</div>
+
+                      <div class="pt-2 pr-1 text-sm col-span-6 block font-bold text-gray-800 dark:text-white">
+                        Algum de seus filhos/ filhas foi formalmente diagnosticado em neurodivergência por um profissional (Hipersensibilidade sensorial, TDAH, TEA, Dislexia e etc.)? Em caso afirmativo, quantos?</div>
+                      <div class="pt-2 text-sm col-span-3 text-gray-600 dark:text-neutral-400">
+                        {{ $dadosRelatorio['dadosCliente']['filhosComDiagnostico'] }}</div>
+
+                      <div class="pt-2 pr-1 text-sm col-span-6 block font-bold text-gray-800 dark:text-white">
+                        Qual é a sua ocupação (ou ocupação passada se aposentado ou atualmente desempregado)?</div>
+                      <div class="pt-2 text-sm col-span-3 text-gray-600 dark:text-neutral-400">
+                        {{ $dadosRelatorio['dadosCliente']['ocupacaoPrincipal'] }}</div>
+                      </div>
+                      </div>
+
+                  <div class="text-sm text-left font-bold text-gray-500">
+                  Adaptação e ampliação: Dr. George Barbosa CRP: 6/45 154 				
+      </div>  
       
                 
       </div>
         
-      </div>
+    </div>
       
       
       <!-- Table - Respostas ao Questionário Histórico -->
       <div class="mt-6">
         <div class="border border-gray-200 p-6 rounded-lg space-y-6 dark:border-neutral-700">
            {{-- Subtítulo da Seção --}}
-      <div class="text-2xl text-center font-semibold text-gray-400">
-        HISTÓRICO DO CORPO E CORRELAÇÕES COM AS NEURODIVERGÊNCIAS
-      </div>
-      <div class="text-sm text-center font-semibold text-gray-500">
-        Este questionário contém uma série de patologias e ou sintomas que ocorrem com certa frequência. Para preenchê-lo basta você identificar com um "X" sua situação.</div> 
-      <div class="text-sm text-center font-semibold text-gray-500">
-        Adaptação e ampliação: Dr. George Barbosa CRP: 6/45 154 (Usado com permissão do autor original)</div>
-      <div class="text-sm text-center font-semibold text-gray-500">
-        O questionário original com 38 itens foi estruturado pelo Dr. Esdras. G. Vasconcelos do “IPSPP” visando identificar as condições do adoecimento. A partir da permissão do autor original organizei as ampliações necessárias para relacionar com os tópicos das neurodivergências.</div>   
-      
+          <div class="text-2xl text-center font-semibold text-gray-400">
+            HISTÓRICO DO CORPO E CORRELAÇÕES COM AS NEURODIVERGÊNCIAS
+          </div>
+          <div class="text-sm text-center font-semibold text-gray-500">
+            Este questionário contém uma série de patologias e ou sintomas que ocorrem com certa frequência. Para preenchê-lo basta você identificar com um "X" sua situação.</div> 
+          <div class="text-sm text-center font-semibold text-gray-500">
+            Adaptação e ampliação: Dr. George Barbosa CRP: 6/45 154 (Usado com permissão do autor original)</div>
+          <div class="text-sm text-center font-semibold text-gray-500">
+            O questionário original com 38 itens foi estruturado pelo Dr. Esdras. G. Vasconcelos do “IPSPP” visando identificar as condições do adoecimento. A partir da permissão do autor original organizei as ampliações necessárias para relacionar com os tópicos das neurodivergências.</div>   
+          
         {{-- linha de separação --}}
-      <div class="hidden sm:block border-b border-gray-200 dark:border-neutral-700"></div>
-          <div class="grid grid-cols-12 ">
-            <div class="text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">N. Seq.</div>
-            <div class="col-span-5 text-start text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">Pergunta do teste</div>
-            <div class="col-span-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">Resposta</div>
-            <div class="col-span-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">Comentários do Cliente</div>
-          </div>
+        <div class="hidden sm:block border-b border-gray-200 dark:border-neutral-700"></div>
+            <div class="grid grid-cols-12 ">
+              <div class="text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">N. Seq.</div>
+              <div class="col-span-5 text-start text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">Pergunta do teste</div>
+              <div class="col-span-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">Resposta</div>
+              <div class="col-span-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">Comentários do Cliente</div>
+            </div>
 
-          <div class=" border-b border-gray-200 dark:border-neutral-700"></div>
+            <div class=" border-b border-gray-200 dark:border-neutral-700"></div>
 
-          <div class="grid grid-cols-12">
-          @foreach ($dadosRelatorio['resultadoTeste'] as $item)
-                
-          
-            <div class="pb-2" wire:key="{{ $item->pergunta->id }}">
-              {{-- <h5 class="sm:hidden text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">Pergunta do teste</h5> --}}
-              <p class=" text-sm text-gray-800 dark:text-neutral-200">
-                {{ $item->pergunta->id }}. </p>
+            <div class="grid grid-cols-12">
+            @foreach ($dadosRelatorio['resultadoTeste'] as $item)
+                  
+            
+              <div class="pb-2" wire:key="{{ $item->pergunta->id }}">
+                {{-- <h5 class="sm:hidden text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">Pergunta do teste</h5> --}}
+                <p class=" text-sm text-gray-800 dark:text-neutral-200">
+                  {{ $item->pergunta->id }}. </p>
+              </div>
+              <div class="col-span-5">
+                {{-- <h5 class="sm:hidden text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">Pergunta do teste</h5> --}}
+                <p class=" text-sm text-gray-800 dark:text-neutral-200">
+                  {{ $item->pergunta->enunciado }}</p>
+              </div>
+              <div class="col-span-3">
+                {{-- <h5 class="sm:hidden text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">Resposta</h5> --}}
+                <p class="text-sm text-gray-800 dark:text-neutral-200">{{ $item->opcaoresposta->textoResposta }}</p>
+              </div>
+              {{-- <div>
+                <h5 class="sm:hidden text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">Rate</h5>
+                <p class="text-gray-800 dark:text-neutral-200">5</p>
+              </div> --}}
+              <div class="col-span-3">
+                {{-- <h5 class="sm:hidden text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">Comentários do Cliente</h5> --}}
+                <p class="text-sm text-gray-800 dark:text-neutral-200">{{ $item->comentariosCliente }}</p>
+              </div>
+            
+            @endforeach
             </div>
-            <div class="col-span-5">
-              {{-- <h5 class="sm:hidden text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">Pergunta do teste</h5> --}}
-              <p class=" text-sm text-gray-800 dark:text-neutral-200">
-                {{ $item->pergunta->enunciado }}</p>
-            </div>
-            <div class="col-span-3">
-              {{-- <h5 class="sm:hidden text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">Resposta</h5> --}}
-              <p class="text-sm text-gray-800 dark:text-neutral-200">{{ $item->opcaoresposta->textoResposta }}</p>
-            </div>
-            {{-- <div>
-              <h5 class="sm:hidden text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">Rate</h5>
-              <p class="text-gray-800 dark:text-neutral-200">5</p>
-            </div> --}}
-            <div class="col-span-3">
-              {{-- <h5 class="sm:hidden text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">Comentários do Cliente</h5> --}}
-              <p class="text-sm text-gray-800 dark:text-neutral-200">{{ $item->comentariosCliente }}</p>
-            </div>
-          
-          @endforeach
           </div>
-        </div>
       </div>
-      <!-- End Table -->
+        <!-- End Table -->
 
-      <!-- Flex -->
-      {{-- <div class="mt-8 flex sm:justify-end">
-        <div class="w-full max-w-2xl sm:text-end space-y-2">
-          <!-- Grid -->
-          <div class="grid grid-cols-2 sm:grid-cols-1 gap-3 sm:gap-2">
-            <dl class="grid sm:grid-cols-5 gap-x-3">
-              <dt class="col-span-3 font-semibold text-gray-800 dark:text-neutral-200">Subtotal:</dt>
-              <dd class="col-span-2 text-gray-500 dark:text-neutral-500">$2750.00</dd>
-            </dl>
-
-            <dl class="grid sm:grid-cols-5 gap-x-3">
-              <dt class="col-span-3 font-semibold text-gray-800 dark:text-neutral-200">Total:</dt>
-              <dd class="col-span-2 text-gray-500 dark:text-neutral-500">$2750.00</dd>
-            </dl>
-
-            <dl class="grid sm:grid-cols-5 gap-x-3">
-              <dt class="col-span-3 font-semibold text-gray-800 dark:text-neutral-200">Tax:</dt>
-              <dd class="col-span-2 text-gray-500 dark:text-neutral-500">$39.00</dd>
-            </dl>
-
-            <dl class="grid sm:grid-cols-5 gap-x-3">
-              <dt class="col-span-3 font-semibold text-gray-800 dark:text-neutral-200">Amount paid:</dt>
-              <dd class="col-span-2 text-gray-500 dark:text-neutral-500">$2789.00</dd>
-            </dl>
-
-            <dl class="grid sm:grid-cols-5 gap-x-3">
-              <dt class="col-span-3 font-semibold text-gray-800 dark:text-neutral-200">Due balance:</dt>
-              <dd class="col-span-2 text-gray-500 dark:text-neutral-500">$0.00</dd>
-            </dl>
-          </div>
-          <!-- End Grid -->
-        </div>
-      </div> --}}
-      <!-- End Flex -->
+      
 
       <div class="mt-8 sm:mt-12">
         <h4 class="text-lg font-semibold text-gray-800 dark:text-neutral-200">Obrigado!</h4>

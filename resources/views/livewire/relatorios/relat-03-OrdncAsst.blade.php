@@ -14,10 +14,10 @@
         <main>
 <!-- Invoice -->
 <div>
-<div class="max-w-[85rem] px-4 sm:px-6 lg:px-8 mx-auto my-4 sm:my-10">
+<div class="max-w-[85rem] px-2 sm:px-6 lg:px-1 mx-auto my-4 sm:my-10">
   <div class="sm:w-11/12 lg:w-3/4 mx-auto">
     <!-- Card -->
-    <div class="flex flex-col p-4 sm:p-10 bg-white shadow-md rounded-xl dark:bg-neutral-800">
+    <div class="flex flex-col p-4 sm:p-6 bg-white shadow-md rounded-xl dark:bg-neutral-800">
       <!-- Grid -->
       <div class="flex justify-between">
         <div>
@@ -37,7 +37,7 @@
         <div class="text-end">
             <img class="h-16" src="{{ asset('storage/logo_neudiv_1.jpg') }}">
           <h2 class="text-base md:text-xl font-semibold text-gray-800 dark:text-neutral-200">NEURODIVERSIDADE</h2>
-          <span class="mt-1 block text-gray-500 dark:text-neutral-500">
+          <span class="mt-1 block font-semibold text-gray-800 dark:text-neutral-500">
             Cod. interno: {{ $dadosRelatorio['orders_id'] }}/{{ $dadosRelatorio['idadeCliente'] }}-{{ $dadosRelatorio['estadoNascimentoCliente'] }}</span>
 
           {{-- <address class="mt-4 not-italic text-gray-800 dark:text-neutral-200">
@@ -56,7 +56,7 @@
         <div>
           <h3 class="text-lg font-semibold text-gray-800 dark:text-neutral-200">Para:</h3>
           <h3 class="text-lg font-semibold text-gray-800 dark:text-neutral-200">{{ $dadosRelatorio['nomeCliente'] }}</h3>
-          <address class="mt-2 not-italic text-gray-500 dark:text-neutral-500">
+          <address class="mt-2 not-italic font-semibold text-gray-800 dark:text-neutral-500">
             Idade: {{ $dadosRelatorio['idadeCliente'] }}<br>
           {{--   Breannabury, OR 45801,<br>
             United States<br> --}}
@@ -69,11 +69,11 @@
           <div class="grid grid-cols-2 sm:grid-cols-1 gap-3 sm:gap-2">
             <dl class="grid sm:grid-cols-5 gap-x-3">
               <dt class="col-span-3 font-semibold text-gray-800 dark:text-neutral-200">Emitido em:</dt>
-              <dd class="col-span-2 text-gray-500 dark:text-neutral-500">{{ $dadosRelatorio['dataEmissao'] }}</dd>
+              <dd class="col-span-2 font-semibold text-gray-800 dark:text-neutral-500">{{ $dadosRelatorio['dataEmissao'] }}</dd>
             </dl>
             <dl class="grid sm:grid-cols-5 gap-x-3">
               <dt class="col-span-3 font-semibold text-gray-800 dark:text-neutral-200">Respondido em:</dt>
-              <dd class="col-span-2 text-gray-500 dark:text-neutral-500">{{ $dadosRelatorio['dataFinalTeste'] }}</dd>
+              <dd class="col-span-2 font-semibold text-gray-800 dark:text-neutral-500">{{ $dadosRelatorio['dataFinalTeste'] }}</dd>
             </dl>
           </div>
           <!-- End Grid -->
@@ -95,10 +95,10 @@
         {{-- linha de separação --}}
       <div class="hidden sm:block border-b border-gray-200 dark:border-neutral-700"></div>
           <div class="grid grid-cols-12 ">
-            <div class="text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">N. Seq.</div>
-            <div class="col-span-5 text-start text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">Pergunta do teste</div>
-            <div class="col-span-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">Resposta</div>
-            <div class="col-span-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">Comentários do Cliente</div>
+            <div class="text-sm p-1 font-semibold text-gray-800 uppercase dark:text-neutral-500">N. Seq.</div>
+            <div class="col-span-5 p-1 text-start text-sm font-semibold text-gray-800 uppercase dark:text-neutral-500">Pergunta do teste</div>
+            <div class="col-span-3 p-1 text-start text-sm font-semibold text-gray-800 uppercase dark:text-neutral-500">Resposta</div>
+            <div class="col-span-3 p-1 text-start text-sm font-semibold text-gray-800 uppercase dark:text-neutral-500">Comentários do Cliente</div>
           </div>
 
           <div class=" border-b border-gray-200 dark:border-neutral-700"></div>
@@ -109,17 +109,17 @@
           
             <div class="pb-2" wire:key="{{ $item->pergunta->id }}">
               {{-- <h5 class="sm:hidden text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">Pergunta do teste</h5> --}}
-              <p class=" text-sm text-gray-800 dark:text-neutral-200">
+              <p class=" text-sm p-1 font-semibold text-gray-800 dark:text-neutral-200">
                 {{ $item->pergunta->id }}. </p>
             </div>
             <div class="col-span-5">
               {{-- <h5 class="sm:hidden text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">Pergunta do teste</h5> --}}
-              <p class=" text-sm text-gray-800 dark:text-neutral-200">
+              <p class=" text-sm p-1 font-semibold text-gray-800 dark:text-neutral-200">
                 {{ $item->pergunta->enunciado }}</p>
             </div>
             <div class="col-span-3">
               {{-- <h5 class="sm:hidden text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">Resposta</h5> --}}
-              <p class="text-sm text-gray-800 dark:text-neutral-200">{{ $item->opcaoresposta->textoResposta }}</p>
+              <p class="text-sm p-1 font-semibold text-gray-800 dark:text-neutral-200">{{ $item->opcaoresposta->textoResposta }}</p>
             </div>
             {{-- <div>
               <h5 class="sm:hidden text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">Rate</h5>
@@ -127,7 +127,7 @@
             </div> --}}
             <div class="col-span-3">
               {{-- <h5 class="sm:hidden text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">Comentários do Cliente</h5> --}}
-              <p class="text-sm text-gray-800 dark:text-neutral-200">{{ $item->comentariosCliente }}</p>
+              <p class="text-sm p-1 font-semibold text-gray-800 dark:text-neutral-200">{{ $item->comentariosCliente }}</p>
             </div>
           
           @endforeach
@@ -143,35 +143,35 @@
           <div class="grid grid-cols-2 sm:grid-cols-1 gap-3 sm:gap-2">
             <dl class="grid sm:grid-cols-5 gap-x-3">
               <dt class="col-span-3 font-semibold text-gray-800 dark:text-neutral-200">A minha comunicação:</dt>
-              <dd class="col-span-2 text-gray-500 dark:text-neutral-500">{{ number_format($comunicacao, 2, ','); }}</dd>
+              <dd class="col-span-2 font-semibold text-gray-800 dark:text-neutral-500">{{ number_format($comunicacao, 2, ','); }}</dd>
             </dl>
             <dl class="grid sm:grid-cols-5 gap-x-3">
               <dt class="col-span-3 font-semibold text-gray-800 dark:text-neutral-200">O tipo do meu pensamento :</dt>
-              <dd class="col-span-2 text-gray-500 dark:text-neutral-500">{{ number_format($pensamento, 2, ','); }}</dd>
+              <dd class="col-span-2 font-semibold text-gray-800 dark:text-neutral-500">{{ number_format($pensamento, 2, ','); }}</dd>
             </dl>
             <dl class="grid sm:grid-cols-5 gap-x-3">
               <dt class="col-span-3 font-semibold text-gray-800 dark:text-neutral-200">Meu processo de atenção:</dt>
-              <dd class="col-span-2 text-gray-500 dark:text-neutral-500">{{ number_format($atencao, 2, ','); }}</dd>
+              <dd class="col-span-2 font-semibold text-gray-800 dark:text-neutral-500">{{ number_format($atencao, 2, ','); }}</dd>
             </dl>
             <dl class="grid sm:grid-cols-5 gap-x-3">
               <dt class="col-span-3 font-semibold text-gray-800 dark:text-neutral-200">Minha tensão muscular:</dt>
-              <dd class="col-span-2 text-gray-500 dark:text-neutral-500">{{ number_format($tensao, 2, ','); }}</dd>
+              <dd class="col-span-2 font-semibold text-gray-800 dark:text-neutral-500">{{ number_format($tensao, 2, ','); }}</dd>
             </dl>
             <dl class="grid sm:grid-cols-5 gap-x-3">
               <dt class="col-span-3 font-semibold text-gray-800 dark:text-neutral-200">Meu desempenho social:</dt>
-              <dd class="col-span-2 text-gray-500 dark:text-neutral-500">{{ number_format($social, 2, ','); }}</dd>
+              <dd class="col-span-2 font-semibold text-gray-800 dark:text-neutral-500">{{ number_format($social, 2, ','); }}</dd>
             </dl>
             <dl class="grid sm:grid-cols-5 gap-x-3">
               <dt class="col-span-3 font-semibold text-gray-800 dark:text-neutral-200">Meus estados emocionais:</dt>
-              <dd class="col-span-2 text-gray-500 dark:text-neutral-500">{{ number_format($emocional, 2, ','); }}</dd>
+              <dd class="col-span-2 font-semibold text-gray-800 dark:text-neutral-500">{{ number_format($emocional, 2, ','); }}</dd>
             </dl>
             <dl class="grid sm:grid-cols-5 gap-x-3">
               <dt class="col-span-3 font-semibold text-gray-800 dark:text-neutral-200">Condições mentais e físicas:</dt>
-              <dd class="col-span-2 text-gray-500 dark:text-neutral-500">{{ number_format($mental, 2, ','); }}</dd>
+              <dd class="col-span-2 font-semibold text-gray-800 dark:text-neutral-500">{{ number_format($mental, 2, ','); }}</dd>
             </dl>
             <dl class="grid sm:grid-cols-5 gap-x-3">
               <dt class="col-span-3 font-semibold text-gray-800 dark:text-neutral-200">Minha sexualidade e lazer:</dt>
-              <dd class="col-span-2 text-gray-500 dark:text-neutral-500">{{ number_format($sexualidade, 2, ','); }}</dd>
+              <dd class="col-span-2 font-semibold text-gray-800 dark:text-neutral-500">{{ number_format($sexualidade, 2, ','); }}</dd>
             </dl>
 
             
@@ -185,15 +185,15 @@
         {{-- <h4 class="text-lg font-semibold text-gray-800 dark:text-neutral-200">Como entender o seu resultado de estresse e fadiga:<br></h4> --}}
         <p class="text-gray-500 dark:text-neutral-500">{!! $dadosRelatorio['textoFecha'] !!}</p>
         <div class="mt-2">
-          <p class="block text-sm font-medium text-gray-800 dark:text-neutral-200">{{ $dadosRelatorio['textoRodape']}}</p>
+          <p class="block text-sm font-medium text-gray-800 dark:text-neutral-200">{!! $dadosRelatorio['textoRodape'] !!}</p>
           
         </div>
       </div>
 
-      <p class="mt-5 text-sm text-gray-500 dark:text-neutral-500">© 2024 SOBRARE - Todos os direitos reservados.</p>
+      {{-- <p class="mt-5 text-sm text-gray-500 dark:text-neutral-500">© 2024 SOBRARE - Todos os direitos reservados.</p> --}}
     </div>
 
-      <div class="mt-8 sm:mt-12">
+      {{-- <div class="mt-8 sm:mt-12">
         <h4 class="text-lg font-semibold text-gray-800 dark:text-neutral-200">Obrigado!</h4>
         <p class="text-gray-500 dark:text-neutral-500">Se tiver qualquer dúvida referente a este teste, aqui estão as informações de contato:</p>
         <div class="mt-2">
@@ -202,7 +202,7 @@
         </div>
       </div>
 
-      <p class="mt-5 text-sm text-gray-500 dark:text-neutral-500">© 2024 SOBRARE - Todos os direitos reservados.</p>
+      <p class="mt-5 text-sm text-gray-500 dark:text-neutral-500">© 2024 SOBRARE - Todos os direitos reservados.</p> --}}
     </div>
     <!-- End Card -->
 
