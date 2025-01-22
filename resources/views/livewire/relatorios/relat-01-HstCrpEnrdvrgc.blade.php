@@ -231,7 +231,7 @@
                   <th scope="row" class="px-6 py-2 font-semibold text-gray-800 whitespace-nowrap dark:text-white">
                       Déficit de atenção com ou sem hiperatividade
                   </th>
-                  <td class="px-6 py-2">
+                  <td class="px-6 py-2 font-semibold text-gray-80">
                       {{ $dadosRelatorio['dadosCliente']['deficitAtencao'] }}
                   </td>              
               </tr>
@@ -239,7 +239,7 @@
                   <th scope="row" class="px-6 py-2 font-semibold text-gray-800 whitespace-nowrap dark:text-white">
                       Anorexia nervosa
                   </th>
-                  <td class="px-6 py-2">
+                  <td class="px-6 py-2 font-semibold text-gray-80">
                       {{ $dadosRelatorio['dadosCliente']['anorexiaNervosa'] }}
                   </td>              
               </tr>
@@ -247,7 +247,7 @@
                   <th scope="row" class="px-6 py-2 font-semibold text-gray-800 whitespace-nowrap dark:text-white">
                       Transtorno de Ansiedade (por exemplo, Ansiedade Generalizada)
                   </th>
-                  <td class="px-6 py-2">
+                  <td class="px-6 py-2 font-semibold text-gray-80">
                       {{ $dadosRelatorio['dadosCliente']['transtornoAnsiedade'] }}
                   </td>              
               </tr>
@@ -255,7 +255,7 @@
                   <th scope="row" class="px-6 py-2 font-semibold text-gray-800 whitespace-nowrap dark:text-white">
                       Autismo Nível 1 (Antiga Síndrome de Asperger)
                   </th>
-                  <td class="px-6 py-2">
+                  <td class="px-6 py-2 font-semibold text-gray-80">
                       {{ $dadosRelatorio['dadosCliente']['autismoNivel1'] }}
                   </td>              
               </tr>
@@ -263,7 +263,7 @@
                   <th scope="row" class="px-6 py-2 font-semibold text-gray-800 text-pretty dark:text-white">
                       Transtorno Bipolar (Alternância entre episódios de euforismo, exaltação e estados de tristeza, depressivos. A alternância, por vezes, pode ser semanais, trimestrais, ou em períodos maiores.
                   </th>
-                  <td class="px-6 py-2">
+                  <td class="px-6 py-2 font-semibold text-gray-80">
                       {{ $dadosRelatorio['dadosCliente']['transtornoBipolar'] }}
                   </td>              
               </tr>
@@ -271,7 +271,7 @@
                   <th scope="row" class="px-6 py-2 font-semibold text-gray-800 text-pretty dark:text-white">
                       Depressão
                   </th>
-                  <td class="px-6 py-2">
+                  <td class="px-6 py-2 font-semibold text-gray-80">
                       {{ $dadosRelatorio['dadosCliente']['depressao'] }}
                   </td>              
               </tr>
@@ -279,7 +279,7 @@
                   <th scope="row" class="px-6 py-2 font-semibold text-gray-800 text-pretty dark:text-white">
                       Transtorno Histriônico - Ampliar os feitos e realizações pessoais. Agir de modo sedutor(a) ou provocativa(o) ou manipuladora(or). Usar a aparência física como uma vitrine. Agir e atuar de modo inapropriado e todas estas possibilidades usadas como estratégia para  chamar a atenção ou vencer as pessoas pela argumentação.
                   </th>
-                  <td class="px-6 py-2">
+                  <td class="px-6 py-2 font-semibold text-gray-80">
                       {{ $dadosRelatorio['dadosCliente']['transtornoHistrionico'] }}
                   </td>              
               </tr>
@@ -287,7 +287,7 @@
                   <th scope="row" class="px-6 py-2 font-semibold text-gray-800 text-pretty dark:text-white">
                       Transtorno Intelectual (por exemplo, Dificuldade de Aprendizagem)
                   </th>
-                  <td class="px-6 py-2">
+                  <td class="px-6 py-2 font-semibold text-gray-80">
                       {{ $dadosRelatorio['dadosCliente']['transtornoIntelectual'] }}
                   </td>              
               </tr>
@@ -295,7 +295,7 @@
                   <th scope="row" class="px-6 py-2 font-semibold text-gray-800 text-pretty dark:text-white">
                       Atraso, déficit ou dificuldades de expressar nosso idioma (por exemplo, certas dificuldades na fala ou comunicação, como entender predominantemente o literal do que lhe é dito, dificuldades com o uso de gírias, voz monótona (sem modulações), fala demasiada formal ou refinada e até com termos técnicos - sem ser profissional da área técnica.
                   </th>
-                  <td class="px-6 py-2">
+                  <td class="px-6 py-2 font-semibold text-gray-80">
                       {{ $dadosRelatorio['dadosCliente']['dificuldadeExpressar'] }}
                   </td>              
               </tr>
@@ -303,7 +303,7 @@
                   <th scope="row" class="px-6 py-2 font-semibold text-gray-800 text-pretty dark:text-white">
                       Transtorno Obsessivo Compulsivo (TOC)
                   </th>
-                  <td class="px-6 py-2">
+                  <td class="px-6 py-2 font-semibold text-gray-80">
                       {{ $dadosRelatorio['dadosCliente']['toc'] }}
                   </td>              
               </tr>
@@ -311,7 +311,7 @@
                   <th scope="row" class="px-6 py-2 font-semibold text-gray-800 text-pretty dark:text-white">
                       Transtorno de Personalidade do tipo Borderline, Narcisista, Esquizotípico, Evitativo ou Psicótico
                   </th>
-                  <td class="px-6 py-2">
+                  <td class="px-6 py-2 font-semibold text-gray-80">
                       {{ $dadosRelatorio['dadosCliente']['transtornoDePersonalidade'] }}
                   </td>              
               </tr>
@@ -319,7 +319,7 @@
                   <th scope="row" class="px-6 py-2 font-semibold text-gray-800 text-pretty dark:text-white">
                       Fobias</div>
                   </th>
-                  <td class="px-6 py-2">
+                  <td class="px-6 py-2 font-semibold text-gray-80">
                       {{ $dadosRelatorio['dadosCliente']['fobias'] }}
                   </td>              
               </tr>
@@ -327,7 +327,7 @@
                   <th scope="row" class="px-6 py-2 font-semibold text-gray-800 text-pretty dark:text-white">
                       Transtorno de Esquizofrenia
                   </th>
-                  <td class="px-6 py-2">
+                  <td class="px-6 py-2 font-semibold text-gray-80">
                       {{ $dadosRelatorio['dadosCliente']['esquizofrenia'] }}
                   </td>              
               </tr>
@@ -372,7 +372,7 @@
                       <th scope="row" class="px-6 py-2 font-semibold text-gray-800 text-pretty dark:text-white">
                           Hiperlexia (aprendeu a ler antes dos 3 anos de idade)
                       </th>
-                      <td class="px-6 py-2">
+                      <td class="px-6 py-2 font-semibold text-gray-80">
                           {{ $dadosRelatorio['dadosCliente']['hiperlexia'] }}
                       </td>              
                   </tr>
@@ -380,7 +380,7 @@
                       <th scope="row" class="px-6 py-2 font-semibold text-gray-800 text-pretty dark:text-white">
                           Hipercalculia (antes dos 4 anos com habilidade em matemática significativamente acima da expectativa de idade - cálculos / lógica /astronomia / geometria)
                       </th>
-                      <td class="px-6 py-2">
+                      <td class="px-6 py-2 font-semibold text-gray-80">
                           {{ $dadosRelatorio['dadosCliente']['hipercalculia'] }}
                       </td>              
                   </tr>
@@ -388,7 +388,7 @@
                       <th scope="row" class="px-6 py-2 font-semibold text-gray-800 text-pretty dark:text-white">
                           Ouvido absoluto (musical)
                       </th>
-                      <td class="px-6 py-2">
+                      <td class="px-6 py-2 font-semibold text-gray-80">
                           {{ $dadosRelatorio['dadosCliente']['ouvidoAbsoluto'] }}
                       </td>              
                   </tr>
@@ -396,7 +396,7 @@
                       <th scope="row" class="px-6 py-2 font-semibold text-gray-800 text-pretty dark:text-white">
                           Talento para pintar / desenhar antes dos 04 anos
                       </th>
-                      <td class="px-6 py-2">
+                      <td class="px-6 py-2 font-semibold text-gray-80">
                           {{ $dadosRelatorio['dadosCliente']['talentoPintar'] }}
                       </td>              
                   </tr>
@@ -404,7 +404,7 @@
                       <th scope="row" class="px-6 py-2 font-semibold text-gray-800 text-pretty dark:text-white">
                           Faixa superdotada de QI para a idade
                       </th>
-                      <td class="px-6 py-2">
+                      <td class="px-6 py-2 font-semibold text-gray-80">
                           {{ $dadosRelatorio['dadosCliente']['faixaSuperiorQI'] }}
                       </td>              
                   </tr>
@@ -448,7 +448,7 @@
                       <th scope="row" class="px-6 py-2 font-semibold text-gray-800 text-pretty dark:text-white">
                           Quantos irmãos biológicos você tem?
                       </th>
-                      <td class="px-6 py-2">
+                      <td class="px-6 py-2 font-semibold text-gray-80">
                           {{ $dadosRelatorio['dadosCliente']['qtdIrmaosBio'] }}
                       </td>              
                   </tr>
@@ -456,7 +456,7 @@
                       <th scope="row" class="px-6 py-2 font-semibold text-gray-800 text-pretty dark:text-white">
                           Quantos filhos e filhas biológicos você tem? (Trás a carga genética sua ou do[a] parceiro[a] em gestações assistidas)
                       </th>
-                      <td class="px-6 py-2">
+                      <td class="px-6 py-2 font-semibold text-gray-80">
                           {{ $dadosRelatorio['dadosCliente']['qtdFilhosBio'] }}
                       </td>              
                   </tr>
@@ -464,7 +464,7 @@
                       <th scope="row" class="px-6 py-2 font-semibold text-gray-800 text-pretty dark:text-white">
                           Algum membro da sua família nuclear (pai, mãe, irmãos/irmãs) foi diagnosticado com TEA (Espectro do autismo)?
                       </th>
-                      <td class="px-6 py-2">
+                      <td class="px-6 py-2 font-semibold text-gray-80">
                           {{ $dadosRelatorio['dadosCliente']['familiaNuclear'] }}
                       </td>              
                   </tr>
@@ -472,7 +472,7 @@
                       <th scope="row" class="px-6 py-2 font-semibold text-gray-800 text-pretty dark:text-white">
                           Algum de seus avós, tios(as) ou primos(as), tem um diagnóstico formal de neurodivergência como Hipersensibilidade sensorial, autismo, TDAH, Dislexia etc.? E, em caso afirmativo, quantos?
                       </th>
-                      <td class="px-6 py-2">
+                      <td class="px-6 py-2 font-semibold text-gray-80">
                           {{ $dadosRelatorio['dadosCliente']['diagnosticoParentes'] }}
                       </td>              
                   </tr>
@@ -480,7 +480,7 @@
                       <th scope="row" class="px-6 py-2 font-semibold text-gray-800 text-pretty dark:text-white">
                           Você tem filhos e filhas não biológicos sob seus cuidados?
                       </th>
-                      <td class="px-6 py-2">
+                      <td class="px-6 py-2 font-semibold text-gray-80">
                           {{ $dadosRelatorio['dadosCliente']['filhosSobCuidados'] }}
                       </td>              
                   </tr>
@@ -488,7 +488,7 @@
                       <th scope="row" class="px-6 py-2 font-semibold text-gray-800 text-pretty dark:text-white">
                           Algum destes seus filhos ou filhas / netos "deve ser" encaminhado para uma avaliação de diagnóstico de neurodivergência (Hipersensibilidade, autismo, TDAH, TEA, Dislexia etc.) e, em caso afirmativo, quantos?
                       </th>
-                      <td class="px-6 py-2">
+                      <td class="px-6 py-2 font-semibold text-gray-80">
                           {{ $dadosRelatorio['dadosCliente']['descendentesPrecisamAvaliacao'] }}
                       </td>              
                   </tr>
@@ -496,7 +496,7 @@
                       <th scope="row" class="px-6 py-2 font-semibold text-gray-800 text-pretty dark:text-white">
                           Algum de seus filhos/ filhas foi formalmente diagnosticado em neurodivergência por um profissional (Hipersensibilidade sensorial, TDAH, TEA, Dislexia e etc.)? Em caso afirmativo, quantos?
                       </th>
-                      <td class="px-6 py-2">
+                      <td class="px-6 py-2 font-semibold text-gray-80">
                           {{ $dadosRelatorio['dadosCliente']['filhosComDiagnostico'] }}
                       </td>              
                   </tr>
