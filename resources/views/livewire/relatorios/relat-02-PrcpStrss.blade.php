@@ -1,17 +1,21 @@
 
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+{{-- <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <title>{{ $title ?? 'SOBRARE | Neurodiversidade' }}</title>
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+        @assets
+          <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        @endassets
         @livewireStyles
+        
     </head>
 
     <body class="bg-white dark:bg-slate-700">
  
-        <main>
+        <main> --}}
 <!-- Invoice -->
 <div>
 <div class="max-w-[85rem] px-4 sm:px-6 lg:px-8 mx-auto my-4 sm:my-10">
@@ -142,8 +146,15 @@
           <!-- Grid -->
           <div class="grid grid-cols-2 sm:grid-cols-1 gap-3 sm:gap-2">
             <dl class="grid sm:grid-cols-5 gap-x-3">
-              <dt class="col-span-3 font-semibold text-gray-800 dark:text-neutral-200">Resultado:</dt>
-              <dd class="col-span-2 font-semibold text-gray-800 dark:text-neutral-500">{{ number_format($resultado, 2, ','); }}</dd>
+              {{-- <dt class="col-span-3 font-semibold text-gray-800 dark:text-neutral-200">Resultado:</dt> --}}
+              {{-- <dd id="result" class="col-span-2 font-semibold text-gray-800 dark:text-neutral-500"> data-variavel={{ number_format($resultado, 2, '.'); }}</dd> --}}
+              {{-- <dd id="result" class="col-span-2 font-semibold text-gray-800 dark:text-neutral-500"> data-variavel={{ $resultado }}</dd> --}}
+
+              <dd id="result" class="col-span-2 font-semibold text-gray-800 dark:text-neutral-500" data-variavel="{{ number_format($resultado, 2, '.'); }}">
+                {{-- Conteúdo opcional aqui --}}
+            </dd>
+
+
             </dl>
 
             {{-- <dl class="grid sm:grid-cols-5 gap-x-3">
@@ -169,6 +180,10 @@
           <!-- End Grid -->
         </div>
       </div>
+      
+      <div wire:ignore>
+        <canvas id="myChart"></canvas>
+      </div>
       <!-- End Flex -->
 
       <div class="mt-8 sm:mt-12">
@@ -182,18 +197,7 @@
 
       {{-- <p class="mt-5 text-sm text-gray-500 dark:text-neutral-500">© SOBRARE - Todos os direitos reservados.</p> --}}
     </div>
-{{-- 
-      <div class="mt-8 sm:mt-12">
-        <h4 class="text-lg font-semibold text-gray-800 dark:text-neutral-200">Obrigado!</h4>
-        <p class="text-gray-500 dark:text-neutral-500">Se tiver qualquer dúvida referente a este teste, aqui estão as informações de contato:</p>
-        <div class="mt-2">
-          <p class="block text-sm font-medium text-gray-800 dark:text-neutral-200">faleconosco@sobrare.com.br</p>
-          <p class="block text-sm font-medium text-gray-800 dark:text-neutral-200">+55 (11) 5549-2943</p>
-        </div>
-      </div>
-
-      <p class="mt-5 text-sm font-semibold text-gray-800 dark:text-neutral-500">© 2024 SOBRARE - Todos os direitos reservados.</p>
-       --}}
+        
     </div>
     <!-- End Card -->
 
@@ -202,8 +206,96 @@
 </div>
 <!-- End Invoice -->
 
- </main>
+ 
+        @script
+
+        <script>
+          const ctx = document.getElementById('myChart');
+
+          /* const resultado =  $wire.resultado; */
+
+          /* const elemento = document.getElementById('result');
+          const minhaVariavel = elemento.dataset.variavel;
+          console.log(elemento); */
+
+          const elemento = document.getElementById('result');
+          let minhaVariavel = elemento.dataset.variavel;
+
+          // Converter para número se $resultado for numérico
+          minhaVariavel = Number(minhaVariavel);
+
+          /* console.log(elemento);
+          console.log(minhaVariavel); */
+
+          /* console.log(resultado); */
+
+          Chart.register({
+                id: 'datalabels',
+                afterDatasetsDraw: function (chart, args, options) {
+                    chart.data.datasets.forEach((dataset, i) => {
+                        const meta = chart.getDatasetMeta(i);
+                        meta.data.forEach((element, index) => {
+                            const data = dataset.data[index];
+                            const ctx = chart.ctx;
+                            const x = element.x;
+                            const y = element.y;
+
+                            ctx.fillStyle = options.color || '#fff'; // Cor do texto
+                            ctx.textAlign = 'center';
+                            ctx.textBaseline = 'middle';
+                            ctx.fillText(data, x, y);
+
+                            // Configurações de estilo da fonte
+                            ctx.font = 'bold 16px Arial'; // Negrito, tamanho 16px, fonte Arial
+                            ctx.fillText(data, x, y);
+                        });
+                    });
+                }
+            });
         
-        @livewireScripts
-    </body>
-</html>
+          new Chart(ctx, {
+            type: 'bar',
+            data: {
+              labels: ['Resultado'],
+              datasets: [{
+                label: 'Escala de 0-6',
+                data: [minhaVariavel],
+                borderWidth: 1,
+                barThickness: 100,
+                backgroundColor: ['rgba(255, 165, 0, 0.5)']
+              }]
+            },
+            
+              
+                options: {
+                  indexAxis: 'y',
+                  scales: {
+                    x: {
+                      min: 0,
+                      max: 6,
+                      stepSize: 1
+                    }
+                  },
+                  plugins: {
+                    datalabels: {
+                        color: '#00AA00' // Cor do texto dentro da barra
+                      },
+                      legend: {
+                    labels: {
+                        // This more specific font property overrides the global property
+                        font: {
+                            size: 16
+                        }
+                    }
+            }
+                  }
+                },
+                
+              
+            
+          });
+        </script>
+
+        @endscript
+        
+    

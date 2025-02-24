@@ -7,6 +7,11 @@
         <title>{{ $title ?? 'SOBRARE | Neurodiversidade' }}</title>
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         @livewireStyles
+        
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+        
+       
     </head>
 
     <body class="bg-white dark:bg-slate-700">
