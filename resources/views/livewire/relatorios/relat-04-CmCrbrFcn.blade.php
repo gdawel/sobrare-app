@@ -1,24 +1,11 @@
 
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <title>{{ $title ?? 'SOBRARE | Neurodiversidade' }}</title>
-        @vite(['resources/css/app.css', 'resources/js/app.js', 
-          'public/css/amidesfahani/filament-tinyeditor/tiny-css.css',"public/css/styles.css"])
-        @livewireStyles
-    </head>
-
-    <body class="bg-white dark:bg-slate-700">
- 
-        <main>
 <!-- Invoice -->
 <div>
 <div class="max-w-[85rem] px-1 sm:px-2 lg:px-1 mx-auto my-4 sm:my-10">
-  <div class="sm:w-11/12 lg:w-3/4 mx-auto">
+  <div class="w-full lg:w-3/4 mx-auto">
     <!-- Card -->
-    <div class="flex flex-col p-2 sm:p-10 bg-white shadow-md rounded-xl dark:bg-neutral-800">
+    <div class="flex flex-col p-0 sm:p-10 bg-white shadow-md rounded-xl dark:bg-neutral-800">
       <!-- Grid -->
       <div class="flex justify-between">
         <div>
@@ -162,6 +149,10 @@
         </div>
       </div>
       <!-- End Flex -->
+
+      <div class="w-full max-w-3xl mx-auto p-4 sm:p-2 md:p-8">
+        <canvas id="myChart" class="w-full h-auto"></canvas>
+      </div>
       
       <div class="mt-8 sm:mt-12">
         {{-- <h4 class="text-lg font-semibold text-gray-800 dark:text-neutral-200">Como entender o seu resultado de estresse e fadiga:<br></h4> --}}
@@ -193,8 +184,84 @@
 </div>
 <!-- End Invoice -->
 
- </main>
-        
-        @livewireScripts
-    </body>
-</html>
+ @script
+
+ <script>
+  const ctx = document.getElementById('myChart');
+
+  const dadosGrafico = {{ Js::from($dadosGrafico) }};
+  const assuntos = dadosGrafico.map(item => item.Assuntos);
+  const valores = dadosGrafico.map(item => item.Valor);
+
+  new Chart(ctx, {
+      type: 'pie',
+      data: {
+          labels: assuntos,
+          datasets: [{
+              data: valores,
+              backgroundColor: [
+                  '#29B6F6', // Azul claro vibrante
+                  '#FFC107', // Amarelo vibrante
+                  '#66BB6A'  // Verde vibrante
+              ],
+              borderWidth: 0
+          }]
+      },
+      options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+              legend: {
+                  position: 'bottom',
+                  labels: {
+                      font: {
+                          size: 16, // Aumenta o tamanho da fonte
+                          family: 'Arial'
+                      },
+                      boxWidth: 25, // Aumenta o tamanho dos quadrados da legenda
+                      padding: 25 // Aumenta o espaçamento da legenda
+                  }
+              },
+              title: {
+                  display: true,
+                  text: 'Como Funciona Meu Cérebro',
+                  font: {
+                      size: 20, // Aumenta o tamanho da fonte
+                      family: 'Arial'
+                  },
+                  padding: {
+                      top: 15,
+                      bottom: 35
+                  }
+              },
+              datalabels: {
+                  color: '#000',
+                  font: {
+                      weight: 'bold',
+                      size: 16, // Aumenta o tamanho da fonte
+                      family: 'Arial'
+                  },
+                  formatter: (value) => {
+                      return value + '%';
+                  },
+                  anchor: 'end',
+                  align: 'start',
+                  offset: 8 // Aumenta o deslocamento dos datalabels
+              }
+          },
+          layout: {
+              padding: {
+                  left: 30, // Aumenta o espaçamento
+                  right: 30, // Aumenta o espaçamento
+                  top: 30, // Aumenta o espaçamento
+                  bottom: 30 // Aumenta o espaçamento
+              }
+          }
+      },
+      plugins: [ChartDataLabels]
+  });
+</script>
+
+ @endscript

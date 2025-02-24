@@ -1,5 +1,5 @@
 
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+{{-- <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,13 +11,13 @@
 
     <body class="bg-white dark:bg-slate-700">
  
-        <main>
+        <main> --}}
 <!-- Invoice -->
 <div>
 <div class="max-w-[85rem] px-2 sm:px-6 lg:px-1 mx-auto my-4 sm:my-10">
-  <div class="sm:w-11/12 lg:w-3/4 mx-auto">
+  <div class="w-full sm:w-11/12 lg:w-3/4 mx-auto">
     <!-- Card -->
-    <div class="flex flex-col p-4 sm:p-6 bg-white shadow-md rounded-xl dark:bg-neutral-800">
+    <div class="flex flex-col p-4 sm:p-10 bg-white shadow-md rounded-xl dark:bg-neutral-800">
       <!-- Grid -->
       <div class="flex justify-between">
         <div>
@@ -181,6 +181,14 @@
       </div>
       <!-- End Flex -->
 
+      {{-- <div wire:ignore class="p-6">
+        <canvas id="myChart"></canvas>
+      </div> --}}
+
+      <div class="w-full max-w-3xl mx-auto p-4 sm:p-2 md:p-8">
+        <canvas id="myChart" class="w-full h-auto"></canvas>
+      </div>
+
       <div class="mt-8 sm:mt-12">
         {{-- <h4 class="text-lg font-semibold text-gray-800 dark:text-neutral-200">Como entender o seu resultado de estresse e fadiga:<br></h4> --}}
         <p class="text-gray-500 dark:text-neutral-500">{!! $dadosRelatorio['textoFecha'] !!}</p>
@@ -211,8 +219,192 @@
 </div>
 <!-- End Invoice -->
 
- </main>
-        
-        @livewireScripts
-    </body>
-</html>
+
+
+
+    {{-- <script>
+      const ctx = document.getElementById('myChart');
+
+      const dadosGrafico = {{ Js::from($dadosGrafico) }};
+      const assuntos = dadosGrafico.map(item => item.Assuntos);
+      const valores = dadosGrafico.map(item => item.Valor);
+
+      const cores = [
+          'rgba(255, 99, 132, 0.8)',
+          'rgba(54, 162, 235, 0.8)',
+          'rgba(255, 206, 86, 0.8)',
+          'rgba(75, 192, 192, 0.8)',
+          'rgba(153, 102, 255, 0.8)',
+          'rgba(255, 159, 64, 0.8)'
+      ];
+
+      new Chart(ctx, {
+          type: 'bar',
+          data: {
+              labels: assuntos,
+              datasets: [{
+                  label: 'Relevância dos Assuntos',
+                  data: valores,
+                  backgroundColor: cores,
+                  barThickness: 20, // Diminui a espessura das barras em telas pequenas
+                  barPercentage: 0.8,
+                  categoryPercentage: 0.8
+              }]
+          },
+          options: {
+              indexAxis: 'y',
+              /* responsive: true,
+              maintainAspectRatio: false, */
+              scales: {
+                  x: {
+                      min: 0,
+                      max: 10,
+                      ticks: {
+                          stepSize: 1,
+                          font: {
+                              size: 12 // Diminui o tamanho da fonte
+                          }
+                      },
+                      grid: {
+                          color: 'rgba(0, 0, 0, 0.1)'
+                      }
+                  },
+                  y: {
+                      ticks: {
+                          font: {
+                              size: 12 // Diminui o tamanho da fonte
+                          },
+                          callback: function(value, index, values) {
+                              var label = assuntos[index];
+                              return label.length > 10 ? label.substring(0, 10) + '\n' + label.substring(10) : label; // Quebra de linha
+                          }
+                      },
+                      grid: {
+                          display: false
+                      }
+                  }
+              },
+              plugins: {
+                  datalabels: {
+                      anchor: 'center',
+                      align: 'center',
+                      color: 'darkblue',
+                      font: {
+                          weight: 'bold',
+                          size: 12 // Diminui o tamanho da fonte
+                      },
+                      formatter: Math.round
+                  },
+                  legend: {
+                      position: 'bottom', // Move a legenda para a parte inferior
+                      labels: {
+                          font: {
+                              size: 12 // Diminui o tamanho da fonte
+                          }
+                      }
+                  }
+              },
+              layout: {
+                  padding: {
+                      left: 10, // Diminui o padding
+                      right: 10, // Diminui o padding
+                      top: 10, // Diminui o padding
+                      bottom: 10 // Diminui o padding
+                  }
+              }
+          },
+          plugins: [ChartDataLabels]
+      });
+    </script> --}}
+    
+    <script>
+      const ctx = document.getElementById('myChart');
+  
+      const dadosGrafico = {{ Js::from($dadosGrafico) }};
+      const assuntos = dadosGrafico.map(item => item.Assuntos);
+      const valores = dadosGrafico.map(item => item.Valor);
+  
+      const cores = [
+          'rgba(255, 99, 132, 0.8)',
+          'rgba(54, 162, 235, 0.8)',
+          'rgba(255, 206, 86, 0.8)',
+          'rgba(75, 192, 192, 0.8)',
+          'rgba(153, 102, 255, 0.8)',
+          'rgba(255, 159, 64, 0.8)'
+      ];
+  
+      new Chart(ctx, {
+          type: 'bar',
+          data: {
+              labels: assuntos,
+              datasets: [{
+                  label: 'Relevância dos Assuntos', // Legenda abreviada
+                  data: valores,
+                  backgroundColor: cores,
+                  barThickness: 30, // Ajusta a espessura das barras
+                  barPercentage: 0.8, // Ajusta o espaçamento das barras
+                  categoryPercentage: 0.8 // Ajusta o espaçamento das barras
+              }]
+          },
+          options: {
+              indexAxis: 'y',
+              scales: {
+                  x: {
+                      min: 0,
+                      max: 10,
+                      ticks: {
+                          stepSize: 1,
+                          font: {
+                              size: 14 // Aumenta o tamanho da fonte
+                          }
+                      },
+                      grid: {
+                          color: 'rgba(0, 0, 0, 0.1)' // Ajusta a cor da grade
+                      }
+                  },
+                  y: {
+                      ticks: {
+                          font: {
+                              size: 14 // Aumenta o tamanho da fonte
+                          }
+                      },
+                      grid: {
+                          display: false // Remove a grade do eixo Y
+                      }
+                  }
+              },
+              plugins: {
+                  datalabels: {
+                      anchor: 'center',
+                      align: 'center',
+                      color: 'darkblue',
+                      font: {
+                          weight: 'bold',
+                          size: 16
+                      },
+                      formatter: Math.round
+                  },
+                  legend: {
+                      position: 'top', // Ajusta a posição da legenda
+                      labels: {
+                          font: {
+                              size: 14 // Ajusta o tamanho da fonte da legenda
+                          }
+                      }
+                  }
+              },
+              layout: {
+                  padding: {
+                      left: 20,
+                      right: 20,
+                      top: 20,
+                      bottom: 20
+                  }
+              }
+          },
+          plugins: [ChartDataLabels]
+      });
+  </script>
+
+ 
+       

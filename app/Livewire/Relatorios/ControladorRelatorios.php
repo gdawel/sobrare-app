@@ -285,7 +285,18 @@ class ControladorRelatorios extends Component
                     'social' => $this->social,
                     'emocional' => $this->emocional,
                     'mental' => $this->mental,
-                    'sexualidade' => $this->sexualidade
+                    'sexualidade' => $this->sexualidade,
+                    'dadosGrafico' => [
+                        [ 'Assuntos' => 'Comunicacao', 'Valor' => $this->comunicacao ],
+                        [ 'Assuntos' => 'Pensamento', 'Valor' => $this->pensamento ],
+                        [ 'Assuntos' => 'Atencao', 'Valor' => $this->atencao ],
+                        [ 'Assuntos' => 'Tensao', 'Valor' => $this->tensao ],
+                        [ 'Assuntos' => 'Social', 'Valor' => $this->social ],
+                        [ 'Assuntos' => 'Emocional', 'Valor' => $this->emocional ],
+                        [ 'Assuntos' => 'Mental', 'Valor' => $this->mental ],
+                        [ 'Assuntos' => 'Sexualidade', 'Valor' => $this->sexualidade ]
+                        
+                    ]
                 ]);
 
                 case '04-CmCrbrFcn':
@@ -322,7 +333,13 @@ class ControladorRelatorios extends Component
                         'dadosRelatorio' => $this->dadosRelatorio,
                         'cerebroSocial' => $this->cerebroSocial,
                         'cerebroMesclado' => $this->cerebroMesclado,
-                        'cerebroSistematizador' => $this->cerebroSistematizador
+                        'cerebroSistematizador' => $this->cerebroSistematizador,
+                        'dadosGrafico' => [
+                            [ 'Assuntos' => 'Cérebro Social (Tipo QE)', 'Valor' => $this->cerebroSocial ],
+                            [ 'Assuntos' => 'Cérebro Mesclado (Tipo B)', 'Valor' => $this->cerebroMesclado ],
+                            [ 'Assuntos' => 'Cérebro Sistematizador (Tipo QS)', 'Valor' => $this->cerebroSistematizador ]
+
+                        ]
                         
                     ]);
 
