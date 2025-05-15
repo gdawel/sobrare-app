@@ -24,6 +24,9 @@ use App\Models\Perguntas;
 use App\Models\Generos;
 use App\Models\Estados;
 use App\Models\GrausEscolares;
+use App\Models\TextoResposta;
+use App\Imports\TextoRespostaImport;
+;
 
 class ImportDataController extends Controller
 {
@@ -232,5 +235,28 @@ class ImportDataController extends Controller
         Excel::import(new GrausEscolaresImport, $request->file('import_file'));
 
         return redirect('/import/grau-escolar')->with('status', 'Arquivo Importado com Sucesso');
+    }
+
+    /* === Importação da Tabela de TextoResposta === */
+    
+    public function textoResposta() 
+    {
+        $listarTextoRespostas = TextoResposta::all();
+
+        return view('importData.TextoResposta', compact('listarTextoRespostas'));
+    }
+
+    public function importarTextoResposta(Request $request) 
+    {
+        $request->validate([
+            'import_file' => [
+                'required',
+                
+            ],
+        ]);
+
+        Excel::import(new TextoRespostaImport, $request->file('import_file'));
+
+        return redirect('/import/texto-resposta')->with('status', 'Arquivo Importado com Sucesso');
     }
 }

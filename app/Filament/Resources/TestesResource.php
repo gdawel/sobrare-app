@@ -16,6 +16,7 @@ use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Group;
+use App\Forms\Components\CKEditor;
 use Filament\Forms\Components\Section;
 use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
@@ -23,6 +24,9 @@ use AmidEsfahani\FilamentTinyEditor\TinyEditor;
 use App\Filament\Resources\TestesResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\TestesResource\RelationManagers;
+use Filament\Forms\Components\MarkdownEditor;
+use Filament\Forms\Components\RichEditor;
+use Filament\Support\Markdown;
 
 class TestesResource extends Resource
 {
@@ -62,17 +66,17 @@ class TestesResource extends Resource
                             ->unique(Testes::class, 'slug', ignoreRecord: true)
                             ->columnSpanFull(),
                         
-                        TinyEditor::make('descricaoExterna')
+                        /* TinyEditor::make('descricaoExterna')
                             ->required()
                             ->label('Descrição Externa')
-                            ->columnSpanFull(),
-                        TinyEditor::make('textoIntro')
+                            ->columnSpanFull(), */
+                        MarkdownEditor::make('textoIntro')
                             ->label('Texto de Introdução para o relatório')
                             ->columnSpanFull(),
-                        TinyEditor::make('textoFecha')
+                        MarkdownEditor::make('textoFecha')
                             ->label('Texto de Fechamento para o relatório')
                             ->columnSpanFull(),
-                        TinyEditor::make('textoRodape')
+                        MarkdownEditor::make('textoRodape')
                             ->label('Texto para o rodapé do relatorio')
                             ->columnSpanFull(),
                

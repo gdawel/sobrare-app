@@ -62,6 +62,8 @@ Route::get('import/estados', [ImportDataController::class, 'estados']);
 Route::post('import/estados', [ImportDataController::class, 'importarEstados']);
 Route::get('import/grau-escolar', [ImportDataController::class, 'grauEscolar']);
 Route::post('import/grau-escolar', [ImportDataController::class, 'importarGrauEscolar']);
+Route::get('import/texto-resposta', [ImportDataController::class, 'textoResposta']);
+Route::post('import/texto-resposta', [ImportDataController::class, 'importarTextoResposta']);
 
 Route::get('import/', function () {
     return view('importData.import');

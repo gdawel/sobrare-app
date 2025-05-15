@@ -8,6 +8,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
+/**
+ * @property array|null opcRespCheckbox
+ * @property array|null checkboxTextos
+ */
 class Useranswers extends Model
 {
     use HasFactory;
@@ -21,7 +25,8 @@ class Useranswers extends Model
         'opcoes_respostas_id',
         'opcRespCheckbox',
         'opcRespIntensidade',
-        'comentariosCliente'
+        'comentariosCliente',
+        'codTextoResposta'
     ];
 
     public function ordersItem(): BelongsTo {
@@ -38,4 +43,13 @@ class Useranswers extends Model
 
         return $this->belongsTo(OpcoesRespostas::class, 'opcoes_respostas_id');
     }
+
+    /* public function textoResposta(): HasOne {
+        return $this->hasOne(TextoResposta::class);
+    } */
+
+    public function textoResposta()
+{
+    return $this->belongsTo(TextoResposta::class, 'codTextoResposta', 'codTextoResposta');
+}
 }

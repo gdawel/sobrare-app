@@ -15,7 +15,8 @@ class Testes extends Model
         'codTeste', 
         'nomeTeste', 
         'slug', 
-        'memoInterno', 
+        'memoInterno',
+        
         'textoIntro', 
         'textoFecha', 
         'textoRodape', 
