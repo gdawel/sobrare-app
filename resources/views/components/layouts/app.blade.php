@@ -12,6 +12,7 @@
     <body class="bg-slate-200 dark:bg-slate-700">
         
         <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="https://cdn.ckeditor.com/ckeditor5/44.3.0/classic/ckeditor.js"></script>
         <x-livewire-alert::scripts />
         
         @livewire('layouts.ecomm.navbar')

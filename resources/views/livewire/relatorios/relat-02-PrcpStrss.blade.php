@@ -1,21 +1,22 @@
 
-{{-- <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <title>{{ $title ?? 'SOBRARE | Neurodiversidade' }}</title>
         @vite(['resources/css/app.css', 'resources/js/app.js'])
-        @assets
+        
           <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        @endassets
+        
+
         @livewireStyles
         
     </head>
 
     <body class="bg-white dark:bg-slate-700">
  
-        <main> --}}
+        <main>
 <!-- Invoice -->
 <div>
 <div class="max-w-[85rem] px-4 sm:px-6 lg:px-8 mx-auto my-4 sm:my-10">
@@ -182,7 +183,7 @@
       </div>
       
       <div wire:ignore>
-        <canvas id="myChart"></canvas>
+        <canvas id="myChart" class="h-8 w-80"></canvas>
       </div>
       <!-- End Flex -->
 
@@ -204,11 +205,11 @@
     
   </div>
 </div>
+
+</main>
 <!-- End Invoice -->
 
  
-        @script
-
         <script>
           const ctx = document.getElementById('myChart');
 
@@ -296,6 +297,7 @@
           });
         </script>
 
-        @endscript
+ 
         
-    
+      </body>
+      </html>

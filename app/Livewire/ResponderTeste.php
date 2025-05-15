@@ -53,7 +53,12 @@ class ResponderTeste extends Component
     public $totalPerguntas = 0;
     public $pedidoCliente;
     public $sexoCliente;
+    public $buscaTeste;
     public $nomeTeste;
+    public $codTeste;
+
+    public $qualSeqResposta;
+    public $qualIntensidade;
 
     #[Url]
     public $cctt;
@@ -77,7 +82,11 @@ class ResponderTeste extends Component
         $this->pedidoCliente = $this->ccxx;
         $this->itemPedidoId = $this->ccii;
         $this->sexoCliente = auth()->user()->sexo_biologico;
-        $this->nomeTeste = Testes::where('id', $this->testeSelecionado)->first('nomeTeste')->nomeTeste;
+        $this->buscaTeste = Testes::where('id', $this->testeSelecionado)->first();
+        //dd($this->buscaTeste);
+        $this->nomeTeste = $this->buscaTeste->nomeTeste;
+        $this->codTeste = $this->buscaTeste->codTeste;
+        
 
         /* $paramentros = "Teste: " . $this->testeSelecionado . " | Pedido: " . $this->pedidoCliente 
                         . " | Item ID: " . $this->ccii . " | Sexo: " . auth()->user()->sexo_biologico;
@@ -135,8 +144,8 @@ class ResponderTeste extends Component
                                 ->orWhere('sexo', $this->sexoCliente);
                             })
                             ->get();
-        /* ERRO RT001 - Não encontrou o teste acima no DB. Verificar importação das perguntas */
 
+        /* ERRO RT001 - Não encontrou o teste acima no DB. Verificar importação das perguntas */
         if($this->perguntas->count() == 0) {
 
             $this->alert('error', 'Erro Interno n. RT001 - Por favor informe SOBRARE', [
@@ -186,10 +195,39 @@ class ResponderTeste extends Component
 
     public function proximaPergunta($perguntaId){
 
-        
+        //dd($this->perguntas);
         $this->validate();
         
+        $this->qualSeqResposta = OpcoesRespostas::where('id', $this->opcoesRespostasId)->get();
+        $this->qualIntensidade = OpcoesRespostas::where('id', $this->opcRespIntensidade)->get();
+        //dd($this->qualSeqResposta);
 
+        if(!isset($this->qualIntensidade[0]->valorResposta)) {
+                $intensidade = ""; }
+            else {
+                if($this->codTeste == '08-CmptRpttv') {
+                $intensidade = $this->qualIntensidade[0]->valorResposta;
+                } else {
+                    $intensidade = intval($this->qualIntensidade[0]->valorResposta);
+                }
+            };
+        
+        if($this->codTeste == '01-HstCrpEnrdvrgc' || 
+            $this->codTeste == '02-PrcpStrss' || 
+            $this->codTeste == '03-OrdnçAsst' ||
+            $this->codTeste == '04-CmCrbrFcn' )
+            /* $this->perguntas['0']->codGrupoOpcRespostas == 'GOR88-1') */
+            {
+                $codTextoResposta = null;
+
+            } else {
+                $codTextoResposta = 
+                $this->codTeste .
+                $this->qualPergunta .
+                $this->qualSeqResposta['0']->numSeqResp .
+                $intensidade;
+            };
+        //dd($codTextoResposta);
 
         $retornoForm = [
             'itemPedidoId' => $this->itemPedidoId,
@@ -213,7 +251,8 @@ class ResponderTeste extends Component
             'opcoes_respostas_id' => $this->opcoesRespostasId,
             'opcRespCheckbox' => json_encode($this->opcRespCheckbox),
             'opcRespIntensidade' => $this->opcRespIntensidade,
-            'comentariosCliente' => $this->comentariosCliente
+            'comentariosCliente' => $this->comentariosCliente,
+            'codTextoResposta' => $codTextoResposta
         ]);
 
         // ANTES DE IR PARA A PRÓXIMA PERGUNTA, SALVAR A RESPOSTA NO BD.
@@ -315,6 +354,23 @@ class ResponderTeste extends Component
             'comentarios' => $this->comentariosCliente
         ];
 
+        $this->qualSeqResposta = OpcoesRespostas::where('id', $this->opcoesRespostasId)->get();
+        $this->qualIntensidade = OpcoesRespostas::where('id', $this->opcRespIntensidade)->get();
+        //dd($this->qualSeqResposta);
+
+        if(!isset($this->qualIntensidade[0]->valorResposta)) {
+                $intensidade = ""; }
+            else {
+                $intensidade = $this->qualIntensidade[0]->valorResposta;
+            };
+        
+        $codTextoResposta = 
+            $this->codTeste .
+            $this->qualPergunta .
+            $this->qualSeqResposta['0']->numSeqResp .
+            $intensidade;
+        //dd($codTextoResposta);
+
         // Gravar as respostas de cada pergunta
         Useranswers::create([
             'users_id' => auth()->user()->id,
@@ -325,10 +381,16 @@ class ResponderTeste extends Component
             'opcoes_respostas_id' => $this->opcoesRespostasId,
             'opcRespCheckbox' => json_encode($this->opcRespCheckbox),
             'opcRespIntensidade' => $this->opcRespIntensidade,
-            'comentariosCliente' => $this->comentariosCliente
+            'comentariosCliente' => $this->comentariosCliente,
+            'codTextoResposta' => $codTextoResposta
         ]);
 
         Orderitems::where('id', $this->itemPedidoId,)->update(['testeStatus' => 'concluido']);
+
+        // Dados necessários para geração do relatório em background
+        $orders_id = $this->pedidoCliente;
+        $testes_id = $this->testeSelecionado;
+        $orderItem_id = $this->itemPedidoId;
 
         //dd($retornoForm);
 

@@ -22,11 +22,29 @@ class PerguntasImport implements ToCollection, WithHeadingRow
                 if(! $getTestId) {
                     redirect('/import/perguntas')->with('status', 'Tabela Excel com Erro: Cód. Teste não encontrado');
                 }
+
                 $getOpcRespId = GrupoOpcoesResposta::where('codGrupoOpcRespostas', $row['grupo_opc_respostas'])->first();
                 if(! $getOpcRespId) {
                     redirect('/import/perguntas')->with('status', 'Tabela Excel com Erro: Opc Resposta não encontrado');
                 }
-                Perguntas::create([
+
+                $perguntaExistente = Perguntas::where('codTeste', $row['cod_teste'])
+                                   ->where('sequencia', $row['n_pergunta'])
+                                   ->first();
+                if ($perguntaExistente) {
+                    $perguntaExistente->update([
+                        'testes_id' => $getTestId['id'], 
+                        'grupo_opcoes_respostas_id' => $getOpcRespId['id'],
+                        'sequencia' => $row['n_pergunta'], 
+                        'enunciado' => $row['enunciado'], 
+                        'sexo' => $row['sexo'],
+                        'codGrupoOpcRespostas' => $row['grupo_opc_respostas']
+                
+
+                    ]);
+
+                } else {
+                    Perguntas::create([
                 
                     'testes_id' => $getTestId['id'], 
                     'grupo_opcoes_respostas_id' => $getOpcRespId['id'],
@@ -34,10 +52,10 @@ class PerguntasImport implements ToCollection, WithHeadingRow
                     'enunciado' => $row['enunciado'], 
                     'sexo' => $row['sexo'],
                     'codGrupoOpcRespostas' => $row['grupo_opc_respostas']
-                    
-                    
-            ]);
+                    ]);
+                
+                };
         }
-    }
     
+    }
 }

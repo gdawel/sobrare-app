@@ -8,7 +8,7 @@ use App\Models\Orders;
 use App\Models\Testes;
 use Livewire\Component;
 use App\Models\Perguntas;
-use App\Models\Orderitems;
+use App\Models\OpcoesRespostas;
 use App\Models\Useranswers;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Url;
@@ -19,10 +19,16 @@ use Illuminate\Support\Carbon;
 
 use Livewire\Attributes\Layout;
 use App\Models\Historicomedicos;
+use App\Models\TextoResposta;
 //use Spatie\LaravelPdf\Facades\Pdf;
 //use function Spatie\LaravelPdf\Support\pdf;
 use Spatie\Browsershot\Browsershot;
 
+
+/**
+ * @property array $userAnswer->areasImpactadas
+ * @property string|null $userAnswer->intensidadeTextoResposta
+ */
 class ControladorRelatorios extends Component
 {
     
@@ -48,6 +54,7 @@ class ControladorRelatorios extends Component
     #[Url]
     public $ccii;
 
+    public $userId;
     public $nomeCliente;
     public $idadeCliente;
     public $sexoBiologico;
@@ -68,6 +75,22 @@ class ControladorRelatorios extends Component
     public $cerebroSocial = 0;
     public $cerebroMesclado = 0;
     public $cerebroSistematizador = 0;
+
+    public $percentSistematizacao = 0;
+    public $percentRegulacao = 0;
+    public $percetInteresses = 0;
+    public $percentAcumulacao = 0;
+    public $percentMesmice = 0;
+    public $percentSensibilidade = 0;
+    public $percentRestricao = 0;
+    public $percentCM = 0;
+    public $percentIM = 0;
+    public $percentRS = 0;
+    public $diagnosticoCM;
+    public $diagnosticoIM;
+    public $diagnosticoRS;
+    public $percentSomaTendencia = 0;
+
     
     /* Dawel: retirado: 30/07/2024 - #[On('resultadoTeste')] */
     public function mount() {
@@ -75,30 +98,79 @@ class ControladorRelatorios extends Component
         /*  cctt: código do teste testes_id
             ccxx: código do pedido orders_id
             ccii: código do item do pedido orderItems_id
+        
         */
+
+        /* $checkParameters = "mount = ccxx=".$this->ccxx . " / cctt=". $this->cctt . " / ccii=". $this->ccii;
+        dd($checkParameters); */
+
         $this->orders_id = $this->ccxx;
         $this->testes_id = $this->cctt;
         $this->orderItem_id = $this->ccii;
+
         //dd($this->orderItem_id);
 
         /* $this->resultadoTeste2 = Orderitems::with('useranswers', 'testes', 'pergunta')
                                         ->where('orders_id', $this->orders_id)
                                         ->where('testes_id', $this->testes_id)
                                         ->get(); */
-        $this->resultadoTeste = Useranswers::with('pergunta', 'opcaoResposta:id,textoResposta,valorResposta')
+        $userAnswers  = Useranswers::with('pergunta', 'opcaoResposta:id,numSeqResp,textoResposta,valorResposta',
+                                                    'textoResposta')
                                     ->where('orderitems_id', $this->orderItem_id)
                                     ->where('testes_id', $this->testes_id)
                                     ->get();
+
+        foreach ($userAnswers as &$userAnswer) {
+            $textoRespostas = [];
+            $userAnswer->areasImpactadas = [];
+            $opcRespCheckbox = $userAnswer->opcRespCheckbox; // Get the JSON string
+    
+            if ($opcRespCheckbox) { // Check if it's not null or empty
+                $decodedOpcRespCheckbox = json_decode($opcRespCheckbox, true);
+    
+                if (is_array($decodedOpcRespCheckbox)) {
+                    // The keys of this array are likely the IDs if it was stored as an associative array
+                    // If it was stored as a simple array of IDs, then $decodedOpcRespCheckbox itself contains the IDs
+                    $opcaoRespostaIds = $decodedOpcRespCheckbox;
+    
+                    $retrievedOpcoes = OpcoesRespostas::whereIn('id', $opcaoRespostaIds)->get();
+                    
+    
+                    $textoRespostas = $retrievedOpcoes->pluck('textoResposta')->toArray();
+                } else {
+                    // Handle the case where JSON decoding failed
+                    $userAnswer->areasImpactadas = [];
+                    continue;
+                }
+            }
+    
+            $userAnswer->areasImpactadas = $textoRespostas;
+
+            // Handle opcRespIntensidade
+            $intensidadeTextoResposta = null;
+            $opcRespIntensidadeId = $userAnswer->opcRespIntensidade;
+
+            if ($opcRespIntensidadeId !== null) {
+                $opcaoIntensidade = OpcoesRespostas::find($opcRespIntensidadeId);
+                if ($opcaoIntensidade) {
+                    $intensidadeTextoResposta = $opcaoIntensidade->textoResposta;
+                }
+            }
+            $userAnswer->intensidadeTextoResposta = $intensidadeTextoResposta;
+        }
+    
+        //dd($userAnswers); // Final check
         //dd($this->resultadoTeste);
 
         
 
-        $this->dataFinalTeste = $this->resultadoTeste->max('created_at')->format('d-m-Y');
+        $this->dataFinalTeste = $userAnswers->max('created_at')->format('d-m-Y');
         //dd($this->dataFinalTeste);
         
 
         //dd($this->useranswers);
         $user = User::where('id', auth()->user()->id)->first();
+        $this->userId = auth()->user()->id;
         $this->nomeCliente = $user['name'];
         $this->idadeCliente = Carbon::parse($user->data_nascimento)->age;
         $this->sexoBiologico = $user->sexo_biologico;
@@ -123,7 +195,8 @@ class ControladorRelatorios extends Component
         $this->textoIntro = $dadosDoTeste->textoIntro;
         $this->textoFecha = $dadosDoTeste->textoFecha;
         $this->textoRodape = $dadosDoTeste->textoRodape;
-        
+
+                
         $this->dadosRelatorio = [
             'tituloTeste' => $this->tituloTeste,
             'codTeste' => $this->codTeste,
@@ -137,11 +210,12 @@ class ControladorRelatorios extends Component
             'sexoBiologico' => $this->sexoBiologico,
             'dataEmissao' => $this->dataEmissao,
             'dataFinalTeste' => $this->dataFinalTeste,
-            'resultadoTeste' => $this->resultadoTeste,
+            'resultadoTeste' => $userAnswers,
             'dadosCliente' => $this->dadosCliente,
 
         ];
-        //dd($this->dadosRelatorio);
+        $this->resultadoTeste = $userAnswers;
+        //dd($this->resultadoTeste['0']->pergunta);
         //dd($testes_id);
         //dd($parametrosParaRelatorios);
        /*  $this->colecaoRespostas = Useranswers::with('pergunta', 'opcaoresposta')
@@ -155,12 +229,21 @@ class ControladorRelatorios extends Component
     #[Layout('components.layouts.relatorios')] 
     public function render()
     {
+       /*  $checkParameters = "render = ccxx=".$this->ccxx . " / cctt=". $this->cctt . " / ccii=". $this->ccii;
+        dd($checkParameters); */
+        
+        //dd($this->codTeste);
         switch ($this->codTeste) {
 
             case '01-HstCrpEnrdvrgc':
 
                 $relatorio = $this->dadosRelatorio;
-                GerarRelatorios::dispatch($relatorio);
+                
+                /* $checkParameters = "01-ccxx=".$this->ccxx . " / cctt=". $this->cctt . " / ccii=". $this->ccii;
+                dd($checkParameters); */
+
+                // GerarRelatorios::dispatch($this->ccxx, $this->cctt, $this->ccii, $this->userId);
+
                 //return url('/meus-pedidos');
                 /* Spatie Laravel-pdf */
                 /* Pdf::view('livewire.relatorios.relat-01-HstCrpEnrdvrgc', 
@@ -195,11 +278,16 @@ class ControladorRelatorios extends Component
                 
                 return view('livewire.relatorios.relat-01-HstCrpEnrdvrgc', [
                     'dadosRelatorio' => $this->dadosRelatorio
-                ]);
+                ]
+                );
             break;
 
             case '02-PrcpStrss':
 
+                /* $checkParameters = "02-ccxx=".$this->ccxx . " / cctt=". $this->cctt . " / ccii=". $this->ccii . " / userId:".$this->userId;
+                dd($checkParameters); */
+               // GerarRelatorios::dispatch($this->ccxx, $this->cctt, $this->ccii, $this->userId);
+                
                 $somaTudo = 0;
                 $somaB = 0;
                 foreach ($this->resultadoTeste as $items) {
@@ -346,7 +434,251 @@ class ControladorRelatorios extends Component
             break;
 
 
+            case '05-AnsddDthd':
+
+                // RELATÓRIO: Ansiedade Detalhada e Neurodiversidade
+
+                return view('livewire.relatorios.relat-05-AnsddDthd', 
+                        ['dadosRelatorio' => $this->dadosRelatorio]);
+            break;
+
+            
+            case '06-Ansieddbsc':
+
+                // RELATÓRIO: Inventário para Fobia Social ou Disturbio de Ansiedade
+                
+                return view('livewire.relatorios.relat-06-Ansieddbsc', 
+                        ['dadosRelatorio' => $this->dadosRelatorio]);
+            break;
+
+
+            
+            case '07-Depressbsc':
+
+                // RELATÓRIO: Inventário para Disturbios Depressivos
+                
+                return view('livewire.relatorios.relat-07-Depressbsc', 
+                        ['dadosRelatorio' => $this->dadosRelatorio]);
+            break;
+
+
+            case '08-CmptRpttv':
+
+                //GerarRelatorios::dispatch($this->ccxx, $this->cctt, $this->ccii, $this->userId);
+
+                // RELATÓRIO: Inventário para Disturbios Depressivos
+
+                $this->percentSistematizacao = ceil($this->resultadoTeste[0]->opcaoResposta->valorResposta +
+                                                $this->resultadoTeste[1]->opcaoResposta->valorResposta);
+                $this->percentRegulacao = ceil($this->resultadoTeste[2]->opcaoResposta->valorResposta +
+                                                $this->resultadoTeste[3]->opcaoResposta->valorResposta +
+                                                $this->resultadoTeste[4]->opcaoResposta->valorResposta +
+                                                $this->resultadoTeste[5]->opcaoResposta->valorResposta);
+                $this->percetInteresses = ceil($this->resultadoTeste[6]->opcaoResposta->valorResposta +
+                                                $this->resultadoTeste[7]->opcaoResposta->valorResposta +
+                                                $this->resultadoTeste[8]->opcaoResposta->valorResposta +
+                                                $this->resultadoTeste[9]->opcaoResposta->valorResposta);
+                $this->percentAcumulacao = ceil($this->resultadoTeste[10]->opcaoResposta->valorResposta +
+                                                $this->resultadoTeste[11]->opcaoResposta->valorResposta);
+                $this->percentMesmice = ceil($this->resultadoTeste[12]->opcaoResposta->valorResposta +
+                                                $this->resultadoTeste[13]->opcaoResposta->valorResposta);
+                $this->percentSensibilidade = ceil($this->resultadoTeste[14]->opcaoResposta->valorResposta +
+                                                $this->resultadoTeste[15]->opcaoResposta->valorResposta);
+                $this->percentRestricao = ceil($this->resultadoTeste[16]->opcaoResposta->valorResposta +
+                                        $this->resultadoTeste[17]->opcaoResposta->valorResposta +
+                                        $this->resultadoTeste[18]->opcaoResposta->valorResposta +
+                                        $this->resultadoTeste[19]->opcaoResposta->valorResposta);
+
+                $this->percentCM = $this->percentSistematizacao + $this->percentRegulacao;
+                $this->percentIM = $this->percetInteresses + $this->percentAcumulacao + $this->percentMesmice;
+                $this->percentRS = $this->percentSensibilidade + $this->percentRestricao;
+                $this->percentSomaTendencia = $this->percentCM + $this->percentIM + $this->percentRS;
+
+                
+                
+                if($this->percentCM <= 13.35) {
+                    $this->diagnosticoCM = "Leve ou pouco significante";
+                } else { 
+                    if($this->percentCM <= 19.81) {
+                        $this->diagnosticoCM = "Necessita atenção";
+                    } else { 
+                        if($this->percentCM > 19.81) {
+                            $this->diagnosticoCM = "Requer ajuda clínica";
+                        }
+                    }
+                };
+
+                if($this->percentIM <= 13.35) {
+                    $this->diagnosticoIM = "Leve ou pouco significante";
+                } else { 
+                    if($this->percentIM <= 19.81) {
+                        $this->diagnosticoIM = "Necessita atenção";
+                    } else { 
+                        if($this->percentIM > 19.81) {
+                            $this->diagnosticoIM = "Requer ajuda clínica";
+                        }
+                    }
+                };
+
+                if($this->percentRS <= 13.35) {
+                    $this->diagnosticoRS = "Leve ou pouco significante";
+                } else { 
+                    if($this->percentRS <= 19.81) {
+                        $this->diagnosticoRS = "Necessita atenção";
+                    } else { 
+                        if($this->percentRS > 19.81) {
+                            $this->diagnosticoRS = "Requer ajuda clínica";
+                        }
+                    }
+                };
+
+                //dd($this->diagnosticoRS);
+
+                return view('livewire.relatorios.relat-08-CmptRpttv', 
+                        ['dadosRelatorio' => $this->dadosRelatorio]);
+            break;
+
+
             case '09-InvntrTDA_TDAH':
+                //Recuperar os textos de diagnóstico ao final do relatório
+                $databaseArray = TextoResposta::whereBetween('codTextoResposta', ['09-InvntrTDA_TDAHC142', '09-InvntrTDA_TDAHC152'])
+                        ->get();
+
+                $filteredArray = [];
+
+                // Montar um array com as frases do diagnóstico, usando como chave a célula da planilha de todos os testes
+                foreach ($databaseArray as $item) {
+                    // Extrair os últimos 4 caracteres do codTextoResposta
+                    $chave = substr($item->codTextoResposta, -4);
+
+                
+                    if ($chave !== false && $chave !== '') {
+                        // Usar a chave extraída e criar o array com o respectivo textoResposta
+                        $filteredArray[$chave] = $item->textoResposta;
+                    }
+                    
+                }
+                //dd($filteredArray);
+
+                $testeSomaC133 = 0;
+                $testeSomaD133 = 0;
+                $retesteSomaC214 = 0; // Soma todas as respostas Frequente (Coluna C) e Muito Frequente (Coluna D)
+                $retesteSomaD214 = 0; // Soma todas as respostas Frequente (Coluna C) e Muito Frequente (Coluna D): só perguntas da 20 a 37 
+                $retesteSomaD215 = 0; // Soma todas as respostas de Muito Frequente (Coluna D): só perguntas da 20 a 37 
+                $retesteSomaC216 = 0; // Soma todas as respostas Frequente (Coluna C) e Muito Frequente (Coluna D): só perguntas da 01 a 18
+
+                foreach ($this->resultadoTeste as $item) {
+                    if($item->pergunta->codGrupoOpcRespostas == 'GOR09-1') {
+                        if($item->opcaoResposta->numSeqResp == 3) {
+                            $testeSomaC133=$testeSomaC133+1;
+                        }
+                        if($item->opcaoResposta->numSeqResp == 4) {
+                            $testeSomaD133=$testeSomaD133+1;
+                        }
+                    }
+
+                    if($item->pergunta->codGrupoOpcRespostas == 'GOR09-2') {
+                        if($item->opcaoResposta->numSeqResp == 3 || $item->opcaoResposta->numSeqResp == 4) {
+
+                            $retesteSomaC214=$retesteSomaC214+1;
+
+                            if ($item->sequencia >= 20 && $item->sequencia <= 37) {
+                                $retesteSomaD214=$retesteSomaD214+1;
+                            }
+
+                            if ($item->sequencia >= 1 && $item->sequencia <= 18) {
+                                $retesteSomaC216=$retesteSomaC216+1;
+                            }
+                        }
+
+                        if($item->opcaoResposta->numSeqResp == 4) {
+                            if ($item->sequencia >= 20 && $item->sequencia <= 37) {
+                                $retesteSomaD215=$retesteSomaD215+1;
+                            }
+                        }
+                    }
+
+                }
+
+                $textoDiagnostico = "<br>";
+                $textoDiagnosticoReteste = "<br>";
+
+                /* Apenas para testar o funcionamento da lógica abaixo, conferindo com a planilha de todos os testes 
+                $testeSomaC133 = 8;
+                $testeSomaD133 = 8; */
+
+                if ($testeSomaC133 >= 4) {
+                    $textoDiagnostico = $textoDiagnostico . $filteredArray['C146'];
+                } else {
+                    if($testeSomaD133 >= 6) {
+                        $textoDiagnostico = $textoDiagnostico . $filteredArray['C147'];
+                    }
+                }
+                
+                $textoDiagnostico = $textoDiagnostico . "<br><stronger>Observação: ";
+                if ($testeSomaD133 >= 10) {
+                        $textoDiagnostico = $textoDiagnostico . $filteredArray['C143'] . $filteredArray['C147'];
+                } else {
+                    $textoDiagnostico = $textoDiagnostico . $filteredArray['C142'];
+                }
+
+                if ( $testeSomaC133 >= 6 ) {
+                    $textoDiagnostico = $textoDiagnostico . "<br>" . $filteredArray['C144'];
+                } 
+
+                if ( ($testeSomaC133+$testeSomaD133) >= 9 ) {
+                    $textoDiagnostico = $textoDiagnostico . "<br>" . $filteredArray['C143'];
+                }
+
+                if ( $testeSomaD133 >= 8 ) {
+                    $textoDiagnostico = $textoDiagnostico . "<br>" . $filteredArray['C144'] . $filteredArray['C145'];
+                } 
+
+                if ( $testeSomaC133 <= 4 ) {
+                    $textoDiagnostico = $textoDiagnostico . "<br>" . $filteredArray['C152'];
+                }
+                
+                /* RETESTE - Apenas para testar o funcionamento da lógica abaixo, conferindo com a planilha de todos os testes 
+                $testeSomaC133 = 8;
+                $testeSomaD133 = 8; */
+                //dd($textoDiagnostico);
+
+                if ( $retesteSomaC214 >= 5 ) {
+                    $textoDiagnosticoReteste = $textoDiagnosticoReteste . $filteredArray['C148'];
+                } else {
+                    $textoDiagnosticoReteste = $textoDiagnosticoReteste . $filteredArray['C150'];
+                }
+                
+                if ( $retesteSomaD214 >= 5 ) {
+                    $textoDiagnosticoReteste = $textoDiagnosticoReteste . "<br>" . $filteredArray['C149'];
+                }
+                
+                if ( $retesteSomaD214 >= 8 ) {
+                    $textoDiagnosticoReteste = $textoDiagnosticoReteste . "<br>" . $filteredArray['C143'];
+                }
+                
+                if ( $retesteSomaD214 >= 6 ) {
+                    $textoDiagnosticoReteste = $textoDiagnosticoReteste . "<br>" . $filteredArray['C144'];
+                }
+                
+                if ( $retesteSomaD215 >= 4 ) {
+                    $textoDiagnosticoReteste = $textoDiagnosticoReteste . "<br>" . $filteredArray['C145'];
+                }
+                
+                if ( $retesteSomaD215 >= 5 ) {
+                    $textoDiagnosticoReteste = $textoDiagnosticoReteste . "<br>" . $filteredArray['C147'];
+                }
+                
+                if ( $retesteSomaC216 <= 6 ) {
+                    $textoDiagnosticoReteste = $textoDiagnosticoReteste . "<br>" . $filteredArray['C152']
+                                                                        . "<br>" . $filteredArray['C148'];
+                }
+                
+                if ( $retesteSomaC216 >= 5 ) {
+                    $textoDiagnosticoReteste = $textoDiagnosticoReteste . "<br>" . $filteredArray['C146'];
+                }
+                
+
 
                 /* Pdf::view('livewire.relatorios.relat-01-HstCrpEnrdvrgc', ['useranswers' => $this->useranswers])
                     ->format('a4')
@@ -360,7 +692,240 @@ class ControladorRelatorios extends Component
                 ->view('livewire.relatorios.relat-01-HstCrpEnrdvrgc', ['useranswers' => $this->useranswers])
                 ->name('01-HstCrpEnrdvrg.pdf')
                 ->download(); */
-                return view('livewire.relatorios.relat-09-InvntrTDA_TDAH');
+                return view('livewire.relatorios.relat-09-InvntrTDA_TDAH', 
+                        [   'dadosRelatorio' => $this->dadosRelatorio,
+                            'testeSomaC133' => $testeSomaC133,
+                            'testeSomaD133' => $testeSomaD133,
+                            'retesteSomaC214' => $retesteSomaC214,
+                            'retesteSomaD214' => $retesteSomaD214,
+                            'textoDiagnostico' =>$textoDiagnostico,
+                            'textoDiagnosticoReteste' =>$textoDiagnosticoReteste,
+                        ]);
+            break;
+
+            case '10-AutorrltDisfunTDA_TDAH':
+
+                // RELATÓRIO: Autorrelato sobre características relacionadas ao TDA / TDAH - 10-AutorrltDisfunTDA_TDAH
+                
+                return view('livewire.relatorios.relat-10-AutorrltDisfunTDA_TDAH', 
+                        ['dadosRelatorio' => $this->dadosRelatorio]);
+            break;
+
+            case '11-HptsTEA':
+
+                // RELATÓRIO: Hipótese de TEA - Nível 1 (antiga Síndrome de Asperger) - 11-HptsTEA
+                
+                $contaNeuroTipico = 0;
+                $contaNeuroDivergente = 0;
+                $contarHabilidadesSociais = 0;
+                $contarAtencaoDetalhes = 0;
+                $contarClarezaComunicacao = 0;
+                $contarHiperfoco = 0;
+                $contarUsoImaginacao = 0;
+                
+                foreach ($this->resultadoTeste as $item) {
+                    $textoCompleto = $item->textoResposta->textoResposta;
+
+                    // Encontra as posições dos delimitadores
+                    $posIgual = strpos($textoCompleto, ' = ');
+                    $posDoisPontos = strpos($textoCompleto, ': ');
+
+                    // Extrai as substrings
+                    if ($posIgual !== false && $posDoisPontos !== false) {
+                        $classifNeuro = substr($textoCompleto, 0, $posIgual);
+                        $areasMapeadas = substr($textoCompleto, $posIgual + 3, $posDoisPontos - ($posIgual + 3));
+                        $anomalidadePercebida = substr($textoCompleto, $posDoisPontos + 2);
+
+                        // Conta 'neurotipico' e 'neurodivergente' (case-insensitive)
+                        if (stripos($classifNeuro, 'neurotipico') !== false) {
+                            $contaNeuroTipico++;
+                        } elseif (stripos($classifNeuro, 'neurodivergente') !== false) {
+                            $contaNeuroDivergente++;
+                        }
+
+                        // Conta ocorrências em $areasMapeadas (case-insensitive)
+                        if (stripos($areasMapeadas, 'Dificuldades com as habilidades sociais') !== false) {
+                            $contarHabilidadesSociais++;
+                        }
+                        if (stripos($areasMapeadas, 'distração e mudança de atenção') !== false) {
+                            $contarAtencaoDetalhes++;
+                        }
+                        if (stripos($areasMapeadas, 'clareza na comunicação') !== false) {
+                            $contarClarezaComunicacao++;
+                        }
+                        if (stripos($areasMapeadas, 'excepcional concentração na atividade') !== false) {
+                            $contarHiperfoco++;
+                        }
+                        if (stripos($areasMapeadas, 'uso e aplicações da imaginação') !== false) {
+                            $contarUsoImaginacao++;
+                        }
+                    }
+
+                }
+                
+                return view('livewire.relatorios.relat-11-HptsTEA', 
+                        ['dadosRelatorio' => $this->dadosRelatorio]);
+            break;
+
+            case '12-DomEproc':
+
+                // RELATÓRIO: Domínios e Processos no Comportamento Adaptativo associados com a Neurodivergência							
+
+
+                
+                return view('livewire.relatorios.relat-12-DomEproc', 
+                        ['dadosRelatorio' => $this->dadosRelatorio]);
+            break;
+
+            case '15-DlxiaEaprndzg':
+            // RELATÓRIO: CARACTERÍSTICAS LIGADAS À DISLEXIA, ATENÇÃO E A CONCENTRAÇÃO  Adultos
+            
+            //Recuperar os textos de diagnóstico ao final do relatório
+            $databaseArray = TextoResposta::whereBetween('codTextoResposta', ['15-DlxiaEaprndzgQ15', '15-DlxiaEaprndzgQ22'])
+                    ->get();
+
+            $filteredArray = [];
+
+            // Montar um array com as frases do diagnóstico, usando como chave a célula da planilha de todos os testes
+            foreach ($databaseArray as $item) {
+                // Extrair os últimos 4 caracteres do codTextoResposta
+                $chave = substr($item->codTextoResposta, -3);
+
+            
+                if ($chave !== false && $chave !== '') {
+                    // Usar a chave extraída e criar o array com o respectivo textoResposta
+                    $filteredArray[$chave] = $item->textoResposta;
+                }
+                
+            }
+            //dd($filteredArray);
+
+            // -- Preparação dos Cálculos Percentuais e Contagens para o Relatório --
+            $contarRaro = 0;
+            $contarAlgumasVezes = 0;
+            $contarAconteceBastante = 0;
+            $contarFrequente = 0;
+
+            foreach ($this->dadosRelatorio['resultadoTeste'] as $item) {
+               
+                    if($item->opcaoResposta->numSeqResp == 1) {
+                        $contarRaro++;}
+                    elseif ($item->opcaoResposta->numSeqResp == 2) {
+                        $contarAlgumasVezes++;
+                    }elseif ($item->opcaoResposta->numSeqResp == 3){
+                        $contarAconteceBastante++;
+                    }else {
+                        $contarFrequente++;
+                    }
+                };    
+
+
+                $textoDiagnostico = "<br>";
+                
+                /* Apenas para testar o funcionamento da lógica abaixo, conferindo com a planilha de todos os testes 
+                $testeSomaC133 = 8;
+                $testeSomaD133 = 8; */
+               
+                $textoDiagnostico = $textoDiagnostico . "<stronger>Orientações gerais: No contexto geral de seus resultados você obteve: </stronger>";
+                if ($contarRaro >= 15) {
+                        $textoDiagnostico = $textoDiagnostico . $filteredArray['Q15'];
+                }
+
+                if ( $contarAlgumasVezes <= 6 ) {
+                    $textoDiagnostico = $textoDiagnostico . "<br>" . $filteredArray['Q16'];
+                } else {
+                    $textoDiagnostico = $textoDiagnostico . "<br>" . $filteredArray['Q17'];
+                }
+
+                if ( $contarAconteceBastante <= 6 ) {
+                    $textoDiagnostico = $textoDiagnostico . "<br>" . $filteredArray['Q18'];
+                } else {
+                    $textoDiagnostico = $textoDiagnostico . "<br>" . $filteredArray['Q19'];
+                }
+
+                if ( $contarFrequente <= 3 ) {
+                    $textoDiagnostico = $textoDiagnostico . "<br>" . $filteredArray['Q20'];
+                } elseif ( $contarFrequente >= 4 && $contarFrequente <= 8) {
+                    $textoDiagnostico = $textoDiagnostico . "<br>" . $filteredArray['Q21'];
+                } else {
+                    $textoDiagnostico = $textoDiagnostico . "<br>" . $filteredArray['Q22'];
+                }
+
+                                
+                
+                return view('livewire.relatorios.relat-15-DlxiaEaprndzg', 
+                        [   'dadosRelatorio' => $this->dadosRelatorio,
+                            'contarRaro' => $contarRaro,
+                            'contarAlgumasVezes' => $contarAlgumasVezes,
+                            'contarAconteceBastante' => $contarAconteceBastante,
+                            'contarFrequente' => $contarFrequente,
+                            'textoDiagnostico' =>$textoDiagnostico,
+                    ]);
+            break;
+
+            case '16-RslncTnsbase':
+            // RELATÓRIO: Autopercepção do nível de Cansaço e Neurodivergência
+            
+
+            // -- Preparação dos Cálculos Percentuais e Contagens para o Relatório --
+            $contarNegativos = 0;
+            $contarPositivos = 0;
+            $diferencaPositNegat = 0;
+            $celulaD38 = 0;
+            $indiceCansaco = 0;
+
+            foreach ($this->dadosRelatorio['resultadoTeste'] as $item) {
+               
+                    if( $item->opcaoResposta->numSeqResp == 2 ||
+                        $item->opcaoResposta->numSeqResp == 3 ||
+                        $item->opcaoResposta->numSeqResp == 5 ||
+                        $item->opcaoResposta->numSeqResp == 6 ||
+                        $item->opcaoResposta->numSeqResp == 8 ||
+                        $item->opcaoResposta->numSeqResp == 25 ) 
+                        { $contarNegativos = $contarNegativos + $item->opcaoResposta->valorResposta;}
+
+                    elseif ( $item->opcaoResposta->numSeqResp >=9 && $item->opcaoResposta->numSeqResp <=19 ) 
+                                { $contarNegativos = $contarNegativos + $item->opcaoResposta->valorResposta; }
+
+                    elseif (    $item->opcaoResposta->numSeqResp == 4 ||
+                                $item->opcaoResposta->numSeqResp == 7 )
+                                { $contarPositivos = $contarPositivos + $item->opcaoResposta->valorResposta; }
+
+                    elseif ( $item->opcaoResposta->numSeqResp >=20 && $item->opcaoResposta->numSeqResp <=24 ) 
+                                { $contarPositivos = $contarPositivos + $item->opcaoResposta->valorResposta; }
+                };
+                
+                $diferencaPositNegat = $contarNegativos - $contarPositivos;
+                $celulaD38 = $contarNegativos + $diferencaPositNegat;
+                $indiceCansaco = $celulaD38 / 24;
+                
+                return view('livewire.relatorios.relat-16-RslncTnsbase', 
+                        [   'dadosRelatorio' => $this->dadosRelatorio,
+                            'contarNegativos' => $contarNegativos,
+                            'contarPositivos' => $contarPositivos,
+                            'diferencaPositNegat' => $diferencaPositNegat,
+                            'celulaD38' => $celulaD38,
+                            'indiceCansaco' => $indiceCansaco,
+                    ]);
+            break;
+
+
+            case '09-InvntrTDA_TDAH-OLD':
+
+                /* Pdf::view('livewire.relatorios.relat-01-HstCrpEnrdvrgc', ['useranswers' => $this->useranswers])
+                    ->format('a4')
+                    ->save('01-HstCrpEnrdvrg.pdf'); */
+
+                /* $pdf = Pdf::loadView('livewire.relatorios.relat-01-HstCrpEnrdvrgc', [
+                        'useranswers' => $this->useranswers
+                ]);
+                return $pdf->download('invoice.pdf'); */
+            /* return pdf()
+                ->view('livewire.relatorios.relat-01-HstCrpEnrdvrgc', ['useranswers' => $this->useranswers])
+                ->name('01-HstCrpEnrdvrg.pdf')
+                ->download(); */
+                return view('livewire.relatorios.relat-09-InvntrTDA_TDAH', 
+                        ['dadosRelatorio' => $this->dadosRelatorio]);
             break;
 
              default:
