@@ -7,7 +7,7 @@
   </div>
   <!-- End Title -->
 
-  
+  {{-- @dd($grupos); --}}
     <!-- Card Blog -->
   <div class="max-w-[85rem] px-4 py-6 sm:px-6 lg:px-8 lg:py-8 mx-auto">
     <!-- Grid -->
@@ -53,9 +53,14 @@
                   dark:bg-neutral-900 dark:border-neutral-700 dark:shadow-neutral-700/70">
                   
         <div class="h-52 flex flex-col justify-center items-center bg-gradient-to-bl {{ $bgcolor }} rounded-t-xl">
-          <img src="{{ asset('storage/ywbjBmIX0KdJgKCBS5sqNwRF2lRbXe-metaTWluaS1MT0dPXzIwMjQucG5n-.png') }}"
-              alt="{{ $grupo->nomeGrupo }}">
-          
+          @if (isset($grupo['imagemGrupo']))
+
+            <img class="h-full w-full object-contain rounded-t-xl" src="{{ asset('storage/' . $grupo['imagemGrupo'] ) }}" alt="{{ $grupo->nomeGrupo }}">
+          @else
+            <img class="h-full w-full object-contain" src="{{ asset('storage/ywbjBmIX0KdJgKCBS5sqNwRF2lRbXe-metaTWluaS1MT0dPXzIwMjQucG5n-.png') }}" alt="{{ $grupo->nomeGrupo }}">
+          @endif
+
+
         </div>
         <div class="p-4 md:p-6">
           <span class="block mb-1 text-lg font-semibold uppercase text-blue-600 dark:text-blue-500">
