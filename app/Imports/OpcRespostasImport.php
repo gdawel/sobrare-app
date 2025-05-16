@@ -10,7 +10,7 @@ use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
 class OpcRespostasImport implements ToCollection, WithHeadingRow
 {
-    /**
+    /** *
     * @param Collection $collection
     */
     public function collection(Collection $rows)
@@ -23,7 +23,7 @@ class OpcRespostasImport implements ToCollection, WithHeadingRow
                 }
                 
                 $opcRespostaExistente = OpcoesRespostas::where('grupo_opcoes_respostas_id', $getGrOpcRespID['id'])
-                                   ->where('numSeqResp', $row['n_pergunta'])
+                                   ->where('numSeqResp', $row['num_seq_resposta'])
                                    ->first();
                 if ($opcRespostaExistente) {
                     $opcRespostaExistente->update([
