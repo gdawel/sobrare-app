@@ -12,7 +12,7 @@ use App\Imports\GrOpcRespostas;
 use App\Imports\PerguntasImport;
 use App\Imports\OpcRespostasImport;
 use App\Imports\GenerosImport;
-use App\Imports\estadosImport;
+use App\Imports\EstadosImport;
 use App\Imports\DescendenciasImport;
 use App\Imports\GrausEscolaresImport;
 use App\Models\GrupoOpcoesResposta;
