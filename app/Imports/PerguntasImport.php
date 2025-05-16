@@ -28,7 +28,7 @@ class PerguntasImport implements ToCollection, WithHeadingRow
                     redirect('/import/perguntas')->with('status', 'Tabela Excel com Erro: Opc Resposta não encontrado');
                 }
 
-                $perguntaExistente = Perguntas::where('codTeste', $row['cod_teste'])
+                $perguntaExistente = Perguntas::where('testes_id', $getTestId['id'])
                                    ->where('sequencia', $row['n_pergunta'])
                                    ->first();
                 if ($perguntaExistente) {
