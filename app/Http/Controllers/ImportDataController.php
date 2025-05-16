@@ -151,7 +151,7 @@ class ImportDataController extends Controller
     {
         $listarGeneros = Generos::all();
 
-        return view('importData.generos', compact('listarGeneros'));
+        return view('importData.Generos', compact('listarGeneros'));
     }
 
     public function importarGenero(Request $request) 
