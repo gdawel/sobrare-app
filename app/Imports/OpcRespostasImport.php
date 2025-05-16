@@ -10,7 +10,7 @@ use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
 class OpcRespostasImport implements ToCollection, WithHeadingRow
 {
-    /**
+    /** *
     * @param Collection $collection
     */
     public function collection(Collection $rows)
