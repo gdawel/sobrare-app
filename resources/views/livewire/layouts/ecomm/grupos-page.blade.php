@@ -70,7 +70,7 @@
             {{ $grupo->nomeGrupo }}
           </h3>
           <p class="mt-3 text-gray-500 dark:text-neutral-500">
-            {{ $grupo->descricaoCurta }}
+            {!! $grupo->descricaoCurta !!}
           </p>
         </div>
         <div class="mt-auto flex border-t border-gray-200 divide-x divide-gray-200 dark:border-neutral-700 dark:divide-neutral-700">
