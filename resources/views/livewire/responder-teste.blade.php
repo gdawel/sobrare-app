@@ -11,7 +11,7 @@
     
         
        
-        <h2 class="font-bold py-2"> Total de Perguntas: {{ $totalPerguntas  }}<br></h2>
+        <h2 class="font-bold py-2"> Pergunta n. {{ $this->seqPerguntas }} / Total de Perguntas: {{ $totalPerguntas  }}<br></h2>
         {{-- <pre>  <php print_r($perguntas); ?> </pre> --}}
         {{-- <h4>Pergunta ID: {{ $this->perguntaId }}</h4> --}}
        
@@ -90,7 +90,8 @@
                 </div>
             @endif
             {{-- <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400">@error('opcoesRespostasId') {{ $message }} @enderror</div> --}}
-            @if($pergunta->sequencia == $totalPerguntas)
+               {{--  @dd($this->seq) --}}
+            @if($this->seqPerguntas == $totalPerguntas)
                 <button 
                     @if(!$this->habilitarBotaoResposta) disabled 
                         class="pb-4 text-white bg-blue-400 dark:bg-blue-500 cursor-not-allowed font-medium rounded-lg text-sm px-5 py-2.5 text-center"

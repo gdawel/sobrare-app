@@ -91,6 +91,28 @@ class ControladorRelatorios extends Component
     public $diagnosticoRS;
     public $percentSomaTendencia = 0;
 
+    // Variáveis para o Relatório 14 - AUTORREALIZAÇÃO e NEURODIVERGÊNCIA
+    public $constrangimento = 0;
+    public $regrasSociais = 0;
+    public $contextos = 0;
+    public $fragilizar = 0;
+    public $controladora = 0;
+    public $impulsiva = 0;
+    public $baseRisco = 0;
+
+    public $alimentBalanceada = 0;
+    public $exercRegular = 0;
+    public $gerenciaEstresse = 0;
+    public $relaxMental = 0;
+    public $redesApoio = 0;
+    public $acompClinico = 0;
+    public $organizTarefas = 0;
+    public $atualizarCapacitar = 0;
+
+    public $arrayTipoItemNeurodiv = [];
+    public $arrayDiscipFavorNeurodiv = [];
+
+
     
     /* Dawel: retirado: 30/07/2024 - #[On('resultadoTeste')] */
     public function mount() {
@@ -119,7 +141,7 @@ class ControladorRelatorios extends Component
                                     ->where('orderitems_id', $this->orderItem_id)
                                     ->where('testes_id', $this->testes_id)
                                     ->get();
-
+        /** @var \App\Models\Useranswers[] $userAnswers */
         foreach ($userAnswers as &$userAnswer) {
             $textoRespostas = [];
             $userAnswer->areasImpactadas = [];
@@ -776,6 +798,190 @@ class ControladorRelatorios extends Component
                 return view('livewire.relatorios.relat-12-DomEproc', 
                         ['dadosRelatorio' => $this->dadosRelatorio]);
             break;
+
+            case '13-SnsldeEndvrgnc':
+
+                // RELATÓRIO: PONTUAÇÃO e COMENTÁRIOS - SENSUALIDADE E NEURODIVERGÊNCIAS - 13-SnsldeEndvrgnc
+                
+                return view('livewire.relatorios.relat-13-SnsldeEndvrgnc', 
+                        ['dadosRelatorio' => $this->dadosRelatorio]);
+            break;
+
+            case '14-ArrzcEndvrgc':
+
+                //dd($this->sexoBiologico);
+
+                /* Apenas para anotações durante a programação
+                public $constrangimento = 0;
+                public $regrasSociais = 0;
+                public $contextos = 0;
+                public $fragilizar = 0;
+                public $controladora = 0;
+                public $impulsiva = 0;
+                public $baseRisco = 0;
+
+                public $alimentBalanceada = 0;
+                public $exercRegular = 0;
+                public $gerenciaEstresse = 0;
+                public $relaxMental = 0;
+                public $redesApoio = 0;
+                public $acompClinico = 0;
+                public $organizTarefas = 0;
+                public $atualizarCapacitar = 0;
+                */
+
+                // RELATÓRIO: 14 - Interações Sociais e Neurodivergências
+
+                //dd($this->resultadoTeste);
+                if($this->sexoBiologico == 'M') {
+                    $this->constrangimento = ceil($this->resultadoTeste[4]->opcaoResposta->valorResposta +
+                                                $this->resultadoTeste[17]->opcaoResposta->valorResposta +
+                                                $this->resultadoTeste[18]->opcaoResposta->valorResposta);
+                } else {
+                    $this->constrangimento = ceil($this->resultadoTeste[4]->opcaoResposta->valorResposta +
+                                                $this->resultadoTeste[18]->opcaoResposta->valorResposta +
+                                                $this->resultadoTeste[19]->opcaoResposta->valorResposta);
+                }
+
+                if($this->sexoBiologico == 'M') {
+                    $this->regrasSociais = ceil($this->resultadoTeste[1]->opcaoResposta->valorResposta +
+                                                $this->resultadoTeste[13]->opcaoResposta->valorResposta +
+                                                $this->resultadoTeste[16]->opcaoResposta->valorResposta);
+                } else {
+                    $this->regrasSociais = ceil($this->resultadoTeste[1]->opcaoResposta->valorResposta +
+                                                $this->resultadoTeste[14]->opcaoResposta->valorResposta +
+                                                $this->resultadoTeste[17]->opcaoResposta->valorResposta);
+                }
+
+                if($this->sexoBiologico == 'M') {
+                    $this->contextos = ceil($this->resultadoTeste[2]->opcaoResposta->valorResposta +
+                                                $this->resultadoTeste[3]->opcaoResposta->valorResposta +
+                                                $this->resultadoTeste[5]->opcaoResposta->valorResposta +
+                                                $this->resultadoTeste[6]->opcaoResposta->valorResposta +
+                                                $this->resultadoTeste[15]->opcaoResposta->valorResposta);
+                } else {
+                    $this->contextos = ceil($this->resultadoTeste[2]->opcaoResposta->valorResposta +
+                                                $this->resultadoTeste[3]->opcaoResposta->valorResposta +
+                                                $this->resultadoTeste[5]->opcaoResposta->valorResposta +
+                                                $this->resultadoTeste[6]->opcaoResposta->valorResposta +
+                                                $this->resultadoTeste[16]->opcaoResposta->valorResposta);
+                }
+                
+                if($this->sexoBiologico == 'M') {
+                    $this->fragilizar = ceil($this->resultadoTeste[7]->opcaoResposta->valorResposta +
+                                                $this->resultadoTeste[9]->opcaoResposta->valorResposta +
+                                                $this->resultadoTeste[10]->opcaoResposta->valorResposta +
+                                                $this->resultadoTeste[20]->opcaoResposta->valorResposta);
+                } else {
+                    $this->fragilizar = ceil($this->resultadoTeste[7]->opcaoResposta->valorResposta +
+                                                $this->resultadoTeste[10]->opcaoResposta->valorResposta +
+                                                $this->resultadoTeste[11]->opcaoResposta->valorResposta);
+                }
+
+                if($this->sexoBiologico == 'M') {
+                    $this->controladora = ceil($this->resultadoTeste[8]->opcaoResposta->valorResposta +
+                                                $this->resultadoTeste[11]->opcaoResposta->valorResposta +
+                                                $this->resultadoTeste[20]->opcaoResposta->valorResposta);
+                } else {
+                    $this->controladora = ceil($this->resultadoTeste[9]->opcaoResposta->valorResposta +
+                                                $this->resultadoTeste[12]->opcaoResposta->valorResposta +
+                                                $this->resultadoTeste[20]->opcaoResposta->valorResposta);
+                }
+
+                if($this->sexoBiologico == 'M') {
+                    $this->impulsiva = ceil($this->resultadoTeste[12]->opcaoResposta->valorResposta);
+                } else {
+                    $this->impulsiva = ceil($this->resultadoTeste[13]->opcaoResposta->valorResposta);
+                }
+
+                if($this->sexoBiologico == 'M') {
+                    $this->baseRisco = ceil($this->resultadoTeste[14]->opcaoResposta->valorResposta);
+                } else {
+                    $this->baseRisco = ceil($this->resultadoTeste[15]->opcaoResposta->valorResposta);
+                }
+
+                $this->alimentBalanceada = ceil($this->resultadoTeste[21]->opcaoResposta->valorResposta);
+
+                $this->exercRegular = ceil($this->resultadoTeste[22]->opcaoResposta->valorResposta);
+
+                $this->gerenciaEstresse = ceil($this->resultadoTeste[23]->opcaoResposta->valorResposta +
+                                                $this->resultadoTeste[35]->opcaoResposta->valorResposta);
+
+                $this->relaxMental = ceil($this->resultadoTeste[24]->opcaoResposta->valorResposta +
+                                            $this->resultadoTeste[29]->opcaoResposta->valorResposta);
+
+                $this->redesApoio = ceil($this->resultadoTeste[25]->opcaoResposta->valorResposta +
+                                            $this->resultadoTeste[28]->opcaoResposta->valorResposta);
+                
+                $this->acompClinico = ceil($this->resultadoTeste[26]->opcaoResposta->valorResposta);
+
+                $this->organizTarefas = ceil($this->resultadoTeste[27]->opcaoResposta->valorResposta +
+                                            $this->resultadoTeste[31]->opcaoResposta->valorResposta +
+                                            $this->resultadoTeste[32]->opcaoResposta->valorResposta +
+                                            $this->resultadoTeste[33]->opcaoResposta->valorResposta);
+
+                $this->atualizarCapacitar = ceil($this->resultadoTeste[30]->opcaoResposta->valorResposta +
+                                            $this->resultadoTeste[34]->opcaoResposta->valorResposta);
+
+                
+                //$this->constrangimento = $this->constrangimento / 12 * 100;
+                $this->constrangimento = number_format(($this->constrangimento / 12 * 100), 2);
+                $this->regrasSociais = number_format(($this->regrasSociais / 12 * 100), 2);
+
+                //$this->regrasSociais = $this->regrasSociais / 12 * 100;
+                //$this->contextos = $this->contextos / 20 * 100;
+                $this->contextos = number_format(($this->contextos / 20 * 100), 2);
+
+
+                if($this->sexoBiologico == 'M') {
+                    $this->fragilizar = number_format(($this->fragilizar / 16 * 100), 2);
+                    
+                } else {
+                    $this->fragilizar = number_format(($this->fragilizar / 12 * 100), 2);
+                }
+
+                $this->controladora = number_format(($this->controladora / 12 * 100), 2);
+                $this->impulsiva = number_format(($this->impulsiva / 4 * 100), 2);
+                $this->baseRisco = number_format(($this->baseRisco / 4 * 100), 2);
+
+                $this->alimentBalanceada = number_format(($this->alimentBalanceada / 4 * 100), 2);
+                $this->exercRegular = number_format(($this->exercRegular / 4 * 100), 2);
+                $this->gerenciaEstresse = number_format(($this->gerenciaEstresse / 8 * 100), 2);
+                $this->relaxMental = number_format(($this->relaxMental / 8 * 100), 2);
+                $this->redesApoio = number_format(($this->redesApoio / 8 * 100), 2);
+                $this->acompClinico = number_format(($this->acompClinico / 4 * 100), 2);
+                $this->organizTarefas = number_format(($this->organizTarefas / 16 * 100), 2);
+                $this->atualizarCapacitar = number_format(($this->atualizarCapacitar / 8 * 100), 2);
+
+                $this->arrayTipoItemNeurodiv = [
+                                                   [ '"Causar constrangimento" ('.$this->constrangimento.'%)' , $this->constrangimento], 
+                                                   [ '"Violar regras sociais" ('.$this->regrasSociais.'%)' , $this->regrasSociais], 
+                                                   [ '"Manipular contextos" ('.$this->contextos.'%)' ,  $this->contextos], 
+                                                   [ '"Fragilizar o outro" ('.$this->fragilizar.'%)' , $this->fragilizar], 
+                                                   [ '"Pessoa controladora"`('.$this->controladora.'%)' , $this->controladora], 
+                                                   [ '"Pessoa impulsiva" ('.$this->impulsiva.'%)' , $this->impulsiva],                                   
+                                                   [ '"Agir com base no risco" ('.$this->baseRisco.'%)' , $this->baseRisco]
+                ];
+
+                $this->arrayDiscipFavorNeurodiv = [
+                                                    [ 'Disciplina: Alimentação Balanceada ('.$this->alimentBalanceada.'%)', $this->alimentBalanceada],
+                                                    [ 'Disciplina: Exercício Regular ('.$this->exercRegular.'%)', $this->exercRegular],
+                                                    [ 'Disciplina: Gerenciamento do Estresse ('.$this->gerenciaEstresse.'%)', $this->gerenciaEstresse],
+                                                    [ 'Disciplina: Relaxamento Mental ('.$this->relaxMental.'%)', $this->relaxMental],
+                                                    [ 'Disciplina: Redes de Apoio ('.$this->redesApoio.'%)', $this->redesApoio],
+                                                    [ 'Disciplina: Acompanhamento clínico ('.$this->acompClinico.'%)', $this->acompClinico],
+                                                    [ 'Disciplina: Organização de Tarefas ('.$this->organizTarefas.'%)', $this->organizTarefas],
+                                                    [ 'Disciplina: Atualizar e se capacitar ('.$this->atualizarCapacitar.'%)', $this->atualizarCapacitar]
+
+                ];
+                
+
+                //dd($this->diagnosticoRS);
+
+                return view('livewire.relatorios.relat-14-ArrzcEndvrgc', 
+                        ['dadosRelatorio' => $this->dadosRelatorio]);
+            break;
+
 
             case '15-DlxiaEaprndzg':
             // RELATÓRIO: CARACTERÍSTICAS LIGADAS À DISLEXIA, ATENÇÃO E A CONCENTRAÇÃO  Adultos

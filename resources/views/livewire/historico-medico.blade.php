@@ -44,8 +44,8 @@
 											@enderror" 
 										id="sexoBiologico">
                                     <option selected>Sexo Biológico</option> 
-                                    <option value="Feminino">Feminino</option>
-                                    <option value="Masculino">Masculino</option>
+                                    <option value="F">Feminino</option>
+                                    <option value="M">Masculino</option>
                         </select>
                                     
 							

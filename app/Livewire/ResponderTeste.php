@@ -26,6 +26,11 @@ class ResponderTeste extends Component
     public $opcoesResposta;
     public $tipoOpcaoResposta = 'N';
 
+    public $pointerPerguntas = [];  // Indexed array: sempre começa no Zero
+    public $seqPerguntas = 0;       // Necessário para controlar quantas perguntas foram respondidas e controlar o fim do teste
+                                    // seqPerguntas sempre estará um número a frente de $seq - ver metodo proximaPergunta()
+    public $seq = 0;
+
     #[Validate('required', message: 'Por favor, selecione uma das opções acima.')] 
     public $opcoesRespostasId;
 
@@ -87,7 +92,29 @@ class ResponderTeste extends Component
         $this->nomeTeste = $this->buscaTeste->nomeTeste;
         $this->codTeste = $this->buscaTeste->codTeste;
         
+        /* 
+            =====>  BUSCAR TODAS AS PERGUNTAS DE UM TESTE, SELECIONANDO POR SEXO BIOLÓGICO,
+                    AFIM DE CRIAR O CONTROLE DA NUMERAÇÃO DAS PERGUNTAS.
+                    ISSO VAI PERMITIR QUE, QUANDO BUSCAR A PRÓXIMA PERGUNTA PELO NÚMERO DA PERGUNTA,
+                    O SISTEMA ENCONTRE O REGISTRO CORRETO.
+                    HÁ CASOS EM QUE A SEQUÊNCIA (NÚMERO DA PERGUNTA) PULA NÚMERO. É O CASO DE TESTES COM SELECÃO 
+                    DE PERGUNTAS POR SEXO BIOLÓGICO.
 
+        */
+        $this->pointerPerguntas = Perguntas::with('grupoOpcoesRespostas')
+                            ->where('testes_id', $this->testeSelecionado)
+                            ->where(function ($query) {
+                                $query->where('sexo', 'I')
+                                ->orWhere('sexo', $this->sexoCliente);
+                            })
+                            ->orderBy('sequencia') // Ensure the array is in order
+                            ->get('sequencia');
+        
+        // Necessário armazenar o pointerPerguntas na sessão. Por algum motivo, não está chegando no proximaPergunta()
+        session()->put('pointerPerguntas', $this->pointerPerguntas);
+
+
+        //dd($this->pointerPerguntas);
         /* $paramentros = "Teste: " . $this->testeSelecionado . " | Pedido: " . $this->pedidoCliente 
                         . " | Item ID: " . $this->ccii . " | Sexo: " . auth()->user()->sexo_biologico;
         dd($paramentros);
@@ -123,11 +150,30 @@ class ResponderTeste extends Component
                                                  ->max('sequencia');
         //dd($ultimaPerguntaRespondida);
         
+        //$this->qualPergunta = $this->pointerPerguntas[$ultimaPerguntaRespondida]->sequencia;
+        //dd($this->qualPergunta);
+        
         if($ultimaPerguntaRespondida) {
-            $this->qualPergunta = $ultimaPerguntaRespondida + 1;
+            $this->seq = 0;
+            foreach ($this->pointerPerguntas as $pointer) {
+                
+                if($pointer['sequencia'] > $ultimaPerguntaRespondida) {
+                    $this->qualPergunta = $pointer['sequencia'];
+                    //$this->seq++;
+                    //dd($this->qualPergunta);
+                    break;
+                } else {
+                    $this->seq++;
+                }
+                
+                }
+        
+           
         } else {
             $this->qualPergunta = 1;
         }
+
+        $this->seqPerguntas = $this->seq +1;
 
         $temporario = [
             'teste-id' => $this->testeSelecionado,
@@ -144,7 +190,7 @@ class ResponderTeste extends Component
                                 ->orWhere('sexo', $this->sexoCliente);
                             })
                             ->get();
-
+        //dd($this->perguntas);
         /* ERRO RT001 - Não encontrou o teste acima no DB. Verificar importação das perguntas */
         if($this->perguntas->count() == 0) {
 
@@ -196,6 +242,9 @@ class ResponderTeste extends Component
     public function proximaPergunta($perguntaId){
 
         //dd($this->perguntas);
+        $this->pointerPerguntas = session()->get('pointerPerguntas');
+
+        //dd($this->pointerPerguntas);
         $this->validate();
         
         $this->qualSeqResposta = OpcoesRespostas::where('id', $this->opcoesRespostasId)->get();
@@ -215,7 +264,8 @@ class ResponderTeste extends Component
         if($this->codTeste == '01-HstCrpEnrdvrgc' || 
             $this->codTeste == '02-PrcpStrss' || 
             $this->codTeste == '03-OrdnçAsst' ||
-            $this->codTeste == '04-CmCrbrFcn' )
+            $this->codTeste == '04-CmCrbrFcn' ||
+            $this->codTeste == '14-ArrzcEndvrgc' )
             /* $this->perguntas['0']->codGrupoOpcRespostas == 'GOR88-1') */
             {
                 $codTextoResposta = null;
@@ -257,16 +307,31 @@ class ResponderTeste extends Component
 
         // ANTES DE IR PARA A PRÓXIMA PERGUNTA, SALVAR A RESPOSTA NO BD.
 
-        $this->qualPergunta++;
+        //$this->qualPergunta++;
+        $this->seq++;
+        $this->seqPerguntas = $this->seq + 1;
+        $tempControle = "Seq = ".$this->seq."; seqPerguntas = ". $this->seqPerguntas."; qualPergunta = ".$this->qualPergunta;
+        //dd($tempControle);
+        
+        $this->qualPergunta = $this->pointerPerguntas[$this->seq]->sequencia; 
+        $tempControle = "Seq = ".$this->seq."; seqPerguntas = ". $this->seqPerguntas."; qualPergunta = ".$this->qualPergunta;
+        //dd($tempControle);
+        //dd($this->qualPergunta);
+        
         $this->opcoesRespostasId = null;
         $this->respostaprimaria = null;
         $this->opcRespIntensidade = null;
         $this->opcRespCheckbox = [];
         $this->complementos = null;
+        $this->comentariosCliente = null;
         $this->habilitarBotaoResposta = false;
         $this->perguntas = Perguntas::with('grupoOpcoesRespostas')
                             ->where('testes_id', $this->testeSelecionado)
                             ->where('sequencia', $this->qualPergunta)
+                            ->where(function ($query) {
+                                                $query->where('sexo', 'I')
+                                                ->orWhere('sexo', $this->sexoCliente);
+                                                })
                             ->get();
         /*
             Dawel: devido a estar selecionando um único registro no this->perguntas,
@@ -364,11 +429,22 @@ class ResponderTeste extends Component
                 $intensidade = $this->qualIntensidade[0]->valorResposta;
             };
         
-        $codTextoResposta = 
-            $this->codTeste .
-            $this->qualPergunta .
-            $this->qualSeqResposta['0']->numSeqResp .
-            $intensidade;
+        if($this->codTeste == '01-HstCrpEnrdvrgc' || 
+            $this->codTeste == '02-PrcpStrss' || 
+            $this->codTeste == '03-OrdnçAsst' ||
+            $this->codTeste == '04-CmCrbrFcn' ||
+            $this->codTeste == '14-ArrzcEndvrgc' )
+            /* $this->perguntas['0']->codGrupoOpcRespostas == 'GOR88-1') */
+            {
+                $codTextoResposta = null;
+
+            } else {
+                $codTextoResposta = 
+                $this->codTeste .
+                $this->qualPergunta .
+                $this->qualSeqResposta['0']->numSeqResp .
+                $intensidade;
+            };
         //dd($codTextoResposta);
 
         // Gravar as respostas de cada pergunta
