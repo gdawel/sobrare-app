@@ -84,7 +84,7 @@ Route::get('/ordenacao-assuntos', OrdenacaoAssuntos::class);
     Dawel: 15/07/2024
 */
 // Rota para a página principal do projeto NeuroDiversidade
-Route::get('/neurodiv', HomeNeuroDiv::class)->name('neurodiv');
+Route::get('/', HomeNeuroDiv::class)->name('neurodiv');
 Route::get('/vitrine', GruposPage::class);
 Route::get('/produtos/{slug}', ProdutoDetalhesPage::class);
 Route::get('/carrinho', CarrinhoPage::class);
@@ -101,7 +101,7 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::get('logout', function(){
       auth()->logout();
-      return redirect('/neurodiv');
+      return redirect('/');
     });
     Route::get('/checkout', CheckoutPage::class);
     Route::get('/meus-pedidos', MeusPedidosPage::class);
@@ -118,7 +118,7 @@ Route::middleware('auth')->group(function () {
 
 
 // Rotas do site principal da SOBRARE
-Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/XXX', [HomeController::class, 'index'])->name('home');
 Route::get('/pagina/{key}', [PaginaController::class, 'show'])->name('pagina.show');
 Route::get('/publicacoes', [HomeController::class, 'blog'])->name('layouts.publicacoes');
 Route::get('/publicacoes/{key}', [HomeController::class, 'blogSingle'])->name('layouts.publicacoesSingle');

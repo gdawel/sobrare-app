@@ -293,10 +293,10 @@ class ControladorRelatorios extends Component
 
                 /*  BROWSERSHOT */
 
-                /* $template = view('livewire.relatorios.relat-01-HstCrpEnrdvrgc', ['dadosRelatorio' => $this->dadosRelatorio])->render();
+                $template = view('livewire.relatorios.relat-01-HstCrpEnrdvrgc', ['dadosRelatorio' => $this->dadosRelatorio])->render();
                 //dd($template);
                 Browsershot::html($template)->timeout(300)->save(storage_path('relat-01-HstCrpEnrdvrgc-gd0S.pdf'));
-                return url('/meus-pedidos'); */
+                /* return url('/meus-pedidos'); */
                 
                 return view('livewire.relatorios.relat-01-HstCrpEnrdvrgc', [
                     'dadosRelatorio' => $this->dadosRelatorio

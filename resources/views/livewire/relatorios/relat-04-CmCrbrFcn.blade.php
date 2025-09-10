@@ -98,7 +98,7 @@
             <div class="pb-2" wire:key="{{ $item->pergunta->id }}">
               {{-- <h5 class="sm:hidden text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">Pergunta do teste</h5> --}}
               <p class=" text-sm p-1 font-semibold text-gray-800 dark:text-neutral-200">
-                {{ $item->pergunta->id }}. </p>
+                {{ $item->pergunta->sequencia }}. </p>
             </div>
             <div class="col-span-5">
               {{-- <h5 class="sm:hidden text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">Pergunta do teste</h5> --}}
