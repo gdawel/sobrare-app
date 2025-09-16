@@ -173,7 +173,11 @@
                     <div class="flex items-center">
                       <img class="h-16 w-16 mr-4" src="{{ asset('storage/sobrare_logo_redondo.png') }}" alt="$item->testes->nomeTeste">
                       <span class="font-semibold">{{ $item->testes->nomeTeste }}</span>
+                       
                     </div>
+                    @if( $item->testeStatus == "gerando") 
+                            <p class=""><br>(*) O relatório demora alguns minutos para ser gerado. Por favor, aguarde 5 minutos e atualize a página</p>
+                       @endif
                   </td>
                   <td class="py-4">{{ $item->testeStatus }}</td>
                 {{-- <td class="py-4">
@@ -196,14 +200,28 @@
                                       Responder
                                 </a>
                             
+                            @elseif ( $item->testeStatus == "gerando" ) 
+                                <button disabled 
+                                      class="text-gray-900 bg-gradient-to-r from-orange-200 via-orange-300 to-blue-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+                                      >
+                                      Gerando Relatório(*)
+                                </button>
+                               
+                                
+                            
                             @else 
-                                <a wire:navigate href="/relatorios?cctt={{ $item->testes->id }}&ccxx={{ $pedido->id}}&ccii={{ $item->id }} " target="_blank"
+                                <a href="/reports/{{ $item->id }}/download" target="_blank"
                                                        
                                       class="text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
                                       >
-                                      Relatório
+                                      Baixar Relatório
                                 </a>
-
+                                 <a wire:navigate disabled href="/relatorios?cctt={{ $item->testes->id }}&ccxx={{ $pedido->id}}&ccii={{ $item->id }}"
+                                                                  
+                                      class="text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+                                      >
+                                      Emitir
+                                </a>
                             
                                 
                     @endif

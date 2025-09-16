@@ -22,10 +22,12 @@
                 .card-container {
                     box-shadow: none !important;
                     border: none !important; /* Remove a moldura/borda */
+                    padding: 1rem !important; /* Reduz o padding interno no PDF */
                 }
                 @page {
                     size: A4;
-                    margin: 1cm; /* Margens da página do PDF reduzidas */
+                    /* Margens: 1cm (topo/base), 0.7cm (esquerda/direita) */
+                    margin: 1cm 0.7cm;
                 }
             }
         </style>
@@ -38,22 +40,69 @@
   <div class="max-w-[85rem] px-4 sm:px-6 lg:px-8 mx-4 my-4 sm:my-10 main-container">
   <div class="sm:w-11/12 lg:w-3/4 mx-auto">
     <div class="flex flex-col p-4 sm:p-10 bg-white shadow-md rounded-xl dark:bg-neutral-800 card-container">
+      <!-- Grid -->
       <div class="flex justify-between">
         <div>
-            <img class="h-12" src="{{ asset('storage/sobrare_logo_1.jpg') }}">
+            <img class="h-16" src="{{ asset('storage/sobrare_logo_1.jpg') }}">
+          {{-- <svg class="size-10" width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M1 26V13C1 6.37258 6.37258 1 13 1C19.6274 1 25 6.37258 25 13C25 19.6274 19.6274 25 13 25H12" class="stroke-blue-600 dark:stroke-white" stroke="currentColor" stroke-width="2"/>
+            <path d="M5 26V13.16C5 8.65336 8.58172 5 13 5C17.4183 5 21 8.65336 21 13.16C21 17.6666 17.4183 21.32 13 21.32H12" class="stroke-blue-600 dark:stroke-white" stroke="currentColor" stroke-width="2"/>
+            <circle cx="13" cy="13.0214" r="5" fill="currentColor" class="fill-blue-600 dark:fill-white"/>
+          </svg> --}}
 
           <h1 class="mt-2 pt-16 text-xl md:text-xl font-semibold text-blue-600 dark:text-white">
             {{ $dadosRelatorio['tituloTeste'] }}
             </h1>
         </div>
+        <!-- Col -->
+
         <div class="text-end">
-            <img class="h-12" src="{{ asset('storage/logo_neudiv_1.jpg') }}">
-          <h2 class="text-base md:text-lg font-semibold text-gray-800 dark:text-neutral-200">NEURODIVERSIDADE</h2>
+            <img class="h-16" src="{{ asset('storage/logo_neudiv_1.jpg') }}">
+          <h2 class="text-base md:text-xl font-semibold text-gray-800 dark:text-neutral-200">NEURODIVERSIDADE</h2>
           <span class="mt-1 block font-semibold text-gray-800 dark:text-neutral-500">
             Cod. interno: {{ $dadosRelatorio['orders_id'] }}/{{ $dadosRelatorio['idadeCliente'] }}-{{ $dadosRelatorio['estadoNascimentoCliente'] }}</span>
+
+          {{-- <address class="mt-4 not-italic text-gray-800 dark:text-neutral-200">
+            45 Roker Terrace<br>
+            Latheronwheel<br>
+            KW5 8NW, London<br>
+            United Kingdom<br>
+          </address> --}}
         </div>
-        </div>
+        <!-- Col -->
+      </div>
+      <!-- End Grid -->
+
+      <!-- Grid -->
       <div class="mt-8 grid sm:grid-cols-2 gap-3">
+        <div>
+          <h3 class="text-lg font-semibold text-gray-800 dark:text-neutral-200">Para:</h3>
+          <h3 class="text-lg font-semibold text-gray-800 dark:text-neutral-200">{{ $dadosRelatorio['nomeCliente'] }}</h3>
+          <address class="mt-2 not-italic font-semibold text-gray-800 dark:text-neutral-500">
+            Idade: {{ $dadosRelatorio['idadeCliente'] }}<br>
+          {{--   Breannabury, OR 45801,<br>
+            United States<br> --}}
+          </address>
+        </div>
+        <!-- Col -->
+
+        <div class="sm:text-end space-y-2">
+          <!-- Grid -->
+          <div class="grid grid-cols-2 sm:grid-cols-1 gap-3 sm:gap-2">
+            <dl class="grid sm:grid-cols-5 gap-x-3">
+              <dt class="col-span-3 font-semibold text-gray-800 dark:text-neutral-200">Emitido em:</dt>
+              <dd class="col-span-2 font-semibold text-gray-800 dark:text-neutral-500">{{ $dadosRelatorio['dataEmissao'] }}</dd>
+            </dl>
+            <dl class="grid sm:grid-cols-5 gap-x-3">
+              <dt class="col-span-3 font-semibold text-gray-800 dark:text-neutral-200">Respondido em:</dt>
+              <dd class="col-span-2 font-semibold text-gray-800 dark:text-neutral-500">{{ $dadosRelatorio['dataFinalTeste'] }}</dd>
+            </dl>
+          </div>
+          <!-- End Grid -->
+        </div>
+        <!-- Col -->
+      </div>
+      <!-- End Grid -->
         <div>
           <h3 class="text-sm font-semibold text-gray-800 dark:text-neutral-200">Para:</h3>
           <h3 class="text-sm font-semibold text-gray-800 dark:text-neutral-200">{{ $dadosRelatorio['nomeCliente'] }}</h3>

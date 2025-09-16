@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Livewire\Relatorios\ControladorRelatorios;
 use App\Models\User;
 use App\Models\Testes;
 use App\Models\Useranswers;
@@ -15,7 +16,8 @@ use Illuminate\Support\Facades\View;
 use Spatie\LaravelPdf\Facades\Pdf;
 use Spatie\Browsershot\Browsershot;
 use Illuminate\Foundation\Bus\Dispatchable;
-
+use App\Models\ControleRelatorios;
+use App\Models\Orderitems;
 
 class GerarRelatorios implements ShouldQueue
 {
@@ -27,6 +29,7 @@ class GerarRelatorios implements ShouldQueue
     protected $ccii;
     protected $userId;
     protected $dadosRelatorio;
+    protected $controleRelatorios;
 
     /**
      * Create a new job instance.
@@ -39,15 +42,43 @@ class GerarRelatorios implements ShouldQueue
         $this->userId = $userId;
     }
 
+
+    /**
+ * Get the Footer HTML for browsershot.
+ * Injects styles to fix the bug with a font size of zero
+ * @see https://github.com/puppeteer/puppeteer/issues/1853
+ */
+    public function getFooterHtml()
+            {
+            ob_start() ?>
+            <style>
+                .pageFooter {
+                -webkit-print-color-adjust: exact;
+                font-family: system-ui;
+                font-size: 6pt;
+                text-align: center;
+                width: 100%;
+                display: block;
+                }
+            </style>
+            <div class="pageFooter">
+                <span class="pageNumber"></span> de <span class="totalPages"></span>
+            </div>
+            <?php return ob_get_clean();
+            }
     /**
      * Execute the job.
      */
+
     public function handle()
     {
         // Step 1: Prepare Data
         $orders_id = $this->ccxx;
         $testes_id = $this->cctt;
         $orderItem_id = $this->ccii;
+
+        $controleRelatorios = ControleRelatorios::find($orderItem_id);
+        $orderItens = Orderitems::find($orderItem_id);
 
        /*  $checkParameters = "handle-ccxx=".$this->ccxx . " / cctt=". $this->cctt . " / ccii=". $this->ccii . " / userId:".$this->userId;
         dd($checkParameters); */
@@ -92,7 +123,7 @@ class GerarRelatorios implements ShouldQueue
             'dadosCliente' => $dadosCliente,
         ];
         
-        
+        $nomePDF = "rel_" . $codTeste . "_" . $nomeCliente . "_Ped_" . $orders_id . ".pdf";
 
         // Step 2: Choose View Based on Test Code
         switch ($codTeste) {
@@ -101,42 +132,33 @@ class GerarRelatorios implements ShouldQueue
 
                 $relatorio = $this->dadosRelatorio;
                 
-                //return url('/meus-pedidos');
-                /* Spatie Laravel-pdf */
-                /* Pdf::view('livewire.relatorios.relat-01-HstCrpEnrdvrgc', 
-                        ['dadosRelatorio' => $relatorio])
-                    ->format('a4')
-                    ->save(storage_path('01HstCrpEnrdvrg6gd.pdf')); 
-                    return ("DONE!"); */
-
-                /* 
-                ==> dompdf   */   
-                /* $template = view('livewire.relatorios.relat-01-HstCrpEnrdvrgc', ['dadosRelatorio' => $dadosRelatorio])->render();  */
-                /* $pdf = Pdf::loadView('livewire.relatorios.relat-01-HstCrpEnrdvrgc', [
-                        'dadosRelatorio' => $relatorio
-                ]); */
-                $teste = "<html><body><h1>Hey George!</h1></body></html>";
-                /*return Pdf::loadFile($template)->save(storage_path('/app/livewire-tmp/my_stored_file.pdf'))->stream('download.pdf'); */
-                /* $pdf->loadHTML($teste); */
-                //dd($pdf);
-                /* $pdf->save(storage_path('GDinvoice.pdf')); 
-                return redirect()->intended(); */
-           /*  return pdf()
-                ->view('livewire.relatorios.relat-01-HstCrpEnrdvrgc', $dadosRelatorio)
-                ->name('01-HstCrpEnrdvrg.pdf')
-                ->download(); */
-
-                /*  BROWSERSHOT */
-
-                /* $template = view('livewire.relatorios.relat-01-HstCrpEnrdvrgc', ['dadosRelatorio' => $this->dadosRelatorio])->render();
-                //dd($template);
-                Browsershot::html($template)->timeout(300)->save(storage_path('relat-01-HstCrpEnrdvrgc-gd0S.pdf'));
-                return url('/meus-pedidos'); */
                 
-                /* return view('livewire.relatorios.relat-01-HstCrpEnrdvrgc', [
-                    'dadosRelatorio' => $this->dadosRelatorio
-                ]
-                ); */
+                $controleRelatorios->update(['status' => 'gerando']);
+                
+                try {
+                        $template = view('livewire.relatorios.relat-01-HstCrpEnrdvrgc', ['dadosRelatorio' => $this->dadosRelatorio])->render();
+                       
+                        Browsershot::html($template)
+                            ->timeout(300)
+                            ->format('A4')
+                            ->showBrowserHeaderAndFooter()
+                            ->hideHeader()
+                            ->footerHtml('<span class="pageNumber"></span>')
+                            ->initialPageNumber(1)
+                            ->save(storage_path('app/pdf/'. $nomePDF));
+
+                        $controleRelatorios->update(['status' => 'completo', 'file_path' => 'pdf/'. $nomePDF]);
+                        $orderItens->update(['testeStatus' => 'concluido']);
+
+                    }
+                catch (\Exception $e) {
+                    // Em caso de erro, atualiza o status para 'failed'
+                     $controleRelatorios->update(['status' => 'falha']);
+                     $orderItens->update(['testeStatus' => 'falha']);
+                    // Opcional: Logar o erro
+                    report($e);
+                    }
+                
             break;
 
             case '02-PrcpStrss':
@@ -163,33 +185,36 @@ class GerarRelatorios implements ShouldQueue
                 ]); */
                 $qualRelatorio = 'livewire.relatorios.relat-'.$this->dadosRelatorio['codTeste'];
                 
-                /*  BROWSERSHOT */
-
-                $template = view('livewire.relatorios.relat-02-PrcpStrss', 
-                            [ 'dadosRelatorio' => $this->dadosRelatorio,
-                              'resultado' => $resultado ])
-                            ->render();
-                //dd($template);
-                Browsershot::html($template)->timeout(300)->save(storage_path('relat-02-PrcpStrss-gd0S.pdf'));
                 
+                $controleRelatorios->update(['status' => 'gerando']);
+                
+                try {
+                        $template = view('livewire.relatorios.relat-02-PrcpStrss', 
+                                    ['dadosRelatorio' => $this->dadosRelatorio,
+                                     'resultado' => $resultado])->render();
+                       
+                        Browsershot::html($template)
+                            ->timeout(300)
+                            ->format('A4')
+                            ->showBrowserHeaderAndFooter()
+                            ->hideHeader()
+                            ->footerHtml('<span class="pageNumber"></span>')
+                            ->initialPageNumber(1)
+                            ->save(storage_path('app/pdf/'. $nomePDF));
 
+                         $controleRelatorios->update(['status' => 'completo', 'file_path' => 'pdf/'. $nomePDF]);
+                         $orderItens->update(['testeStatus' => 'concluido']);
+                    }
+                catch (\Exception $e) {
+                    // Em caso de erro, atualiza o status para 'failed'
+                     $controleRelatorios->update(['status' => 'falha']);
+                     $orderItens->update(['testeStatus' => 'falha']);
+                    // Opcional: Logar o erro
+                    report($e);
+                    }
 
-
-
-                /* try {
-
-                $html = View::make('livewire.relatorios.relat-02-PrcpStrss', [
-                    'dadosRelatorio' => $dadosRelatorio,
-                    'resultado' => $resultado
-                ])->render();
-
-                //dd($html);
-
-                    } catch (\Exception $e) {
-                        dd('Error generating view:', $e->getMessage(), $e->getTrace());
-                    } */
-            
-            
+            break;
+                    
 
             case '03-OrdncAsst':
 
@@ -251,29 +276,52 @@ class GerarRelatorios implements ShouldQueue
                     }
                 }
                 
+                $controleRelatorios->update(['status' => 'gerando']);
+                
+                try {
+                        $template = view('livewire.relatorios.relat-03-OrdncAsst', [
+                                    'dadosRelatorio' => $this->dadosRelatorio,
+                                    'comunicacao' => $comunicacao,
+                                    'pensamento' => $pensamento,
+                                    'atencao' => $atencao,
+                                    'tensao' => $tensao,
+                                    'social' => $social,
+                                    'emocional' => $emocional,
+                                    'mental' => $mental,
+                                    'sexualidade' => $sexualidade,
+                                    'dadosGrafico' => [
+                                        [ 'Assuntos' => 'Comunicacao', 'Valor' => $comunicacao ],
+                                        [ 'Assuntos' => 'Pensamento', 'Valor' => $pensamento ],
+                                        [ 'Assuntos' => 'Atencao', 'Valor' => $atencao ],
+                                        [ 'Assuntos' => 'Tensao', 'Valor' => $tensao ],
+                                        [ 'Assuntos' => 'Social', 'Valor' => $social ],
+                                        [ 'Assuntos' => 'Emocional', 'Valor' => $emocional ],
+                                        [ 'Assuntos' => 'Mental', 'Valor' => $mental ],
+                                        [ 'Assuntos' => 'Sexualidade', 'Valor' => $sexualidade ]          
+                                        ]
+                                    ])->render();
+                       
+                        Browsershot::html($template)
+                            ->timeout(300)
+                            ->format('A4')
+                            ->showBrowserHeaderAndFooter()
+                            ->hideHeader()
+                            ->footerHtml('<span class="pageNumber"></span>')
+                            ->initialPageNumber(1)
+                            ->save(storage_path('app/pdf/'. $nomePDF));
 
-                return view('livewire.relatorios.relat-03-OrdncAsst', [
-                    'dadosRelatorio' => $this->dadosRelatorio,
-                    'comunicacao' => $comunicacao,
-                    'pensamento' => $pensamento,
-                    'atencao' => $atencao,
-                    'tensao' => $tensao,
-                    'social' => $social,
-                    'emocional' => $emocional,
-                    'mental' => $mental,
-                    'sexualidade' => $sexualidade,
-                    'dadosGrafico' => [
-                        [ 'Assuntos' => 'Comunicacao', 'Valor' => $comunicacao ],
-                        [ 'Assuntos' => 'Pensamento', 'Valor' => $pensamento ],
-                        [ 'Assuntos' => 'Atencao', 'Valor' => $atencao ],
-                        [ 'Assuntos' => 'Tensao', 'Valor' => $tensao ],
-                        [ 'Assuntos' => 'Social', 'Valor' => $social ],
-                        [ 'Assuntos' => 'Emocional', 'Valor' => $emocional ],
-                        [ 'Assuntos' => 'Mental', 'Valor' => $mental ],
-                        [ 'Assuntos' => 'Sexualidade', 'Valor' => $sexualidade ]
-                        
-                    ]
-                ]);
+                         $controleRelatorios->update(['status' => 'completo', 'file_path' => 'pdf/'. $nomePDF]);
+                         $orderItens->update(['testeStatus' => 'concluido']);
+                    }
+
+                catch (\Exception $e) {
+                    // Em caso de erro, atualiza o status para 'failed'
+                     $controleRelatorios->update(['status' => 'falha']);
+                     $orderItens->update(['testeStatus' => 'falha']);
+                    // Opcional: Logar o erro
+                    report($e);
+                    }
+
 
             break;
 

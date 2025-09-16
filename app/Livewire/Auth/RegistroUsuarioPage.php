@@ -39,7 +39,7 @@ class RegistroUsuarioPage extends Component
 
         auth()->login($user);
 
-        return redirect('/neurodiv');
+        return redirect('/');
     }
     
     public function render()

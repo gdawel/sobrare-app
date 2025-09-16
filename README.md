@@ -5,9 +5,9 @@
 
 <h3>SOBRARE</h3>
 
-<p> A Sociedade Brasileira de Resiliência (SOBRARE) patrocinou o desenvolvimento de um sistema de testes no campo da neurodiversidade.</p>
+<p> The Sociedade Brasileira de Resiliência (SOBRARE) has sponsored the development of a system of psychological tests in the fiel of neurodiversity.</p>
 
-<p>Esta aplicação tem por objetivo oferecer os testes para compra, permitir o acesso aos testes comprados e, ao final de cada teste, emitir um relatório, segundo critérios dos estudos do Dr. George Barbosa, PhD.</p>
+<p>This application implements psychological tests and reports, according with the studies from George Barbosa, PhD.</p>
 
 ## Developer
 
@@ -17,3 +17,38 @@
 
 <p>This application cannot be copied, even small parts, without consent of the SOBRARE, which has the legal rights over this app and the whole code.</p>
 
+
+# Change Log
+All notable changes to this project will be documented in this file.
+ 
+The format is based on [Keep a Changelog](http://keepachangelog.com/)
+and this project adheres to [Semantic Versioning](http://semver.org/).
+ 
+## [00.02.01] - 2025-09-15 
+- This is a devepment version. The first version to be released will have the version updated to [1.0.0].
+
+## [Unreleased] - 2025-09-15
+- By this date the project is under a restructuring demanded by the owner, to separate this app to run in a separate domain from the main site.
+- Also, developers are revising, adjusting and cleaning the code.
+- This is the latest sync with github in order to upload the app to a new temporary subdomain to test the app in a real shared hosting.
+
+ 
+### Added
+- PDF reports are now generated in background, using Laravel queue job.
+- Once the user finished to answer all questions of a test, the report generation request is sent to queue. The user now has the buttom to download the report.
+- A Report Control resource was added to the admin panel, so admin can filter, see report status and download any report generated.
+ 
+### Changed
+- The database was renamed and reestructured to fit the new app version to run on a separate domain.
+- Several migrations was copied to a temporary backup folder under database->migrations.
+- All unnecessary FilamentPHP resources of the old version were renamed to a bkp name and wil be deleted in the future.
+- Routes were updated. Some were deactivated and new ones were created to provide PDF report generation.
+- Report #01: revised and tested. 
+- Report #02: revised and tested. 
+- Report #03: revised and tested. 
+
+### Fixed
+- Several minor fix were performed into the code.
+
+
+  

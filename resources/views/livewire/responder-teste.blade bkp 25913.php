@@ -16,9 +16,8 @@
         {{-- <h4>Pergunta ID: {{ $this->perguntaId }}</h4> --}}
        
     @foreach ($perguntas as $pergunta)
-            <p wire:model="perguntaId" wire:key="{{ $pergunta->id }}" class="mt-4 lg:text-xl lg:px-16 sm: px-4 sm:text-base ">
-                 {{ $pergunta->enunciado}}</p><br>
-                {{-- Pergunta n. {{ $pergunta->sequencia}} - {{ $pergunta->enunciado}}</p><br> --}}
+            <p wire:model="perguntaId" wire:key="{{ $pergunta->id }}" class="mt-4 text-xl">
+                Pergunta n. {{ $pergunta->sequencia}} - {{ $pergunta->enunciado}}</p><br>
             
         <div>
             <div 
@@ -32,7 +31,7 @@
                                 <input wire:model="respostaprimaria" type="{{ $opcresp->inputType }}" id="{{ $opcresp->id }}" name="resposta" value="{{ $opcresp->id}}"
                                         class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                 <label for="{{ $opcresp->id }}"
-                                        class="me-4 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{-- {{ $opcresp->id }}- --}}{{ $opcresp->textoResposta}}</label>   
+                                        class="me-4 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{ $opcresp->id }}-{{ $opcresp->textoResposta}}</label>   
                                 </p>
                             @endif
                         
@@ -62,7 +61,7 @@
                             <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400">@error('opcRespCheckbox') {{ $message }} @enderror</div>
                         
                         </li>
-                    </ul>   
+                    </ul>
                     @if ($opcresp->tipoOpcaoResposta == "C" && $opcresp->inputType == "Select")
                         <label for="countries_disabled" class="px-4 mt-1 text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">Selecione a Intensidade:</label>
                             <select wire:model.live="opcRespIntensidade" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
@@ -80,7 +79,7 @@
                 @endif
             {{-- </div> --}}
             @if($this->comentarios == "S")
-                <div>
+                <div wire:model="comentarios">
                     
                         <label for="mensagem" 
                             class="mt-1 block mb-2 text-sm font-medium text-gray-900 dark:text-white">É muito importante que comente sua resposta.</label>
@@ -90,7 +89,7 @@
                         <div class="p-4 items-center text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400">@error('comentariosCliente') {{ $message }} @enderror</div>
                 </div>
             @endif
-           
+           <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400">@error('comentatiosCliente') {{ $message }} @enderror</div>
             @if($this->seqPerguntas == $totalPerguntas)
                 <button 
                     @if(!$this->habilitarBotaoResposta) disabled 

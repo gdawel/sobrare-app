@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Layouts\Ecomm;
 
+use App\Models\ControleRelatorios;
 use App\Models\Orders;
 use Livewire\Component;
 use App\Models\Orderitems;
@@ -22,9 +23,12 @@ class VerTestesPage extends Component
     public $pedido;
     public $detalhesCliente;
     public $temHistoricoMedico=[];
+    public $statusControleRelatorio;
 
     public function mount($order_id) {
         $this->order_id = $order_id;
+        // $this->statusControleRelatorio = ControleRelatorios::find($orderItem_id);
+
     }
 
     public function render()

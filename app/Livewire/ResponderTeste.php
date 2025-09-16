@@ -2,6 +2,8 @@
 
 namespace App\Livewire;
 
+use App\Jobs\GerarRelatorios;
+use App\Models\ControleRelatorios;
 use App\Models\Testes;
 use Livewire\Component;
 use App\Models\Perguntas;
@@ -52,7 +54,7 @@ class ResponderTeste extends Component
     
     public $comentarios = 'N';
 
-    //#[Validate('max:250', message: 'Tamanho máximo do comentário é de 250 caracteres')]
+    #[Validate('max:250', message: 'Tamanho máximo do comentário é de 250 caracteres')]
     public $comentariosCliente;
 
     public $totalPerguntas = 0;
@@ -263,7 +265,7 @@ class ResponderTeste extends Component
         
         if($this->codTeste == '01-HstCrpEnrdvrgc' || 
             $this->codTeste == '02-PrcpStrss' || 
-            $this->codTeste == '03-OrdnçAsst' ||
+            $this->codTeste == '03-OrdncAsst' ||
             $this->codTeste == '04-CmCrbrFcn' ||
             $this->codTeste == '14-ArrzcEndvrgc' )
             /* $this->perguntas['0']->codGrupoOpcRespostas == 'GOR88-1') */
@@ -324,6 +326,7 @@ class ResponderTeste extends Component
         $this->opcRespCheckbox = [];
         $this->complementos = null;
         $this->comentariosCliente = null;
+        $this->comentarios = "N";
         $this->habilitarBotaoResposta = false;
         $this->perguntas = Perguntas::with('grupoOpcoesRespostas')
                             ->where('testes_id', $this->testeSelecionado)
@@ -431,7 +434,7 @@ class ResponderTeste extends Component
         
         if($this->codTeste == '01-HstCrpEnrdvrgc' || 
             $this->codTeste == '02-PrcpStrss' || 
-            $this->codTeste == '03-OrdnçAsst' ||
+            $this->codTeste == '03-OrdncAsst' ||
             $this->codTeste == '04-CmCrbrFcn' ||
             $this->codTeste == '14-ArrzcEndvrgc' )
             /* $this->perguntas['0']->codGrupoOpcRespostas == 'GOR88-1') */
@@ -461,12 +464,28 @@ class ResponderTeste extends Component
             'codTextoResposta' => $codTextoResposta
         ]);
 
-        Orderitems::where('id', $this->itemPedidoId,)->update(['testeStatus' => 'concluido']);
+        Orderitems::where('id', $this->itemPedidoId,)->update(['testeStatus' => 'gerando']);
 
         // Dados necessários para geração do relatório em background
         $orders_id = $this->pedidoCliente;
         $testes_id = $this->testeSelecionado;
         $orderItem_id = $this->itemPedidoId;
+
+        // Criando o registro para gerar o relatório, com status 'pendente'
+        $report = ControleRelatorios::create([
+            'user_id' => auth()->id(),
+            'testes_id' => $this->testeSelecionado,
+            'orders_id' => $this->pedidoCliente,
+            'orderItem_id' => $this->itemPedidoId,
+            'status' => 'pendente',
+        ]);
+
+        // Dispare o Job que vai gerar o PDF em segundo plano
+        GerarRelatorios::dispatch($orders_id, $testes_id, $orderItem_id, $report->user_id);
+
+        // Retorne o cliente para a tela de "meus-pedidos" com uma mensagem de sucesso
+        session()->flash('message', 'Seu relatório está sendo gerado! Ele estará disponível para download em alguns minutos.');
+        
 
         //dd($retornoForm);
 

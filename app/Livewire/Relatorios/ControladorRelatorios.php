@@ -24,6 +24,8 @@ use App\Models\TextoResposta;
 //use function Spatie\LaravelPdf\Support\pdf;
 use Spatie\Browsershot\Browsershot;
 
+use Jantinnerezo\LivewireAlert\LivewireAlert;
+
 
 /**
  * @property array $userAnswer->areasImpactadas
@@ -112,10 +114,17 @@ class ControladorRelatorios extends Component
     public $arrayTipoItemNeurodiv = [];
     public $arrayDiscipFavorNeurodiv = [];
 
-
+    use LivewireAlert;
     
     /* Dawel: retirado: 30/07/2024 - #[On('resultadoTeste')] */
     public function mount() {
+
+    $this->alert('success', 'Seu relatório está sendo gerado e estará disponível para baixar pelo seu painel de pedidos. Aguarde alguns minutos!', [
+                    'position' => 'center',
+                    'timer' => 6000,
+                    'toast' => true,
+                    'timerProgressBar' => true,
+                ]);
         
         /*  cctt: código do teste testes_id
             ccxx: código do pedido orders_id
@@ -237,15 +246,35 @@ class ControladorRelatorios extends Component
 
         ];
         $this->resultadoTeste = $userAnswers;
-        //dd($this->resultadoTeste['0']->pergunta);
-        //dd($testes_id);
-        //dd($parametrosParaRelatorios);
-       /*  $this->colecaoRespostas = Useranswers::with('pergunta', 'opcaoresposta')
-                                    ->where('orderitems_id', $parametrosParaRelatorios['orderItem_id'])
-                                    ->get();
-        dd($this->colecaoRespostas); */
-        //dd($this->useranswers);
-        //dd($this->resultadoTeste);
+     
+
+        /* 
+            AQUI, O TESTE DO PRIMEIRO RELATÓRIO - LEMBRE: ControladorRelatorios será descartado completamente
+        */
+            if ($this->codTeste == '01-HstCrpEnrdvrgc')
+                {
+
+                $relatorio = $this->dadosRelatorio;
+
+                GerarRelatorios::dispatch($this->ccxx, $this->cctt, $this->ccii, $this->userId);
+
+                $this->js("setTimeout(() => { Livewire.navigate('/meus-pedidos') }, 6000)");
+
+                //$this->redirect('/meus-pedidos', navigate: true);
+
+                };
+            if ($this->codTeste == '02-PrcpStrss')
+                {
+
+                // $relatorio = $this->dadosRelatorio;
+
+                GerarRelatorios::dispatch($this->ccxx, $this->cctt, $this->ccii, $this->userId);
+
+                $this->js("setTimeout(() => { Livewire.navigate('/meus-pedidos') }, 6000)");
+
+                //$this->redirect('/meus-pedidos', navigate: true);
+
+                };
     }
 
     #[Layout('components.layouts.relatorios')] 
@@ -253,7 +282,10 @@ class ControladorRelatorios extends Component
     {
        /*  $checkParameters = "render = ccxx=".$this->ccxx . " / cctt=". $this->cctt . " / ccii=". $this->ccii;
         dd($checkParameters); */
-        
+
+         // Retorne o cliente para a tela de "meus-pedidos" com uma mensagem de sucesso
+        /* session()->flash('message', 'Seu relatório está sendo gerado! Ele estará disponível para download em alguns minutos.'); */
+
         //dd($this->codTeste);
         switch ($this->codTeste) {
 
@@ -264,7 +296,7 @@ class ControladorRelatorios extends Component
                 /* $checkParameters = "01-ccxx=".$this->ccxx . " / cctt=". $this->cctt . " / ccii=". $this->ccii;
                 dd($checkParameters); */
 
-                // GerarRelatorios::dispatch($this->ccxx, $this->cctt, $this->ccii, $this->userId);
+                //GerarRelatorios::dispatch($this->ccxx, $this->cctt, $this->ccii, $this->userId);
 
                 //return url('/meus-pedidos');
                 /* Spatie Laravel-pdf */
@@ -293,25 +325,29 @@ class ControladorRelatorios extends Component
 
                 /*  BROWSERSHOT */
 
-                $template = view('livewire.relatorios.relat-01-HstCrpEnrdvrgc', ['dadosRelatorio' => $this->dadosRelatorio])->render();
+                /* $template = view('livewire.relatorios.relat-01-HstCrpEnrdvrgc', ['dadosRelatorio' => $this->dadosRelatorio])->render(); */
                 //dd($template);
-                Browsershot::html($template)
+                /* Browsershot::html($template)
                     ->timeout(300)
-                    /* ->margins(150, 150, 150, 150, 'mm') */
-                    ->save(storage_path('relat-01-HstCrpEnrdvrgc-gd1S.pdf'));
-                /* return url('/meus-pedidos'); */
-                
+                    ->format('A4')
+                    ->save(storage_path('app/pdf/relat-01-HstCrpEnrdvrgc-gd5S.pdf')); */
+                /*  */
+                /* 
                 return view('livewire.relatorios.relat-01-HstCrpEnrdvrgc', [
+                    'dadosRelatorio' => $this->dadosRelatorio */
+               /*  return view('livewire.relatorios.relat-01-HstCrpEnrdvrgc', [
                     'dadosRelatorio' => $this->dadosRelatorio
                 ]
-                );
+                ); */
+                return "<div><p>Processando... A página vai carregar automaticamente.</p></div>";
+                //$this->redirect('/meus-pedidos', navigate: true);
             break;
 
             case '02-PrcpStrss':
 
                 /* $checkParameters = "02-ccxx=".$this->ccxx . " / cctt=". $this->cctt . " / ccii=". $this->ccii . " / userId:".$this->userId;
                 dd($checkParameters); */
-               // GerarRelatorios::dispatch($this->ccxx, $this->cctt, $this->ccii, $this->userId);
+                //GerarRelatorios::dispatch($this->ccxx, $this->cctt, $this->ccii, $this->userId);
                 
                 $somaTudo = 0;
                 $somaB = 0;
@@ -329,16 +365,31 @@ class ControladorRelatorios extends Component
                 $checa = "t=".$somaTudo."/a=".$somaA."/b=".$somaB."/c=".$somaC."/d=".$somaD." => Resultado=".$resultado;
                 //dd($checa);
 
-                return view('livewire.relatorios.relat-02-PrcpStrss', [
+                
+
+                /* $template = view('livewire.relatorios.relat-02-PrcpStrss',
+                             ['dadosRelatorio' => $this->dadosRelatorio,
+                              'resultado' => $resultado])->render(); */
+                //dd($template);
+                /* Browsershot::html($template)
+                    ->timeout(300)
+                    ->format('A4')
+                    ->save(storage_path('app/pdf/relat-relat-02-PrcpStrss-gd1S.pdf')); */
+
+                
+                return "<div><p>Processando... A página vai carregar automaticamente.</p></div>";
+
+
+                /* return view('livewire.relatorios.relat-02-PrcpStrss', [
                     'dadosRelatorio' => $this->dadosRelatorio,
                     'resultado' => $resultado
-                ]);
+                ]); */
 
             break;
 
             case '03-OrdncAsst':
 
-                
+                GerarRelatorios::dispatch($this->ccxx, $this->cctt, $this->ccii, $this->userId);
                 foreach ($this->resultadoTeste as $items) {
                 
                     /* A Minha Comunicação */

@@ -35,6 +35,9 @@ use App\Filament\Resources\OrdersResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\OrdersResource\RelationManagers;
 
+use Filament\Support\Colors\Color;
+use Filament\Support\Facades\FilamentColor;
+
 class OrdersResource extends Resource
 {
     protected static ?string $model = Orders::class;
@@ -151,18 +154,21 @@ class OrdersResource extends Resource
                                     ->options([
                                         'novo' => 'Novo',
                                         'iniciado' => 'Iniciado',
+                                        'gerando' => 'Gerando',
                                         'concluido' => 'Concluído'
                                         
                                     ])
                                     ->colors([
                                         'novo' => 'info',
                                         'iniciado' => 'warning',
+                                        'gerando' => 'warning',
                                         'concluido' => 'success'
                                         
                                     ])
                                     ->icons([
                                         'novo' => 'heroicon-m-sparkles',
                                         'iniciado' => 'heroicon-m-arrow-path',
+                                        'gerando' => 'heroicon-m-arrow-path',
                                         'concluido' => 'heroicon-m-check-badge'
                                         
                                     ])

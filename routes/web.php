@@ -27,6 +27,9 @@ use App\Livewire\Layouts\Ecomm\VerTestesPage;
 use App\Livewire\MontaPergunta;
 use App\Livewire\Relatorios\ControladorRelatorios;
 use App\Livewire\ResponderTeste;
+use App\Models\ControleRelatorios;
+
+use Illuminate\Support\Facades\Storage;
 
 /*
 |--------------------------------------------------------------------------
@@ -78,6 +81,11 @@ Route::get('layouts/neurodiv/tst-responder', function () {
   });
 Route::get('/tratar-respostas/{key}', TratarRespostas::class);
 Route::get('/ordenacao-assuntos', OrdenacaoAssuntos::class);
+
+// Rota apontando para a página sobre neurodiversidade
+Route::get('/neurodiversidade', function () {
+    return view('livewire.neurodiversidade');
+});
   
 /*  As rotas abaixo tem por objetivo implementar o E-Comm e Testes de neurodiversidade.
       
@@ -115,9 +123,18 @@ Route::middleware('auth')->group(function () {
     
 });
 
+// Rota protegida por autenticação
+Route::get('/reports/{report}/download', function (ControleRelatorios $report) {
+    // Lógica de autorização: o usuário logado pode baixar?
+    // abort_if(auth()->user()->cannot('download', $report), 403);
+
+    return Storage::disk('local')->download($report->file_path);
+
+})->name('reports.download')->middleware('auth'); // Adicione o middleware de admin aqui
 
 
-// Rotas do site principal da SOBRARE
+// Rotas do site principal da SOBRARE - Removido: 10/09/2025, separação do Neurodiv do Site SOBRARE
+/*
 Route::get('/XXX', [HomeController::class, 'index'])->name('home');
 Route::get('/pagina/{key}', [PaginaController::class, 'show'])->name('pagina.show');
 Route::get('/publicacoes', [HomeController::class, 'blog'])->name('layouts.publicacoes');
@@ -130,4 +147,4 @@ Route::get('/quest', function () {
     return redirect(route(asset('/public/legacy/index.php')));
 });
 
-
+*/
