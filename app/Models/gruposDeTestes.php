@@ -22,6 +22,7 @@ class GruposDeTestes extends Model
         'isActive'
         ];
 
+        
     public function testes(): BelongsToMany
      {
         return $this->belongsToMany(Testes::class);
