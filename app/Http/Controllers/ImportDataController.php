@@ -105,7 +105,7 @@ class ImportDataController extends Controller
     {
         $listarperguntas = Perguntas::all();
 
-        return view('importData.perguntas', compact('listarperguntas'));
+        return view('importData.Perguntas', compact('listarperguntas'));
     }
 
     public function importarPerguntas(Request $request) 
