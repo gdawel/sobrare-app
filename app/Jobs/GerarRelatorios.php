@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Livewire\Relatorios\ControladorRelatorios;
+// use App\Livewire\Relatorios\ControladorRelatorios;
 use App\Models\User;
 use App\Models\Testes;
 use App\Models\Useranswers;
@@ -18,6 +18,8 @@ use Spatie\Browsershot\Browsershot;
 use Illuminate\Foundation\Bus\Dispatchable;
 use App\Models\ControleRelatorios;
 use App\Models\Orderitems;
+use Illuminate\Support\Facades\Http; 
+use Illuminate\Support\Facades\Storage;
 
 class GerarRelatorios implements ShouldQueue
 {
@@ -42,33 +44,6 @@ class GerarRelatorios implements ShouldQueue
         $this->userId = $userId;
     }
 
-
-    /**
- * Get the Footer HTML for browsershot.
- * Injects styles to fix the bug with a font size of zero
- * @see https://github.com/puppeteer/puppeteer/issues/1853
- */
-    public function getFooterHtml()
-            {
-            ob_start() ?>
-            <style>
-                .pageFooter {
-                -webkit-print-color-adjust: exact;
-                font-family: system-ui;
-                font-size: 6pt;
-                text-align: center;
-                width: 100%;
-                display: block;
-                }
-            </style>
-            <div class="pageFooter">
-                <span class="pageNumber"></span> de <span class="totalPages"></span>
-            </div>
-            <?php return ob_get_clean();
-            }
-    /**
-     * Execute the job.
-     */
 
     public function handle()
     {
@@ -123,7 +98,7 @@ class GerarRelatorios implements ShouldQueue
             'dadosCliente' => $dadosCliente,
         ];
         
-        $nomePDF = "rel_" . $codTeste . "_" . $nomeCliente . "_Ped_" . $orders_id . ".pdf";
+        $nomePDF = "pdf/rel_" . $codTeste . "_" . $nomeCliente . "_Ped_" . $orders_id . ".pdf";
 
         // Step 2: Choose View Based on Test Code
         switch ($codTeste) {
@@ -136,18 +111,13 @@ class GerarRelatorios implements ShouldQueue
                 $controleRelatorios->update(['status' => 'gerando']);
                 
                 try {
-                        $template = view('livewire.relatorios.relat-01-HstCrpEnrdvrgc', ['dadosRelatorio' => $this->dadosRelatorio])->render();
+                        $pdf = Pdf::loadView('pdf.relat-01-HstCrpEnrdvrgc', [
+                                'dadosRelatorio' => $relatorio
+                                ]);
                        
-                        Browsershot::html($template)
-                            ->timeout(300)
-                            ->format('A4')
-                            ->showBrowserHeaderAndFooter()
-                            ->hideHeader()
-                            ->footerHtml('<span class="pageNumber"></span>')
-                            ->initialPageNumber(1)
-                            ->save(storage_path('app/pdf/'. $nomePDF));
+                        Storage::disk('local')->put($nomePDF, $pdf->output());
 
-                        $controleRelatorios->update(['status' => 'completo', 'file_path' => 'pdf/'. $nomePDF]);
+                        $controleRelatorios->update(['status' => 'completo', 'file_path' => $nomePDF]);
                         $orderItens->update(['testeStatus' => 'concluido']);
 
                     }
@@ -185,24 +155,75 @@ class GerarRelatorios implements ShouldQueue
                 ]); */
                 $qualRelatorio = 'livewire.relatorios.relat-'.$this->dadosRelatorio['codTeste'];
                 
-                
                 $controleRelatorios->update(['status' => 'gerando']);
+
+                // (Esta é a mesma configuração do Chart.js que estava no blade view)
+                $chartConfig = [
+                    'type' => 'horizontalBar',
+                    'data' => [
+                        // O label foi removido daqui para virar um título
+                        'labels' => [''],
+                        'datasets' => [[
+                            'data' => [number_format($resultado, 2, '.', '')],
+                            'backgroundColor' => 'rgba(54, 162, 235, 0.7)',
+                            'borderColor' => 'rgba(54, 162, 235, 1)',
+                            'borderWidth' => 1,
+                        ]],
+                    ],
+                    'options' => [
+                        // Opção 2: Adiciona o título em uma linha separada, acima do gráfico
+                        'title' => [
+                            'display' => true,
+                            'text' => 'Nível de Estresse Percebido',
+                            'fontSize' => 16,
+                            'fontColor' => '#333',
+                            'padding' => 20,
+                        ],
+                        'legend' => ['display' => false],
+                        'scales' => [
+                            'xAxes' => [['ticks' => ['min' => 0, 'max' => 6]]],
+                            'yAxes' => [['gridLines' => ['display' => false]]],
+                        ],
+                        // Opção 3: Adiciona o plugin para mostrar o valor na barra
+                        'plugins' => [
+                            'datalabels' => [
+                                'display' => true,
+                                'align' => 'end',   // Posição do texto: no final da barra
+                                'anchor' => 'end',  // Ponto de ancoragem: no final da barra
+                                'color' => '#1a202c',
+                                'font' => [
+                                    'weight' => 'bold',
+                                    'size' => 14,
+                                ],
+                            
+                            ],
+                        ],
+                    ],
+                ];
+
+                
+                $chartApiUrl = 'https://quickchart.io/chart?w=330&h=130&bkg=transparent&c=' . urlencode(json_encode($chartConfig));
+
+                
+                $response = Http::get($chartApiUrl);
+
+            
+                $chartImageUrl = null;
+                if ($response->successful()) {
+                    // A string 'data:image/png;base64,' é essencial para o navegador entender que isso é uma imagem
+                    $chartImageUrl = 'data:image/png;base64,' . base64_encode($response->body());
+                }
                 
                 try {
-                        $template = view('livewire.relatorios.relat-02-PrcpStrss', 
-                                    ['dadosRelatorio' => $this->dadosRelatorio,
-                                     'resultado' => $resultado])->render();
+                        $pdf = Pdf::loadView('pdf.relat-02-prcpstrss', [
+                        'dadosRelatorio' => $this->dadosRelatorio,
+                        'resultado' => $resultado,
+                        'chartImageUrl' => $chartImageUrl, // Passa a imagem (ou null se a API falhar)
+                ]);
                        
-                        Browsershot::html($template)
-                            ->timeout(300)
-                            ->format('A4')
-                            ->showBrowserHeaderAndFooter()
-                            ->hideHeader()
-                            ->footerHtml('<span class="pageNumber"></span>')
-                            ->initialPageNumber(1)
-                            ->save(storage_path('app/pdf/'. $nomePDF));
+                        Storage::disk('local')->put($nomePDF, $pdf->output());
 
-                         $controleRelatorios->update(['status' => 'completo', 'file_path' => 'pdf/'. $nomePDF]);
+                         $controleRelatorios->update(['status' => 'completo', 'file_path' => $nomePDF]);
                          $orderItens->update(['testeStatus' => 'concluido']);
                     }
                 catch (\Exception $e) {

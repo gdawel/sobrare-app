@@ -1,0 +1,139 @@
+/* resources/css/pdf.css */
+
+/* --- CONFIGURAÇÕES GERAIS E DE PÁGINA --- */
+@page {
+    margin: 2cm;
+}
+body {
+    font-family: 'DejaVu Sans', sans-serif;
+    font-size: 11px;
+    color: #333;
+    line-height: 1.4;
+}
+
+/* --- CABEÇALHO E RODAPÉ FIXOS --- */
+.header, .footer {
+    width: 100%;
+    position: fixed;
+    text-align: center;
+}
+.header { top: -1.5cm; }
+.footer { bottom: -1.5cm; font-size: 9px; color: #777; }
+.pagenum:before { content: counter(page); }
+
+/* --- QUEBRA DE PÁGINA --- */
+.page-break {
+    page-break-after: always;
+}
+
+/* --- TÍTULOS E TEXTOS --- */
+h1 { font-size: 22px; text-align: center; margin-bottom: 25px; color: #1a202c; }
+h2 { font-size: 16px; margin-top: 20px; margin-bottom: 5px; color: #2d3748; }
+p { margin-bottom: 10px; }
+strong, .font-bold { font-weight: bold; }
+
+/* --- ESTRUTURA E TABELAS --- */
+.w-100 { width: 100%; }
+.w-50 { width: 50%; }
+
+.report-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+.report-table th, .report-table td {
+    border: 1px solid #c9c9c9;
+    padding: 6px 8px; /* Padding reduzido para mais densidade */
+    text-align: left;
+    vertical-align: top;
+}
+.report-table th {
+    background-color: #e2e8f0;
+    font-weight: bold;
+}
+/* Linhas zebradas para melhor leitura */
+.report-table tbody tr:nth-child(even) {
+    background-color: #f8fafc;
+}
+/* Remove bordas de linhas específicas (para comentários) */
+.report-table tr.no-border td {
+    border: none;
+    padding-top: 0;
+}
+
+/* --- NOVOS ESTILOS PARA RELATÓRIO 01 --- */
+.header-table td {
+    vertical-align: top;
+    padding: 0;
+}
+.header-title {
+    font-size: 20px;
+    font-weight: bold;
+    color: #2563eb;
+    text-align: left;
+    margin-top: 15px;
+}
+.header-subtitle {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+.header-info {
+    font-size: 11px;
+    color: #555;
+    margin: 0;
+    padding: 0;
+}
+.info-table {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.info-table td {
+    padding: 5px 0;
+}
+.subheader {
+    font-size: 11px;
+    color: #555;
+    margin-top: -5px;
+    margin-bottom: 15px;
+}
+.separator {
+    border: 0;
+    border-top: 1px solid #ddd;
+    margin: 20px 0;
+}
+.question-header {
+    font-weight: bold;
+    font-size: 12px;
+    margin-top: 15px;
+    margin-bottom: 5px;
+}
+.note {
+    font-style: italic;
+    font-size: 10px;
+    color: #555;
+    margin-top: 5px;
+}
+.authorship {
+    font-size: 9px;
+    color: #777;
+    margin-top: 10px;
+}
+.logo {
+    max-height: 50px;
+}
+.comment {
+    font-size: 10px;
+    color: #555;
+    padding: 4px 10px;
+    background-color: #f8fafc;
+    border-left: 2px solid #ddd;
+}
+
+/* --- CLASSES DE UTILIDADE --- */
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+.mt-4 { margin-top: 16px; }
+.mb-4 { margin-bottom: 16px; }

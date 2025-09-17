@@ -19,6 +19,11 @@
     "isEntry": true,
     "src": "resources/css/filament/admin/theme.css"
   },
+  "resources/css/pdf.css": {
+    "file": "assets/pdf-884cb29f.css",
+    "isEntry": true,
+    "src": "resources/css/pdf.css"
+  },
   "resources/js/app.js": {
     "file": "assets/app-d597959f.js",
     "isEntry": true,

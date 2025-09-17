@@ -24,6 +24,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
  
+## [00.03.00] - 2025-09-17 
+- This is a devepment version. The first version to be released will have the version updated to [1.0.0].
+- This version changed the pdf background generation to a library compatible with Hostinger (no installation needed).
+
+### Changed
+All reports is now going into a completely design makeover.
+- Report #01: revised and tested. New design was implemented. 
+- Report #02: revised and tested. New design was implemented.
+
+
+### Fixed
+- Loading on old Controllers and Resources
 ## [00.02.02] - 2025-09-15 
 - This is a devepment version. The first version to be released will have the version updated to [1.0.0].
 

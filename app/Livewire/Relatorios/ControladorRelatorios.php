@@ -15,7 +15,8 @@ use Livewire\Attributes\Url;
 
 use Illuminate\Support\Carbon;
 
-//use Barryvdh\DomPDF\Facade\Pdf;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Storage;
 
 use Livewire\Attributes\Layout;
 use App\Models\Historicomedicos;
@@ -25,6 +26,9 @@ use App\Models\TextoResposta;
 use Spatie\Browsershot\Browsershot;
 
 use Jantinnerezo\LivewireAlert\LivewireAlert;
+
+use Illuminate\Support\Facades\Http; 
+
 
 
 /**
@@ -256,7 +260,7 @@ class ControladorRelatorios extends Component
 
                 $relatorio = $this->dadosRelatorio;
 
-                GerarRelatorios::dispatch($this->ccxx, $this->cctt, $this->ccii, $this->userId);
+/*                 GerarRelatorios::dispatch($this->ccxx, $this->cctt, $this->ccii, $this->userId); */
 
                 $this->js("setTimeout(() => { Livewire.navigate('/meus-pedidos') }, 6000)");
 
@@ -309,10 +313,14 @@ class ControladorRelatorios extends Component
                 /* 
                 ==> dompdf   */   
                 /* $template = view('livewire.relatorios.relat-01-HstCrpEnrdvrgc', ['dadosRelatorio' => $this->dadosRelatorio])->render();  */
-                /* $pdf = Pdf::loadView('livewire.relatorios.relat-01-HstCrpEnrdvrgc', [
+                $pdf = Pdf::loadView('pdf.relat-01-HstCrpEnrdvrgc', [
                         'dadosRelatorio' => $relatorio
-                ]); */
-                $teste = "<html><body><h1>Hey George!</h1></body></html>";
+                ]);
+                $filePath = 'pdf/RELAT01-GD-TESTE-novo.pdf';
+
+                // 4. Salve o PDF no storage privado do Laravel
+                Storage::disk('local')->put($filePath, $pdf->output());
+              
                 /*return Pdf::loadFile($template)->save(storage_path('/app/livewire-tmp/my_stored_file.pdf'))->stream('download.pdf'); */
                 /* $pdf->loadHTML($teste); */
                 //dd($pdf);
@@ -365,7 +373,82 @@ class ControladorRelatorios extends Component
                 $checa = "t=".$somaTudo."/a=".$somaA."/b=".$somaB."/c=".$somaC."/d=".$somaD." => Resultado=".$resultado;
                 //dd($checa);
 
-                
+                // No seu Controller ou no Job GerarRelatorios.php
+
+                $relatorio = $this->dadosRelatorio;
+            
+            // (Esta é a mesma configuração do Chart.js que estava no blade view)
+            $chartConfig = [
+                'type' => 'horizontalBar',
+                'data' => [
+                    // O label foi removido daqui para virar um título
+                    'labels' => [''],
+                    'datasets' => [[
+                        'data' => [number_format($resultado, 2, '.', '')],
+                        'backgroundColor' => 'rgba(54, 162, 235, 0.7)',
+                        'borderColor' => 'rgba(54, 162, 235, 1)',
+                        'borderWidth' => 1,
+                    ]],
+                ],
+                'options' => [
+                    // Opção 2: Adiciona o título em uma linha separada, acima do gráfico
+                    'title' => [
+                        'display' => true,
+                        'text' => 'Nível de Estresse Percebido',
+                        'fontSize' => 16,
+                        'fontColor' => '#333',
+                        'padding' => 20,
+                    ],
+                    'legend' => ['display' => false],
+                    'scales' => [
+                        'xAxes' => [['ticks' => ['min' => 0, 'max' => 6]]],
+                        'yAxes' => [['gridLines' => ['display' => false]]],
+                    ],
+                    // Opção 3: Adiciona o plugin para mostrar o valor na barra
+                    'plugins' => [
+                        'datalabels' => [
+                            'display' => true,
+                            'align' => 'end',   // Posição do texto: no final da barra
+                            'anchor' => 'end',  // Ponto de ancoragem: no final da barra
+                            'color' => '#1a202c',
+                            'font' => [
+                                'weight' => 'bold',
+                                'size' => 14,
+                            ],
+                           
+                        ],
+                    ],
+                ],
+            ];
+
+            
+            $chartApiUrl = 'https://quickchart.io/chart?w=330&h=130&bkg=transparent&c=' . urlencode(json_encode($chartConfig));
+
+            
+            $response = Http::get($chartApiUrl);
+
+        
+            $chartImageUrl = null;
+            if ($response->successful()) {
+                // A string 'data:image/png;base64,' é essencial para o navegador entender que isso é uma imagem
+                $chartImageUrl = 'data:image/png;base64,' . base64_encode($response->body());
+            }
+
+            $pdf = Pdf::loadView('pdf.relat-02-prcpstrss', [
+                        'dadosRelatorio' => $relatorio,
+                        'resultado' => $resultado,
+                        'chartImageUrl' => $chartImageUrl, // Passa a imagem (ou null se a API falhar)
+                ]);
+                $filePath = 'pdf/RELAT02-GD-TESTE-novo.pdf';
+
+                // 4. Salve o PDF no storage privado do Laravel
+                Storage::disk('local')->put($filePath, $pdf->output());
+            
+            /* return view('pdf.reports.relat-02-prcpstrss', [
+                'dadosRelatorio' => $dadosRelatorio,
+                'resultado' => $resultado,
+                'chartImageUrl' => $chartImageUrl, // Passa a imagem (ou null se a API falhar)
+            ]); */
 
                 /* $template = view('livewire.relatorios.relat-02-PrcpStrss',
                              ['dadosRelatorio' => $this->dadosRelatorio,
