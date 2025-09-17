@@ -6,7 +6,7 @@
       <div class="flex items-center justify-between">
         <a class="flex-none text-xl font-semibold dark:text-white dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" href="/" 
           >
-          <img class="w-40 bg-white" src="{{ asset('storage/sobrare_logo_1.jpg') }}" alt="SOBRARE logo" />
+          <img class="w-40 bg-white" src="{{ asset('images/sobrare_logo_1.jpg') }}" alt="SOBRARE logo" />
           </a>
         <div class="md:hidden">
           <button type="button" class="hs-collapse-toggle flex justify-center items-center w-9 h-9 text-sm font-semibold rounded-lg border border-gray-200 text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:text-white dark:border-gray-700 dark:hover:bg-gray-700 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" data-hs-collapse="#navbar-collapse-with-animation" aria-controls="navbar-collapse-with-animation" aria-label="Toggle navigation">

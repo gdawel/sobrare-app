@@ -99,7 +99,7 @@
                  dark:bg-neutral-900 dark:border-neutral-700 dark:shadow-neutral-700/70">
                  
       <div class="h-52 flex flex-col justify-center items-center bg-gradient-to-bl {{ $bgcolor }} rounded-t-xl">
-        <img src="{{ asset('storage/ywbjBmIX0KdJgKCBS5sqNwRF2lRbXe-metaTWluaS1MT0dPXzIwMjQucG5n-.png') }}"
+        <img src="{{ asset('images/sobrare_logo_redondo.png') }}"
              alt="{{ $grupo->nomeGrupo }}">
         
       </div>

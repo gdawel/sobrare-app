@@ -57,7 +57,7 @@
 
             <img class="h-full w-full object-contain rounded-t-xl" src="{{ asset('storage/' . $grupo['imagemGrupo'] ) }}" alt="{{ $grupo->nomeGrupo }}">
           @else
-            <img class="h-full w-full object-contain" src="{{ asset('storage/ywbjBmIX0KdJgKCBS5sqNwRF2lRbXe-metaTWluaS1MT0dPXzIwMjQucG5n-.png') }}" alt="{{ $grupo->nomeGrupo }}">
+            <img class="h-full w-full object-contain" src="{{ asset('images/sobrare_logo_redondo.png') }}" alt="{{ $grupo->nomeGrupo }}">
           @endif
 
 
