@@ -313,7 +313,7 @@ class ControladorRelatorios extends Component
                 /* 
                 ==> dompdf   */   
                 /* $template = view('livewire.relatorios.relat-01-HstCrpEnrdvrgc', ['dadosRelatorio' => $this->dadosRelatorio])->render();  */
-                $pdf = Pdf::loadView('pdf.relat-01-HstCrpEnrdvrgc', [
+                $pdf = Pdf::loadView('pdf.relat-01-hstcrpenrdvrgc', [
                         'dadosRelatorio' => $relatorio
                 ]);
                 $filePath = 'pdf/RELAT01-GD-TESTE-novo.pdf';
