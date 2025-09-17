@@ -53,11 +53,11 @@
                   dark:bg-neutral-900 dark:border-neutral-700 dark:shadow-neutral-700/70">
                   
         <div class="h-52 flex flex-col justify-center items-center bg-gradient-to-bl {{ $bgcolor }} rounded-t-xl">
-          @if (isset($grupo['imagemGrupo']))
+          @if (!empty($grupo['imagemGrupo']))
 
             <img class="h-full w-full object-contain rounded-t-xl" src="{{ asset('storage/' . $grupo['imagemGrupo'] ) }}" alt="{{ $grupo->nomeGrupo }}">
           @else
-            <img class="h-full w-full object-contain" src="{{ asset('images/sobrare_logo_redondo.png') }}" alt="{{ $grupo->nomeGrupo }}">
+            <img class="h-full w-full object-contain" src="{{ asset('images/Logo-B_Redondo-200x200.png') }}" alt="{{ $grupo->nomeGrupo }}">
           @endif
 
 
