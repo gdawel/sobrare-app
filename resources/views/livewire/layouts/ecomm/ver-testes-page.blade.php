@@ -171,7 +171,7 @@
                 <tr wire:key="{{ $item->id }}">
                   <td class="py-4">
                     <div class="flex items-center">
-                      <img class="h-16 w-16 mr-4" src="{{ asset('storage/sobrare_logo_redondo.png') }}" alt="$item->testes->nomeTeste">
+                      <img class="h-16 w-16 mr-4" src="{{ asset('images/sobrare_logo_redondo.png') }}" alt="$item->testes->nomeTeste">
                       <span class="font-semibold">{{ $item->testes->nomeTeste }}</span>
                        
                     </div>

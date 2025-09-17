@@ -24,7 +24,7 @@
                         @if ($item['imagemGrupo'])
                             src="{{ asset('storage/'.$item['imagemGrupo']) }}" alt="{{ $item['nomeGrupo'] }}">
                         @else
-                            src="{{ asset('storage/ywbjBmIX0KdJgKCBS5sqNwRF2lRbXe-metaTWluaS1MT0dPXzIwMjQucG5n-.png') }}"
+                            src="{{ asset('images/Logo-B_Redondo-200x200.png') }}"
                         @endif      
                     
                     <span class="font-semibold">{{ $item['nomeGrupo'] }}</span>
