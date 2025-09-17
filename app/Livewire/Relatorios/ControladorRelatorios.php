@@ -290,7 +290,8 @@ class ControladorRelatorios extends Component
          // Retorne o cliente para a tela de "meus-pedidos" com uma mensagem de sucesso
         /* session()->flash('message', 'Seu relatório está sendo gerado! Ele estará disponível para download em alguns minutos.'); */
 
-        //dd($this->codTeste);
+        $nomePDF = "pdf/rel_" . $this->codTeste . "_" . $this->nomeCliente . "_Ped_" . $this->orders_id . ".pdf";
+
         switch ($this->codTeste) {
 
             case '01-HstCrpEnrdvrgc':
@@ -319,7 +320,7 @@ class ControladorRelatorios extends Component
                 $filePath = 'pdf/RELAT01-GD-TESTE-novo.pdf';
 
                 // 4. Salve o PDF no storage privado do Laravel
-                Storage::disk('local')->put($filePath, $pdf->output());
+                Storage::disk('local')->put($nomePDF, $pdf->output());
               
                 /*return Pdf::loadFile($template)->save(storage_path('/app/livewire-tmp/my_stored_file.pdf'))->stream('download.pdf'); */
                 /* $pdf->loadHTML($teste); */
@@ -442,7 +443,7 @@ class ControladorRelatorios extends Component
                 $filePath = 'pdf/RELAT02-GD-TESTE-novo.pdf';
 
                 // 4. Salve o PDF no storage privado do Laravel
-                Storage::disk('local')->put($filePath, $pdf->output());
+                Storage::disk('local')->put($nomePDF, $pdf->output());
             
             /* return view('pdf.reports.relat-02-prcpstrss', [
                 'dadosRelatorio' => $dadosRelatorio,
