@@ -115,7 +115,7 @@ class GerarRelatorios implements ShouldQueue
                                 'dadosRelatorio' => $relatorio
                                 ]);
                        
-                        Storage::disk('local')->put($nomePDF, $pdf->output());
+                        $pdf->save(storage_path($nomePDF));
 
                         $controleRelatorios->update(['status' => 'completo', 'file_path' => $nomePDF]);
                         $orderItens->update(['testeStatus' => 'concluido']);
@@ -221,7 +221,7 @@ class GerarRelatorios implements ShouldQueue
                         'chartImageUrl' => $chartImageUrl, // Passa a imagem (ou null se a API falhar)
                 ]);
                        
-                        Storage::disk('local')->put($nomePDF, $pdf->output());
+                        $pdf->save(storage_path($nomePDF));
 
                          $controleRelatorios->update(['status' => 'completo', 'file_path' => $nomePDF]);
                          $orderItens->update(['testeStatus' => 'concluido']);
