@@ -301,7 +301,7 @@ class ControladorRelatorios extends Component
                 /* $checkParameters = "01-ccxx=".$this->ccxx . " / cctt=". $this->cctt . " / ccii=". $this->ccii;
                 dd($checkParameters); */
 
-                //GerarRelatorios::dispatch($this->ccxx, $this->cctt, $this->ccii, $this->userId);
+                GerarRelatorios::dispatch($this->ccxx, $this->cctt, $this->ccii, $this->userId);
 
                 //return url('/meus-pedidos');
                 /* Spatie Laravel-pdf */
@@ -356,7 +356,7 @@ class ControladorRelatorios extends Component
 
                 /* $checkParameters = "02-ccxx=".$this->ccxx . " / cctt=". $this->cctt . " / ccii=". $this->ccii . " / userId:".$this->userId;
                 dd($checkParameters); */
-                //GerarRelatorios::dispatch($this->ccxx, $this->cctt, $this->ccii, $this->userId);
+                GerarRelatorios::dispatch($this->ccxx, $this->cctt, $this->ccii, $this->userId);
                 
                 $somaTudo = 0;
                 $somaB = 0;
