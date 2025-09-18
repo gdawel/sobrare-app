@@ -113,7 +113,7 @@ class GerarRelatorios implements ShouldQueue
                 try {
                         $pdf = Pdf::view('pdf.relat-01-hstcrpenrdvrgc', [
                                 'dadosRelatorio' => $relatorio
-                                ])->driver('dompdf');
+                                ]);
                        
                         $pdf->save(storage_path($nomePDF));
 

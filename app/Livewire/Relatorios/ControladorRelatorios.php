@@ -18,6 +18,9 @@ use Illuminate\Support\Carbon;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Storage;
 
+use App\Models\ControleRelatorios;
+use App\Models\Orderitems;
+
 use Livewire\Attributes\Layout;
 use App\Models\Historicomedicos;
 use App\Models\TextoResposta;
@@ -251,113 +254,62 @@ class ControladorRelatorios extends Component
         ];
         $this->resultadoTeste = $userAnswers;
      
+        $nomePDF = "pdf/rel_" . $this->codTeste . "_" . $this->nomeCliente . "_Ped_" . $this->orders_id . ".pdf";
+
+        $controleRelatorios = ControleRelatorios::find($this->orderItem_id);
+        $orderItens = Orderitems::find($this->orderItem_id);
 
         /* 
             AQUI, O TESTE DO PRIMEIRO RELATÓRIO - LEMBRE: ControladorRelatorios será descartado completamente
         */
-            if ($this->codTeste == '01-HstCrpEnrdvrgc')
-                {
-
-                $relatorio = $this->dadosRelatorio;
-
-/*                 GerarRelatorios::dispatch($this->ccxx, $this->cctt, $this->ccii, $this->userId); */
-
-                $this->js("setTimeout(() => { Livewire.navigate('/meus-pedidos') }, 6000)");
-
-                //$this->redirect('/meus-pedidos', navigate: true);
-
-                };
-            if ($this->codTeste == '02-PrcpStrss')
-                {
-
-                // $relatorio = $this->dadosRelatorio;
-
-                GerarRelatorios::dispatch($this->ccxx, $this->cctt, $this->ccii, $this->userId);
-
-                $this->js("setTimeout(() => { Livewire.navigate('/meus-pedidos') }, 6000)");
-
-                //$this->redirect('/meus-pedidos', navigate: true);
-
-                };
-    }
-
-    #[Layout('components.layouts.relatorios')] 
-    public function render()
-    {
-       /*  $checkParameters = "render = ccxx=".$this->ccxx . " / cctt=". $this->cctt . " / ccii=". $this->ccii;
-        dd($checkParameters); */
-
-         // Retorne o cliente para a tela de "meus-pedidos" com uma mensagem de sucesso
-        /* session()->flash('message', 'Seu relatório está sendo gerado! Ele estará disponível para download em alguns minutos.'); */
-
-        $nomePDF = "pdf/rel_" . $this->codTeste . "_" . $this->nomeCliente . "_Ped_" . $this->orders_id . ".pdf";
-
         switch ($this->codTeste) {
 
             case '01-HstCrpEnrdvrgc':
 
                 $relatorio = $this->dadosRelatorio;
+
+/*              //   GerarRelatorios::dispatch($this->ccxx, $this->cctt, $this->ccii, $this->userId); */
+
+                
+                $relatorio = $this->dadosRelatorio;
+
+                $controleRelatorios->update(['status' => 'gerando']);
                 
                 /* $checkParameters = "01-ccxx=".$this->ccxx . " / cctt=". $this->cctt . " / ccii=". $this->ccii;
                 dd($checkParameters); */
 
-                GerarRelatorios::dispatch($this->ccxx, $this->cctt, $this->ccii, $this->userId);
+                //GerarRelatorios::dispatch($this->ccxx, $this->cctt, $this->ccii, $this->userId);
 
-                //return url('/meus-pedidos');
-                /* Spatie Laravel-pdf */
-                /* Pdf::view('livewire.relatorios.relat-01-HstCrpEnrdvrgc', 
-                        ['dadosRelatorio' => $relatorio])
-                    ->format('a4')
-                    ->save(storage_path('01HstCrpEnrdvrg6gd.pdf')); 
-                    return ("DONE!"); */
+                // GERAR RELATÓRIO EM PDF USANDO O DOMPDF
+                //   
+                try {
+                    $pdf = Pdf::loadView('pdf.relat-01-hstcrpenrdvrgc', [
+                            'dadosRelatorio' => $relatorio
+                    ]);
+                    $filePath = 'pdf/RELAT01-GD-TESTE-novo.pdf'; // Nome criado temporário para teste
 
-                /* 
-                ==> dompdf   */   
-                /* $template = view('livewire.relatorios.relat-01-HstCrpEnrdvrgc', ['dadosRelatorio' => $this->dadosRelatorio])->render();  */
-                $pdf = Pdf::loadView('pdf.relat-01-hstcrpenrdvrgc', [
-                        'dadosRelatorio' => $relatorio
-                ]);
-                $filePath = 'pdf/RELAT01-GD-TESTE-novo.pdf';
+                    // 4. Salve o PDF no storage privado do Laravel
+                    Storage::disk('local')->put($nomePDF, $pdf->output());
+                    //$pdf->save(storage_path($nomePDF));
+                    
+                    $controleRelatorios->update(['status' => 'completo', 'file_path' => $nomePDF]);
+                    $orderItens->update(['testeStatus' => 'concluido']);
+                    }
+                
+                catch (\Exception $e) {
+                    // Em caso de erro, atualiza o status para 'failed'
+                     $controleRelatorios->update(['status' => 'falha']);
+                     $orderItens->update(['testeStatus' => 'falha']);
+                    // Opcional: Logar o erro
+                    report($e);
+                    }
 
-                // 4. Salve o PDF no storage privado do Laravel
-                Storage::disk('local')->put($nomePDF, $pdf->output());
-              
-                /*return Pdf::loadFile($template)->save(storage_path('/app/livewire-tmp/my_stored_file.pdf'))->stream('download.pdf'); */
-                /* $pdf->loadHTML($teste); */
-                //dd($pdf);
-                /* $pdf->save(storage_path('GDinvoice.pdf')); 
-                return redirect()->intended(); */
-           /*  return pdf()
-                ->view('livewire.relatorios.relat-01-HstCrpEnrdvrgc', $this->dadosRelatorio)
-                ->name('01-HstCrpEnrdvrg.pdf')
-                ->download(); */
-
-                /*  BROWSERSHOT */
-
-                /* $template = view('livewire.relatorios.relat-01-HstCrpEnrdvrgc', ['dadosRelatorio' => $this->dadosRelatorio])->render(); */
-                //dd($template);
-                /* Browsershot::html($template)
-                    ->timeout(300)
-                    ->format('A4')
-                    ->save(storage_path('app/pdf/relat-01-HstCrpEnrdvrgc-gd5S.pdf')); */
-                /*  */
-                /* 
-                return view('livewire.relatorios.relat-01-HstCrpEnrdvrgc', [
-                    'dadosRelatorio' => $this->dadosRelatorio */
-               /*  return view('livewire.relatorios.relat-01-HstCrpEnrdvrgc', [
-                    'dadosRelatorio' => $this->dadosRelatorio
-                ]
-                ); */
-                return "<div><p>Processando... A página vai carregar automaticamente.</p></div>";
-                //$this->redirect('/meus-pedidos', navigate: true);
-            break;
-
+                    $this->js("setTimeout(() => { Livewire.navigate('/meus-pedidos') }, 6000)");
+                
+                break;
+            
             case '02-PrcpStrss':
 
-                /* $checkParameters = "02-ccxx=".$this->ccxx . " / cctt=". $this->cctt . " / ccii=". $this->ccii . " / userId:".$this->userId;
-                dd($checkParameters); */
-                GerarRelatorios::dispatch($this->ccxx, $this->cctt, $this->ccii, $this->userId);
-                
                 $somaTudo = 0;
                 $somaB = 0;
                 foreach ($this->resultadoTeste as $items) {
@@ -374,100 +326,128 @@ class ControladorRelatorios extends Component
                 $checa = "t=".$somaTudo."/a=".$somaA."/b=".$somaB."/c=".$somaC."/d=".$somaD." => Resultado=".$resultado;
                 //dd($checa);
 
-                // No seu Controller ou no Job GerarRelatorios.php
+                /* return view('livewire.relatorios.relat-02-PrcpStrss', [
+                    'dadosRelatorio' => $dadosRelatorio,
+                    'resultado' => $resultado
+                ]); */
+                $qualRelatorio = 'livewire.relatorios.relat-'.$this->dadosRelatorio['codTeste'];
+                
+                $controleRelatorios->update(['status' => 'gerando']);
 
-                $relatorio = $this->dadosRelatorio;
-            
-            // (Esta é a mesma configuração do Chart.js que estava no blade view)
-            $chartConfig = [
-                'type' => 'horizontalBar',
-                'data' => [
-                    // O label foi removido daqui para virar um título
-                    'labels' => [''],
-                    'datasets' => [[
-                        'data' => [number_format($resultado, 2, '.', '')],
-                        'backgroundColor' => 'rgba(54, 162, 235, 0.7)',
-                        'borderColor' => 'rgba(54, 162, 235, 1)',
-                        'borderWidth' => 1,
-                    ]],
-                ],
-                'options' => [
-                    // Opção 2: Adiciona o título em uma linha separada, acima do gráfico
-                    'title' => [
-                        'display' => true,
-                        'text' => 'Nível de Estresse Percebido',
-                        'fontSize' => 16,
-                        'fontColor' => '#333',
-                        'padding' => 20,
+                // (Esta é a mesma configuração do Chart.js que estava no blade view)
+                $chartConfig = [
+                    'type' => 'horizontalBar',
+                    'data' => [
+                        // O label foi removido daqui para virar um título
+                        'labels' => [''],
+                        'datasets' => [[
+                            'data' => [number_format($resultado, 2, '.', '')],
+                            'backgroundColor' => 'rgba(54, 162, 235, 0.7)',
+                            'borderColor' => 'rgba(54, 162, 235, 1)',
+                            'borderWidth' => 1,
+                        ]],
                     ],
-                    'legend' => ['display' => false],
-                    'scales' => [
-                        'xAxes' => [['ticks' => ['min' => 0, 'max' => 6]]],
-                        'yAxes' => [['gridLines' => ['display' => false]]],
-                    ],
-                    // Opção 3: Adiciona o plugin para mostrar o valor na barra
-                    'plugins' => [
-                        'datalabels' => [
+                    'options' => [
+                        // Opção 2: Adiciona o título em uma linha separada, acima do gráfico
+                        'title' => [
                             'display' => true,
-                            'align' => 'end',   // Posição do texto: no final da barra
-                            'anchor' => 'end',  // Ponto de ancoragem: no final da barra
-                            'color' => '#1a202c',
-                            'font' => [
-                                'weight' => 'bold',
-                                'size' => 14,
+                            'text' => 'Nível de Estresse Percebido',
+                            'fontSize' => 16,
+                            'fontColor' => '#333',
+                            'padding' => 20,
+                        ],
+                        'legend' => ['display' => false],
+                        'scales' => [
+                            'xAxes' => [['ticks' => ['min' => 0, 'max' => 6]]],
+                            'yAxes' => [['gridLines' => ['display' => false]]],
+                        ],
+                        // Opção 3: Adiciona o plugin para mostrar o valor na barra
+                        'plugins' => [
+                            'datalabels' => [
+                                'display' => true,
+                                'align' => 'end',   // Posição do texto: no final da barra
+                                'anchor' => 'end',  // Ponto de ancoragem: no final da barra
+                                'color' => '#1a202c',
+                                'font' => [
+                                    'weight' => 'bold',
+                                    'size' => 14,
+                                ],
+                            
                             ],
-                           
                         ],
                     ],
-                ],
-            ];
+                ];
+
+                
+                $chartApiUrl = 'https://quickchart.io/chart?w=330&h=130&bkg=transparent&c=' . urlencode(json_encode($chartConfig));
+
+                
+                $response = Http::get($chartApiUrl);
 
             
-            $chartApiUrl = 'https://quickchart.io/chart?w=330&h=130&bkg=transparent&c=' . urlencode(json_encode($chartConfig));
-
-            
-            $response = Http::get($chartApiUrl);
-
-        
-            $chartImageUrl = null;
-            if ($response->successful()) {
-                // A string 'data:image/png;base64,' é essencial para o navegador entender que isso é uma imagem
-                $chartImageUrl = 'data:image/png;base64,' . base64_encode($response->body());
-            }
-
-            $pdf = Pdf::loadView('pdf.relat-02-prcpstrss', [
-                        'dadosRelatorio' => $relatorio,
+                $chartImageUrl = null;
+                if ($response->successful()) {
+                    // A string 'data:image/png;base64,' é essencial para o navegador entender que isso é uma imagem
+                    $chartImageUrl = 'data:image/png;base64,' . base64_encode($response->body());
+                }
+                
+                try {
+                        $pdf = Pdf::loadView('pdf.relat-02-prcpstrss', [
+                        'dadosRelatorio' => $this->dadosRelatorio,
                         'resultado' => $resultado,
                         'chartImageUrl' => $chartImageUrl, // Passa a imagem (ou null se a API falhar)
                 ]);
-                $filePath = 'pdf/RELAT02-GD-TESTE-novo.pdf';
+                       
+                        Storage::disk('local')->put($nomePDF, $pdf->output());
 
-                // 4. Salve o PDF no storage privado do Laravel
-                Storage::disk('local')->put($nomePDF, $pdf->output());
-            
-            /* return view('pdf.reports.relat-02-prcpstrss', [
-                'dadosRelatorio' => $dadosRelatorio,
-                'resultado' => $resultado,
-                'chartImageUrl' => $chartImageUrl, // Passa a imagem (ou null se a API falhar)
-            ]); */
+                         $controleRelatorios->update(['status' => 'completo', 'file_path' => $nomePDF]);
+                         $orderItens->update(['testeStatus' => 'concluido']);
+                    }
+                catch (\Exception $e) {
+                    // Em caso de erro, atualiza o status para 'failed'
+                     $controleRelatorios->update(['status' => 'falha']);
+                     $orderItens->update(['testeStatus' => 'falha']);
+                    // Opcional: Logar o erro
+                    report($e);
+                    }
 
-                /* $template = view('livewire.relatorios.relat-02-PrcpStrss',
-                             ['dadosRelatorio' => $this->dadosRelatorio,
-                              'resultado' => $resultado])->render(); */
-                //dd($template);
-                /* Browsershot::html($template)
-                    ->timeout(300)
-                    ->format('A4')
-                    ->save(storage_path('app/pdf/relat-relat-02-PrcpStrss-gd1S.pdf')); */
+                $this->js("setTimeout(() => { Livewire.navigate('/meus-pedidos') }, 6000)");
+
+            break;
+
+        }; // Fehcamento do sitch
+                
+
+           
+    } // Fechamento da classe
+
+    #[Layout('components.layouts.relatorios')] 
+    public function render()
+    {
+       /*  $checkParameters = "render = ccxx=".$this->ccxx . " / cctt=". $this->cctt . " / ccii=". $this->ccii;
+        dd($checkParameters); */
+
+         // Retorne o cliente para a tela de "meus-pedidos" com uma mensagem de sucesso
+        /* session()->flash('message', 'Seu relatório está sendo gerado! Ele estará disponível para download em alguns minutos.'); */
+
+        $texto_espera = '<h1 style="text-align: center; font-size: 20px; margin-top: 50px;">
+                                Processando... A página vai carregar automaticamente.</h1>';
+
+        switch ($this->codTeste) {
+
+            case '01-HstCrpEnrdvrgc':
 
                 
-                return "<div><p>Processando... A página vai carregar automaticamente.</p></div>";
 
+                return $texto_espera;
+                
+            break;
 
-                /* return view('livewire.relatorios.relat-02-PrcpStrss', [
-                    'dadosRelatorio' => $this->dadosRelatorio,
-                    'resultado' => $resultado
-                ]); */
+            case '02-PrcpStrss':
+
+                
+                
+                return $texto_espera;
 
             break;
 
