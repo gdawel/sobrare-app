@@ -111,7 +111,7 @@ class GerarRelatorios implements ShouldQueue
                 $controleRelatorios->update(['status' => 'gerando']);
                 
                 try {
-                        $pdf = Pdf::view('pdf.relat-01-HstCrpEnrdvrgc', [
+                        $pdf = Pdf::view('pdf.relat-01-hstcrpenrdvrgc', [
                                 'dadosRelatorio' => $relatorio
                                 ]);
                        
