@@ -111,7 +111,7 @@ class GerarRelatorios implements ShouldQueue
                 $controleRelatorios->update(['status' => 'gerando']);
                 
                 try {
-                        $pdf = Pdf::loadView('pdf.relat-01-HstCrpEnrdvrgc', [
+                        $pdf = Pdf::view('pdf.relat-01-HstCrpEnrdvrgc', [
                                 'dadosRelatorio' => $relatorio
                                 ]);
                        
@@ -215,7 +215,7 @@ class GerarRelatorios implements ShouldQueue
                 }
                 
                 try {
-                        $pdf = Pdf::loadView('pdf.relat-02-prcpstrss', [
+                        $pdf = Pdf::view('pdf.relat-02-prcpstrss', [
                         'dadosRelatorio' => $this->dadosRelatorio,
                         'resultado' => $resultado,
                         'chartImageUrl' => $chartImageUrl, // Passa a imagem (ou null se a API falhar)
