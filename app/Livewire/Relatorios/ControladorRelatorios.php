@@ -23,7 +23,7 @@ use App\Models\Historicomedicos;
 use App\Models\TextoResposta;
 //use Spatie\LaravelPdf\Facades\Pdf;
 //use function Spatie\LaravelPdf\Support\pdf;
-use Spatie\Browsershot\Browsershot;
+//use Spatie\Browsershot\Browsershot;
 
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 

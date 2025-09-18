@@ -14,12 +14,12 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\View;
 use Spatie\LaravelPdf\Facades\Pdf;
-use Spatie\Browsershot\Browsershot;
+//use Spatie\Browsershot\Browsershot;
 use Illuminate\Foundation\Bus\Dispatchable;
 use App\Models\ControleRelatorios;
 use App\Models\Orderitems;
 use Illuminate\Support\Facades\Http; 
-use Illuminate\Support\Facades\Storage;
+//use Illuminate\Support\Facades\Storage;
 
 class GerarRelatorios implements ShouldQueue
 {
@@ -322,14 +322,14 @@ class GerarRelatorios implements ShouldQueue
                                         ]
                                     ])->render();
                        
-                        Browsershot::html($template)
+                        /* Browsershot::html($template)
                             ->timeout(300)
                             ->format('A4')
                             ->showBrowserHeaderAndFooter()
                             ->hideHeader()
                             ->footerHtml('<span class="pageNumber"></span>')
                             ->initialPageNumber(1)
-                            ->save(storage_path('app/pdf/'. $nomePDF));
+                            ->save(storage_path('app/pdf/'. $nomePDF)); */
 
                          $controleRelatorios->update(['status' => 'completo', 'file_path' => 'pdf/'. $nomePDF]);
                          $orderItens->update(['testeStatus' => 'concluido']);
@@ -486,10 +486,10 @@ class GerarRelatorios implements ShouldQueue
                    ])
                 ->render();
                 //dd($template);
-                Browsershot::html($template)->timeout(300)->save(storage_path('relat-relat-08-CmptRpttv-gd0S.pdf'));          
+                /* Browsershot::html($template)->timeout(300)->save(storage_path('relat-relat-08-CmptRpttv-gd0S.pdf'));          
     
                     return view('livewire.relatorios.relat-08-CmptRpttv', 
-                            ['dadosRelatorio' => $this->dadosRelatorio]);
+                            ['dadosRelatorio' => $this->dadosRelatorio]); */
                 break;
     
     
@@ -538,9 +538,9 @@ class GerarRelatorios implements ShouldQueue
                         return; */
         $fileName = "rel-" . $codTeste . "_" . $orders_id . "_" . $nomeCliente . ".pdf";
         dd($fileName);
-        Browsershot::html($html)
+        /* Browsershot::html($html)
             ->setOption('displayHeaderFooter', false)
-            ->save(storage_path('app/pdf/' . $fileName));
+            ->save(storage_path('app/pdf/' . $fileName)); */
 
 
         // Dawel: working in the old version
