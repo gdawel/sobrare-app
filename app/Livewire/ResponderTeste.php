@@ -464,7 +464,7 @@ class ResponderTeste extends Component
             'codTextoResposta' => $codTextoResposta
         ]);
 
-        Orderitems::where('id', $this->itemPedidoId,)->update(['testeStatus' => 'gerando']);
+        Orderitems::where('id', $this->itemPedidoId,)->update(['testeStatus' => 'pendente']);
 
         // Dados necessários para geração do relatório em background
         $orders_id = $this->pedidoCliente;
@@ -481,10 +481,10 @@ class ResponderTeste extends Component
         ]);
 
         // Dispare o Job que vai gerar o PDF em segundo plano
-        GerarRelatorios::dispatch($orders_id, $testes_id, $orderItem_id, $report->user_id);
+        // GerarRelatorios::dispatch($orders_id, $testes_id, $orderItem_id, $report->user_id);
 
         // Retorne o cliente para a tela de "meus-pedidos" com uma mensagem de sucesso
-        session()->flash('message', 'Seu relatório está sendo gerado! Ele estará disponível para download em alguns minutos.');
+        // session()->flash('message', 'Seu relatório está sendo gerado! Ele estará disponível para download em alguns minutos.');
         
 
         //dd($retornoForm);
