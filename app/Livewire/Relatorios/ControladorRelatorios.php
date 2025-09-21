@@ -12,6 +12,7 @@ use App\Models\OpcoesRespostas;
 use App\Models\Useranswers;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Url;
+use Illuminate\Support\Facades\Log;
 
 use Illuminate\Support\Carbon;
 
@@ -256,8 +257,20 @@ class ControladorRelatorios extends Component
      
         $nomePDF = "pdf/rel_" . $this->codTeste . "_" . $this->nomeCliente . "_Ped_" . $this->orders_id . ".pdf";
 
-        $controleRelatorios = ControleRelatorios::find($this->orderItem_id);
+        $controleRelatorios = ControleRelatorios::where('orderitem_id', $this->orderItem_id)->first();
+        if ($controleRelatorios) {
+                $controleRelatorios->update(['testeStatus' => 'falha']);
+            } else {
+                // Opcional: Logar um erro para saber por que não foi encontrado
+                Log::error("Não foi possível encontrar o registro em Controle Relatórios com ID: " . $this->orderItem_id);
+            }
         $orderItens = Orderitems::find($this->orderItem_id);
+        if ($orderItens) {
+                $orderItens->update(['testeStatus' => 'falha']);
+            } else {
+                // Opcional: Logar um erro para saber por que não foi encontrado
+                Log::error("Não foi possível encontrar o registro em OrderItem com ID: " . $this->orderItem_id);
+            }
 
         /* 
             AQUI, O TESTE DO PRIMEIRO RELATÓRIO - LEMBRE: ControladorRelatorios será descartado completamente
@@ -415,45 +428,9 @@ class ControladorRelatorios extends Component
 
             break;
 
-        }; // Fehcamento do sitch
-                
-
-           
-    } // Fechamento da classe
-
-    #[Layout('components.layouts.relatorios')] 
-    public function render()
-    {
-       /*  $checkParameters = "render = ccxx=".$this->ccxx . " / cctt=". $this->cctt . " / ccii=". $this->ccii;
-        dd($checkParameters); */
-
-         // Retorne o cliente para a tela de "meus-pedidos" com uma mensagem de sucesso
-        /* session()->flash('message', 'Seu relatório está sendo gerado! Ele estará disponível para download em alguns minutos.'); */
-
-        $texto_espera = '<h1 style="text-align: center; font-size: 20px; margin-top: 50px;">
-                                Processando... A página vai carregar automaticamente.</h1>';
-
-        switch ($this->codTeste) {
-
-            case '01-HstCrpEnrdvrgc':
-
-                
-
-                return $texto_espera;
-                
-            break;
-
-            case '02-PrcpStrss':
-
-                
-                
-                return $texto_espera;
-
-            break;
-
             case '03-OrdncAsst':
 
-                GerarRelatorios::dispatch($this->ccxx, $this->cctt, $this->ccii, $this->userId);
+                // GerarRelatorios::dispatch($this->ccxx, $this->cctt, $this->ccii, $this->userId);
                 foreach ($this->resultadoTeste as $items) {
                 
                     /* A Minha Comunicação */
@@ -502,9 +479,120 @@ class ControladorRelatorios extends Component
                         $this->sexualidade = $this->sexualidade + $items->opcaoResposta->valorResposta; 
                     }
                 }
+
+
+                // 1. Seus dados existentes
+                //$dadosRelatorio = [ /* ... seus dados ... */ ];
+                $dadosGrafico = [
+                    ['Assuntos' => 'Comunicacao', 'Valor' => $this->comunicacao],
+                    ['Assuntos' => 'Pensamento', 'Valor' => $this->pensamento],
+                    ['Assuntos' => 'Atencao', 'Valor' => $this->atencao],
+                    ['Assuntos' => 'Tensao', 'Valor' => $this->tensao],
+                    ['Assuntos' => 'Social', 'Valor' => $this->social],
+                    ['Assuntos' => 'Emocional', 'Valor' => $this->emocional],
+                    ['Assuntos' => 'Mental', 'Valor' => $this->mental],
+                    ['Assuntos' => 'Sexualidade', 'Valor' => $this->sexualidade],
+                ];
+
+                // 2. Prepare os dados para o formato que o Chart.js precisa
+                $labels = array_column($dadosGrafico, 'Assuntos');
+                $values = array_column($dadosGrafico, 'Valor');
+
+                // 3. Defina a configuração do gráfico
+                $chartConfig = [
+                    'type' => 'horizontalBar',
+                    'data' => [
+                        'labels' => $labels,
+                        'datasets' => [[
+                            'label' => 'Relevância dos Assuntos',
+                            'data' => $values,
+                            'backgroundColor' => [ // Paleta de cores mantida
+                                'rgba(255, 99, 132, 0.8)',
+                                'rgba(54, 162, 235, 0.8)',
+                                'rgba(255, 206, 86, 0.8)',
+                                'rgba(75, 192, 192, 0.8)',
+                                'rgba(153, 102, 255, 0.8)',
+                                'rgba(255, 159, 64, 0.8)',
+                                'rgba(46, 204, 113, 0.8)',
+                                'rgba(231, 76, 60, 0.8)',
+                            ],
+                        ]],
+                    ],
+                    'options' => [
+                        'title' => [
+                            'display' => true,
+                            'text' => 'Relevância por Assunto',
+                            'fontSize' => 18,
+                            'fontColor' => '#333',
+                        ],
+                        'legend' => ['display' => false], // Legenda no topo pode ser redundante
+                        'scales' => [
+                            'xAxes' => [['ticks' => ['min' => 0, 'max' => 20]]], // Ajuste o 'max' se necessário
+                            'yAxes' => [['ticks' => ['fontSize' => 10]]], // Diminui a fonte dos eixos para caber
+                        ],
+                        'plugins' => [
+                            'datalabels' => [
+                                'display' => true,
+                                'color' => '#fff',
+                                'font' => ['weight' => 'bold'],
+                                'anchor' => 'center',
+                                'align' => 'center',
+                            ],
+                        ],
+                    ],
+                ];
+
+                // 4. Monte a URL e busque a imagem
+                $chartApiUrl = 'https://quickchart.io/chart?w=700&h=400&bkg=transparent&c=' . urlencode(json_encode($chartConfig));
+                $response = Http::get($chartApiUrl);
+
+                $chartImageUrl = null;
+                if ($response->successful()) {
+                    $chartImageUrl = 'data:image/png;base64,' . base64_encode($response->body());
+                }
+
+                try {
+                        $pdf = Pdf::loadView('pdf.relat-03-ordncasst', [
+                        'dadosRelatorio' => $this->dadosRelatorio,
+                        'comunicacao' => $this->comunicacao,
+                        'pensamento' => $this->pensamento,
+                        'atencao' => $this->atencao,
+                        'tensao' => $this->tensao,
+                        'social' => $this->social,
+                        'emocional' => $this->emocional,
+                        'mental' => $this->mental,
+                        'sexualidade' => $this->sexualidade,
+                        'dadosGrafico' => [
+                            [ 'Assuntos' => 'Comunicacao', 'Valor' => $this->comunicacao ],
+                            [ 'Assuntos' => 'Pensamento', 'Valor' => $this->pensamento ],
+                            [ 'Assuntos' => 'Atencao', 'Valor' => $this->atencao ],
+                            [ 'Assuntos' => 'Tensao', 'Valor' => $this->tensao ],
+                            [ 'Assuntos' => 'Social', 'Valor' => $this->social ],
+                            [ 'Assuntos' => 'Emocional', 'Valor' => $this->emocional ],
+                            [ 'Assuntos' => 'Mental', 'Valor' => $this->mental ],
+                            [ 'Assuntos' => 'Sexualidade', 'Valor' => $this->sexualidade ],
+                        ],
+                        'chartImageUrl' => $chartImageUrl, // Passa a imagem (ou null se a API falhar)
+                        
+                        ]);
+                       
+                        Storage::disk('local')->put($nomePDF, $pdf->output());
+
+                         $controleRelatorios->update(['status' => 'completo', 'file_path' => $nomePDF]);
+                         $orderItens->update(['testeStatus' => 'concluido']);
+                    }
+                catch (\Exception $e) {
+                    // Em caso de erro, atualiza o status para 'failed'
+                     $controleRelatorios->update(['status' => 'falha']);
+                     $orderItens->update(['testeStatus' => 'falha']);
+                    // Opcional: Logar o erro
+                    report($e);
+                    }
+
+                $this->js("setTimeout(() => { Livewire.navigate('/meus-pedidos') }, 6000)");
                 
 
-                return view('livewire.relatorios.relat-03-OrdncAsst', [
+                /* return view('livewire.relatorios.relat-03-OrdncAsst', [
                     'dadosRelatorio' => $this->dadosRelatorio,
                     'comunicacao' => $this->comunicacao,
                     'pensamento' => $this->pensamento,
@@ -525,9 +613,10 @@ class ControladorRelatorios extends Component
                         [ 'Assuntos' => 'Sexualidade', 'Valor' => $this->sexualidade ]
                         
                     ]
-                ]);
+                ]); */
+            break;
 
-                case '04-CmCrbrFcn':
+            case '04-CmCrbrFcn':
 
                     //dd($this->resultadoTeste);
                     foreach ($this->resultadoTeste as $items) {
@@ -555,9 +644,105 @@ class ControladorRelatorios extends Component
                         
                         
                     }
+
+
+                    $dadosGrafico = [
+                        ['Assuntos' => 'Cérebro Social (Tipo QE)', 'Valor' => $this->cerebroSocial],
+                        ['Assuntos' => 'Cérebro Mesclado (Tipo B)', 'Valor' => $this->cerebroMesclado],
+                        ['Assuntos' => 'Cérebro Sistematizador (Tipo QS)', 'Valor' => $this->cerebroSistematizador],
+                    ];
+
+                    // 2. Prepare os dados para o formato que o Chart.js precisa
+                    $labels = array_column($dadosGrafico, 'Assuntos');
+                    $values = array_column($dadosGrafico, 'Valor');
+
+                    // 3. Defina a configuração do gráfico de pizza
+                    $chartConfig = [
+                        'type' => 'pie',
+                        'data' => [
+                            'labels' => $labels,
+                            'datasets' => [[
+                                'data' => $values,
+                                'backgroundColor' => [ // Paleta de cores mantida
+                                    '#29B6F6', // Azul claro vibrante
+                                    '#FFC107', // Amarelo vibrante
+                                    '#66BB6A', // Verde vibrante
+                                ],
+                                'borderWidth' => 0,
+                            ]],
+                        ],
+                        'options' => [
+                            'title' => [
+                                'display' => true,
+                                'text' => 'Como Funciona Meu Cérebro',
+                                'fontSize' => 20,
+                                'fontColor' => '#333',
+                                'padding' => 20,
+                            ],
+                            'legend' => [
+                                'position' => 'bottom',
+                                'labels' => [
+                                    'fontSize' => 12,
+                                    'boxWidth' => 15,
+                                    'padding' => 20,
+                                ],
+                            ],
+                            'plugins' => [
+                                'datalabels' => [
+                                    'color' => '#000',
+                                    'font' => [
+                                        'weight' => 'bold',
+                                        'size' => 14,
+                                    ],
+                                    // Formata o valor para adicionar o símbolo de '%'
+                                    'formatter' => "function(value) { return value + '%'; }",
+                                ],
+                            ],
+                        ],
+                    ];
+
+                    // 4. Monte a URL e busque a imagem do gráfico
+                    // Gráficos de pizza ficam melhores em formato quadrado
+                    $chartApiUrl = 'https://quickchart.io/chart?w=500&h=500&bkg=transparent&c=' . urlencode(json_encode($chartConfig));
+                    $response = Http::get($chartApiUrl);
+
+                    $chartImageUrl = null;
+                    if ($response->successful()) {
+                        $chartImageUrl = 'data:image/png;base64,' . base64_encode($response->body());
+                    }
                     
-    
-                    return view('livewire.relatorios.relat-04-CmCrbrFcn', [
+                    try {
+                        $pdf = Pdf::loadView('pdf.relat-04-cmcrbrfcn', [
+                        'dadosRelatorio' => $this->dadosRelatorio,
+                        'cerebroSocial' => $this->cerebroSocial,
+                        'cerebroMesclado' => $this->cerebroMesclado,
+                        'cerebroSistematizador' => $this->cerebroSistematizador,
+                        'dadosGrafico' => [
+                            [ 'Assuntos' => 'Cérebro Social (Tipo QE)', 'Valor' => $this->cerebroSocial ],
+                            [ 'Assuntos' => 'Cérebro Mesclado (Tipo B)', 'Valor' => $this->cerebroMesclado ],
+                            [ 'Assuntos' => 'Cérebro Sistematizador (Tipo QS)', 'Valor' => $this->cerebroSistematizador ]
+
+                        ],
+                        
+                        'chartImageUrl' => $chartImageUrl, // Passa a imagem (ou null se a API falhar)
+                        
+                        ]);
+                       
+                        Storage::disk('local')->put($nomePDF, $pdf->output());
+
+                         $controleRelatorios->update(['status' => 'completo', 'file_path' => $nomePDF]);
+                         $orderItens->update(['testeStatus' => 'concluido']);
+                    }
+                catch (\Exception $e) {
+                    // Em caso de erro, atualiza o status para 'failed'
+                     $controleRelatorios->update(['status' => 'falha']);
+                     $orderItens->update(['testeStatus' => 'falha']);
+                    // Opcional: Logar o erro
+                    report($e);
+                    }
+
+                $this->js("setTimeout(() => { Livewire.navigate('/meus-pedidos') }, 6000)");
+                    /* return view('livewire.relatorios.relat-04-CmCrbrFcn', [
                         'dadosRelatorio' => $this->dadosRelatorio,
                         'cerebroSocial' => $this->cerebroSocial,
                         'cerebroMesclado' => $this->cerebroMesclado,
@@ -569,38 +754,95 @@ class ControladorRelatorios extends Component
 
                         ]
                         
-                    ]);
+                    ]); */
 
             break;
-
 
             case '05-AnsddDthd':
 
                 // RELATÓRIO: Ansiedade Detalhada e Neurodiversidade
+                try {
+                    $pdf = Pdf::loadView('pdf.relat-05-ansdddthd', [
+                            'dadosRelatorio' => $this->dadosRelatorio
+                    ]);
+                    
+                    // 4. Salve o PDF no storage privado do Laravel
+                    Storage::disk('local')->put($nomePDF, $pdf->output());
+                    //$pdf->save(storage_path($nomePDF));
+                    
+                    $controleRelatorios->update(['status' => 'completo', 'file_path' => $nomePDF]);
+                    $orderItens->update(['testeStatus' => 'concluido']);
+                    }
+                
+                catch (\Exception $e) {
+                    // Em caso de erro, atualiza o status para 'failed'
+                     $controleRelatorios->update(['status' => 'falha']);
+                     $orderItens->update(['testeStatus' => 'falha']);
+                    // Opcional: Logar o erro
+                    report($e);
+                    }
 
-                return view('livewire.relatorios.relat-05-AnsddDthd', 
-                        ['dadosRelatorio' => $this->dadosRelatorio]);
+                    $this->js("setTimeout(() => { Livewire.navigate('/meus-pedidos') }, 6000)");
+
+                /* return view('livewire.relatorios.relat-05-AnsddDthd', 
+                        ['dadosRelatorio' => $this->dadosRelatorio]); */
             break;
 
-            
             case '06-Ansieddbsc':
 
                 // RELATÓRIO: Inventário para Fobia Social ou Disturbio de Ansiedade
+                try {
+                    $pdf = Pdf::loadView('pdf.relat-06-ansieddbsc', [
+                            'dadosRelatorio' => $this->dadosRelatorio
+                    ]);
+                    
+                    // 4. Salve o PDF no storage privado do Laravel
+                    Storage::disk('local')->put($nomePDF, $pdf->output());
+                    //$pdf->save(storage_path($nomePDF));
+                    
+                    $controleRelatorios->update(['status' => 'completo', 'file_path' => $nomePDF]);
+                    $orderItens->update(['testeStatus' => 'concluido']);
+                    }
                 
-                return view('livewire.relatorios.relat-06-Ansieddbsc', 
-                        ['dadosRelatorio' => $this->dadosRelatorio]);
+                catch (\Exception $e) {
+                    // Em caso de erro, atualiza o status para 'failed'
+                     $controleRelatorios->update(['status' => 'falha']);
+                     $orderItens->update(['testeStatus' => 'falha']);
+                    // Opcional: Logar o erro
+                    report($e);
+                    }
+
+                    $this->js("setTimeout(() => { Livewire.navigate('/meus-pedidos') }, 6000)");
+                
             break;
 
-
-            
             case '07-Depressbsc':
 
-                // RELATÓRIO: Inventário para Disturbios Depressivos
+                // RELATÓRIO: Inventário para Fobia Social ou Disturbio de Ansiedade
+                try {
+                    $pdf = Pdf::loadView('pdf.relat-07-depressbsc', [
+                            'dadosRelatorio' => $this->dadosRelatorio
+                    ]);
+                    
+                    // 4. Salve o PDF no storage privado do Laravel
+                    Storage::disk('local')->put($nomePDF, $pdf->output());
+                    //$pdf->save(storage_path($nomePDF));
+                    
+                    $controleRelatorios->update(['status' => 'completo', 'file_path' => $nomePDF]);
+                    $orderItens->update(['testeStatus' => 'concluido']);
+                    }
                 
-                return view('livewire.relatorios.relat-07-Depressbsc', 
-                        ['dadosRelatorio' => $this->dadosRelatorio]);
-            break;
+                catch (\Exception $e) {
+                    // Em caso de erro, atualiza o status para 'failed'
+                     $controleRelatorios->update(['status' => 'falha']);
+                     $orderItens->update(['testeStatus' => 'falha']);
+                    // Opcional: Logar o erro
+                    report($e);
+                    }
 
+                    $this->js("setTimeout(() => { Livewire.navigate('/meus-pedidos') }, 6000)");
+                
+            break;
 
             case '08-CmptRpttv':
 
@@ -672,12 +914,46 @@ class ControladorRelatorios extends Component
                     }
                 };
 
-                //dd($this->diagnosticoRS);
+                try {
+                    $pdf = Pdf::loadView('pdf.relat-08-cmptrpttv', [
+                            'dadosRelatorio' => $this->dadosRelatorio,
+                            'resultadoTeste' => $this->resultadoTeste, // A view usa esta variável
+                            'diagnosticoCM' => $this->diagnosticoCM,
+                            'diagnosticoIM' => $this->diagnosticoIM,
+                            'diagnosticoRS' => $this->diagnosticoRS,
+                            'percentCM' => $this->percentCM,
+                            'percentIM' => $this->percentIM,
+                            'percentRS' => $this->percentRS,
+                            'percentSistematizacao' => $this->percentSistematizacao,
+                            'percentRegulacao' => $this->percentRegulacao,
+                            'percetInteresses' => $this->percetInteresses,
+                            'percentAcumulacao' => $this->percentAcumulacao,
+                            'percentMesmice' => $this->percentMesmice,
+                            'percentSensibilidade' => $this->percentSensibilidade,
+                            'percentRestricao' => $this->percentRestricao,
+                            'percentSomaTendencia' => $this->percentSomaTendencia,
+                    ]);
+                    
+                    // 4. Salve o PDF no storage privado do Laravel
+                    Storage::disk('local')->put($nomePDF, $pdf->output());
+                    //$pdf->save(storage_path($nomePDF));
+                    
+                    $controleRelatorios->update(['status' => 'completo', 'file_path' => $nomePDF]);
+                    $orderItens->update(['testeStatus' => 'concluido']);
+                    }
+                
+                catch (\Exception $e) {
+                    // Em caso de erro, atualiza o status para 'failed'
+                     $controleRelatorios->update(['status' => 'falha']);
+                     $orderItens->update(['testeStatus' => 'falha']);
+                    // Opcional: Logar o erro
+                    report($e);
+                    }
 
-                return view('livewire.relatorios.relat-08-CmptRpttv', 
-                        ['dadosRelatorio' => $this->dadosRelatorio]);
+                    $this->js("setTimeout(() => { Livewire.navigate('/meus-pedidos') }, 6000)");
+
+                
             break;
-
 
             case '09-InvntrTDA_TDAH':
                 //Recuperar os textos de diagnóstico ao final do relatório
@@ -819,36 +1095,64 @@ class ControladorRelatorios extends Component
                 }
                 
 
-
-                /* Pdf::view('livewire.relatorios.relat-01-HstCrpEnrdvrgc', ['useranswers' => $this->useranswers])
-                    ->format('a4')
-                    ->save('01-HstCrpEnrdvrg.pdf'); */
-
-                /* $pdf = Pdf::loadView('livewire.relatorios.relat-01-HstCrpEnrdvrgc', [
-                        'useranswers' => $this->useranswers
-                ]);
-                return $pdf->download('invoice.pdf'); */
-            /* return pdf()
-                ->view('livewire.relatorios.relat-01-HstCrpEnrdvrgc', ['useranswers' => $this->useranswers])
-                ->name('01-HstCrpEnrdvrg.pdf')
-                ->download(); */
-                return view('livewire.relatorios.relat-09-InvntrTDA_TDAH', 
-                        [   'dadosRelatorio' => $this->dadosRelatorio,
+                try {
+                    $pdf = Pdf::loadView('pdf.relat-09-invntrtda_tdah', [
+                            'dadosRelatorio' => $this->dadosRelatorio,
                             'testeSomaC133' => $testeSomaC133,
                             'testeSomaD133' => $testeSomaD133,
                             'retesteSomaC214' => $retesteSomaC214,
                             'retesteSomaD214' => $retesteSomaD214,
                             'textoDiagnostico' =>$textoDiagnostico,
                             'textoDiagnosticoReteste' =>$textoDiagnosticoReteste,
-                        ]);
+                    ]);
+                    
+                    // 4. Salve o PDF no storage privado do Laravel
+                    Storage::disk('local')->put($nomePDF, $pdf->output());
+                    //$pdf->save(storage_path($nomePDF));
+                    
+                    $controleRelatorios->update(['status' => 'completo', 'file_path' => $nomePDF]);
+                    $orderItens->update(['testeStatus' => 'concluido']);
+                    }
+                
+                catch (\Exception $e) {
+                    // Em caso de erro, atualiza o status para 'failed'
+                     $controleRelatorios->update(['status' => 'falha']);
+                     $orderItens->update(['testeStatus' => 'falha']);
+                    // Opcional: Logar o erro
+                    report($e);
+                    }
+
+                $this->js("setTimeout(() => { Livewire.navigate('/meus-pedidos') }, 6000)");
+               
+                
             break;
 
             case '10-AutorrltDisfunTDA_TDAH':
 
-                // RELATÓRIO: Autorrelato sobre características relacionadas ao TDA / TDAH - 10-AutorrltDisfunTDA_TDAH
+                // RELATÓRIO: Inventário para Fobia Social ou Disturbio de Ansiedade
+                try {
+                    $pdf = Pdf::loadView('pdf.relat-10-autorrltdisfuntda_tdah', [
+                            'dadosRelatorio' => $this->dadosRelatorio
+                    ]);
+                    
+                    // 4. Salve o PDF no storage privado do Laravel
+                    Storage::disk('local')->put($nomePDF, $pdf->output());
+                    //$pdf->save(storage_path($nomePDF));
+                    
+                    $controleRelatorios->update(['status' => 'completo', 'file_path' => $nomePDF]);
+                    $orderItens->update(['testeStatus' => 'concluido']);
+                    }
                 
-                return view('livewire.relatorios.relat-10-AutorrltDisfunTDA_TDAH', 
-                        ['dadosRelatorio' => $this->dadosRelatorio]);
+                catch (\Exception $e) {
+                    // Em caso de erro, atualiza o status para 'failed'
+                     $controleRelatorios->update(['status' => 'falha']);
+                     $orderItens->update(['testeStatus' => 'falha']);
+                    // Opcional: Logar o erro
+                    report($e);
+                    }
+
+                    $this->js("setTimeout(() => { Livewire.navigate('/meus-pedidos') }, 6000)");
+                
             break;
 
             case '11-HptsTEA':
@@ -903,26 +1207,85 @@ class ControladorRelatorios extends Component
 
                 }
                 
-                return view('livewire.relatorios.relat-11-HptsTEA', 
-                        ['dadosRelatorio' => $this->dadosRelatorio]);
+                try {
+                    $pdf = Pdf::loadView('pdf.relat-11-hptstea', [
+                            'dadosRelatorio' => $this->dadosRelatorio
+                    ]);
+                    
+                    // 4. Salve o PDF no storage privado do Laravel
+                    Storage::disk('local')->put($nomePDF, $pdf->output());
+                    //$pdf->save(storage_path($nomePDF));
+                    
+                    $controleRelatorios->update(['status' => 'completo', 'file_path' => $nomePDF]);
+                    $orderItens->update(['testeStatus' => 'concluido']);
+                    }
+                
+                catch (\Exception $e) {
+                    // Em caso de erro, atualiza o status para 'failed'
+                     $controleRelatorios->update(['status' => 'falha']);
+                     $orderItens->update(['testeStatus' => 'falha']);
+                    // Opcional: Logar o erro
+                    report($e);
+                    }
+
+                    $this->js("setTimeout(() => { Livewire.navigate('/meus-pedidos') }, 6000)");
+
             break;
 
             case '12-DomEproc':
 
-                // RELATÓRIO: Domínios e Processos no Comportamento Adaptativo associados com a Neurodivergência							
-
-
+                // RELATÓRIO: Inventário para Fobia Social ou Disturbio de Ansiedade
+                try {
+                    $pdf = Pdf::loadView('pdf.relat-12-domeproc', [
+                            'dadosRelatorio' => $this->dadosRelatorio
+                    ]);
+                    
+                    // 4. Salve o PDF no storage privado do Laravel
+                    Storage::disk('local')->put($nomePDF, $pdf->output());
+                    //$pdf->save(storage_path($nomePDF));
+                    
+                    $controleRelatorios->update(['status' => 'completo', 'file_path' => $nomePDF]);
+                    $orderItens->update(['testeStatus' => 'concluido']);
+                    }
                 
-                return view('livewire.relatorios.relat-12-DomEproc', 
-                        ['dadosRelatorio' => $this->dadosRelatorio]);
-            break;
+                catch (\Exception $e) {
+                    // Em caso de erro, atualiza o status para 'failed'
+                     $controleRelatorios->update(['status' => 'falha']);
+                     $orderItens->update(['testeStatus' => 'falha']);
+                    // Opcional: Logar o erro
+                    report($e);
+                    }
+
+                    $this->js("setTimeout(() => { Livewire.navigate('/meus-pedidos') }, 6000)");
+
+             break;
 
             case '13-SnsldeEndvrgnc':
 
-                // RELATÓRIO: PONTUAÇÃO e COMENTÁRIOS - SENSUALIDADE E NEURODIVERGÊNCIAS - 13-SnsldeEndvrgnc
+                // RELATÓRIO: Inventário para Fobia Social ou Disturbio de Ansiedade
+                try {
+                    $pdf = Pdf::loadView('pdf.relat-13-snsldeendvrgnc', [
+                            'dadosRelatorio' => $this->dadosRelatorio
+                    ]);
+                    
+                    // 4. Salve o PDF no storage privado do Laravel
+                    Storage::disk('local')->put($nomePDF, $pdf->output());
+                    //$pdf->save(storage_path($nomePDF));
+                    
+                    $controleRelatorios->update(['status' => 'completo', 'file_path' => $nomePDF]);
+                    $orderItens->update(['testeStatus' => 'concluido']);
+                    }
                 
-                return view('livewire.relatorios.relat-13-SnsldeEndvrgnc', 
-                        ['dadosRelatorio' => $this->dadosRelatorio]);
+                catch (\Exception $e) {
+                    // Em caso de erro, atualiza o status para 'failed'
+                     $controleRelatorios->update(['status' => 'falha']);
+                     $orderItens->update(['testeStatus' => 'falha']);
+                    // Opcional: Logar o erro
+                    report($e);
+                    }
+
+                    $this->js("setTimeout(() => { Livewire.navigate('/meus-pedidos') }, 6000)");
+
             break;
 
             case '14-ArrzcEndvrgc':
@@ -1093,13 +1456,102 @@ class ControladorRelatorios extends Component
 
                 ];
                 
+                // 2. Preparando os dados para os gráficos
+                $arrayTipoItemNeurodiv = [
+                    /* ['"Causar constrangimento" ('.number_format($constrangimento, 2).'%)' , $constrangimento], 
+                    ['"Violar regras sociais" ('.number_format($regrasSociais, 2).'%)' , $regrasSociais],  */
+                    [ '"Causar constrangimento" ('.number_format($this->constrangimento, 2).'%)' , $this->constrangimento], 
+                    [ '"Violar regras sociais" ('.number_format($this->regrasSociais, 2).'%)' , $this->regrasSociais], 
+                    [ '"Manipular contextos" ('.number_format($this->contextos, 2).'%)' ,  $this->contextos], 
+                    [ '"Fragilizar o outro" ('.number_format($this->fragilizar, 2).'%)' , $this->fragilizar], 
+                    [ '"Pessoa controladora"`('.number_format($this->controladora, 2).'%)' , $this->controladora], 
+                    [ '"Pessoa impulsiva" ('.number_format($this->impulsiva, 2).'%)' , $this->impulsiva],                                   
+                    [ '"Agir com base no risco" ('.number_format($this->baseRisco, 2).'%)' , $this->baseRisco]
+                ];
+                $arrayDiscipFavorNeurodiv = [
+                    /* ['Disciplina: Alimentação Balanceada ('.number_format($alimentBalanceada, 2).'%)', $alimentBalanceada],
+                    ['Disciplina: Exercício Regular ('.number_format($exercRegular, 2).'%)', $exercRegular], */
+                    [ 'Disciplina: Alimentação Balanceada ('.number_format($this->alimentBalanceada, 2).'%)', $this->alimentBalanceada],
+                    [ 'Disciplina: Exercício Regular ('.number_format($this->exercRegular, 2).'%)', $this->exercRegular],
+                    [ 'Disciplina: Gerenciamento do Estresse ('.number_format($this->gerenciaEstresse, 2).'%)', $this->gerenciaEstresse],
+                    [ 'Disciplina: Relaxamento Mental ('.number_format($this->relaxMental, 2).'%)', $this->relaxMental],
+                    [ 'Disciplina: Redes de Apoio ('.number_format($this->redesApoio, 2).'%)', $this->redesApoio],
+                    [ 'Disciplina: Acompanhamento clínico ('.number_format($this->acompClinico, 2).'%)', $this->acompClinico],
+                    [ 'Disciplina: Organização de Tarefas ('.number_format($this->organizTarefas, 2).'%)', $this->organizTarefas],
+                    [ 'Disciplina: Atualizar e se capacitar ('.number_format($this->atualizarCapacitar, 2).'%)', $this->atualizarCapacitar]
+                ];
 
-                //dd($this->diagnosticoRS);
+                // Array de cores do gráfico
+                $coresGrafico = ["#FF5733", "#33FF57", "#5733FF", "#FF33A1", "#33FFF5", "#A133FF", "#FF0000", "#FFC300"];
 
-                return view('livewire.relatorios.relat-14-ArrzcEndvrgc', 
-                        ['dadosRelatorio' => $this->dadosRelatorio]);
+
+                // --- GERAÇÃO DO GRÁFICO 1 ---
+                $labels1 = array_column($arrayTipoItemNeurodiv, 0);
+                $values1 = array_column($arrayTipoItemNeurodiv, 1);
+
+                $chartConfig1 = [
+                    'type' => 'horizontalBar',
+                    'data' => [ 'labels' => $labels1, 'datasets' => [[
+                        'data' => $values1, 
+                        'backgroundColor' => $coresGrafico 
+                    ]]],
+                    'options' => [ 
+                        'title' => ['display' => true, 'text' => 'Aspectos corrosivos às Neurodivergências', 'fontSize' => 16],
+                        'legend' => ['display' => false],
+                        'scales' => ['xAxes' => [['ticks' => ['min' => 0, 'max' => 100]]]],
+                     ],
+                ];
+                $chartApiUrl1 = 'https://quickchart.io/chart?w=700&h=350&bkg=transparent&c=' . urlencode(json_encode($chartConfig1));
+                $response1 = Http::get($chartApiUrl1);
+                $chartImageUrl1 = $response1->successful() ? 'data:image/png;base64,' . base64_encode($response1->body()) : null;
+
+                // --- GERAÇÃO DO GRÁFICO 2 ---
+                $labels2 = array_column($arrayDiscipFavorNeurodiv, 0);
+                $values2 = array_column($arrayDiscipFavorNeurodiv, 1);
+
+                $chartConfig2 = [
+                    'type' => 'horizontalBar',
+                    'data' => [ 'labels' => $labels2, 'datasets' => [[
+                        'data' => $values2, 
+                        'backgroundColor' => $coresGrafico 
+                    ]]],
+                    'options' => [
+                        'title' => ['display' => true, 'text' => 'Disciplinas favoráveis às Neurodivergências - 100% é a excelência', 'fontSize' => 16],
+                        'legend' => ['display' => false],
+                        'scales' => ['xAxes' => [['ticks' => ['min' => 0, 'max' => 100]]]],
+                    ],
+                ];
+                $chartApiUrl2 = 'https://quickchart.io/chart?w=700&h=400&bkg=transparent&c=' . urlencode(json_encode($chartConfig2));
+                $response2 = Http::get($chartApiUrl2);
+                $chartImageUrl2 = $response2->successful() ? 'data:image/png;base64,' . base64_encode($response2->body()) : null;
+
+
+                 try {
+                    $pdf = Pdf::loadView('pdf.relat-14-arrzcendvrgc', [
+                            'dadosRelatorio' => $this->dadosRelatorio,
+                            'chartImageUrl1' => $chartImageUrl1,
+                            'chartImageUrl2' => $chartImageUrl2,
+                    ]);
+                    
+                    // 4. Salve o PDF no storage privado do Laravel
+                    Storage::disk('local')->put($nomePDF, $pdf->output());
+                    //$pdf->save(storage_path($nomePDF));
+                    
+                    $controleRelatorios->update(['status' => 'completo', 'file_path' => $nomePDF]);
+                    $orderItens->update(['testeStatus' => 'concluido']);
+                    }
+                
+                catch (\Exception $e) {
+                    // Em caso de erro, atualiza o status para 'failed'
+                     $controleRelatorios->update(['status' => 'falha']);
+                     $orderItens->update(['testeStatus' => 'falha']);
+                    // Opcional: Logar o erro
+                    report($e);
+                    }
+
+                    $this->js("setTimeout(() => { Livewire.navigate('/meus-pedidos') }, 6000)");
+
             break;
-
 
             case '15-DlxiaEaprndzg':
             // RELATÓRIO: CARACTERÍSTICAS LIGADAS À DISLEXIA, ATENÇÃO E A CONCENTRAÇÃO  Adultos
@@ -1175,17 +1627,291 @@ class ControladorRelatorios extends Component
                     $textoDiagnostico = $textoDiagnostico . "<br>" . $filteredArray['Q22'];
                 }
 
-                                
-                
-                return view('livewire.relatorios.relat-15-DlxiaEaprndzg', 
-                        [   'dadosRelatorio' => $this->dadosRelatorio,
+            try {
+                    $pdf = Pdf::loadView('pdf.relat-15-dlxiaeaprndzg', [
+                            'dadosRelatorio' => $this->dadosRelatorio,
                             'contarRaro' => $contarRaro,
                             'contarAlgumasVezes' => $contarAlgumasVezes,
                             'contarAconteceBastante' => $contarAconteceBastante,
                             'contarFrequente' => $contarFrequente,
                             'textoDiagnostico' =>$textoDiagnostico,
                     ]);
+                    
+                    // 4. Salve o PDF no storage privado do Laravel
+                    Storage::disk('local')->put($nomePDF, $pdf->output());
+                    //$pdf->save(storage_path($nomePDF));
+                    
+                    $controleRelatorios->update(['status' => 'completo', 'file_path' => $nomePDF]);
+                    $orderItens->update(['testeStatus' => 'concluido']);
+                    }
+                
+                catch (\Exception $e) {
+                    // Em caso de erro, atualiza o status para 'failed'
+                     $controleRelatorios->update(['status' => 'falha']);
+                     $orderItens->update(['testeStatus' => 'falha']);
+                    // Opcional: Logar o erro
+                    report($e);
+                    }
+
+                    $this->js("setTimeout(() => { Livewire.navigate('/meus-pedidos') }, 6000)");                
+                
             break;
+
+            case '16-RslncTnsbase':
+            // RELATÓRIO: Autopercepção do nível de Cansaço e Neurodivergência
+            
+
+            // -- Preparação dos Cálculos Percentuais e Contagens para o Relatório --
+            $contarNegativos = 0;
+            $contarPositivos = 0;
+            $diferencaPositNegat = 0;
+            $celulaD38 = 0;
+            $indiceCansaco = 0;
+
+            foreach ($this->dadosRelatorio['resultadoTeste'] as $item) {
+               
+                    if( $item->opcaoResposta->numSeqResp == 2 ||
+                        $item->opcaoResposta->numSeqResp == 3 ||
+                        $item->opcaoResposta->numSeqResp == 5 ||
+                        $item->opcaoResposta->numSeqResp == 6 ||
+                        $item->opcaoResposta->numSeqResp == 8 ||
+                        $item->opcaoResposta->numSeqResp == 25 ) 
+                        { $contarNegativos = $contarNegativos + $item->opcaoResposta->valorResposta;}
+
+                    elseif ( $item->opcaoResposta->numSeqResp >=9 && $item->opcaoResposta->numSeqResp <=19 ) 
+                                { $contarNegativos = $contarNegativos + $item->opcaoResposta->valorResposta; }
+
+                    elseif (    $item->opcaoResposta->numSeqResp == 4 ||
+                                $item->opcaoResposta->numSeqResp == 7 )
+                                { $contarPositivos = $contarPositivos + $item->opcaoResposta->valorResposta; }
+
+                    elseif ( $item->opcaoResposta->numSeqResp >=20 && $item->opcaoResposta->numSeqResp <=24 ) 
+                                { $contarPositivos = $contarPositivos + $item->opcaoResposta->valorResposta; }
+                };
+                
+                $diferencaPositNegat = $contarNegativos - $contarPositivos;
+                $celulaD38 = $contarNegativos + $diferencaPositNegat;
+                $indiceCansaco = $celulaD38 / 24;
+
+                // Configuração do gráfico
+                $chartConfig = [
+                    'type' => 'horizontalBar',
+                    'data' => [
+                        'labels' => [''],
+                        'datasets' => [[
+                            'data' => [number_format($indiceCansaco, 2, '.', '')],
+                            'backgroundColor' => 'rgba(255, 165, 0, 0.7)', // Laranja
+                            'borderColor' => 'rgba(255, 165, 0, 1)',
+                            'borderWidth' => 1,
+                        ]],
+                    ],
+                    'options' => [
+                        'title' => [
+                            'display' => true,
+                            'text' => 'Sua percepção de cansaço',
+                            'fontSize' => 16,
+                            'fontColor' => '#333',
+                            'padding' => 20,
+                        ],
+                        'legend' => ['display' => false],
+                        'scales' => [
+                            'xAxes' => [['ticks' => ['min' => 0, 'max' => 8]]], // Escala de 0 a 8
+                            'yAxes' => [['gridLines' => ['display' => false]]],
+                        ],
+                        'plugins' => [
+                            'datalabels' => [
+                                'display' => true,
+                                'align' => 'end',
+                                'anchor' => 'end',
+                                'color' => '#1a202c',
+                                'font' => ['weight' => 'bold', 'size' => 14],
+                            ],
+                        ],
+                    ],
+                ];
+
+                // 3. Monte a URL e busque a imagem
+                $chartApiUrl = 'https://quickchart.io/chart?w=700&h=180&bkg=transparent&c=' . urlencode(json_encode($chartConfig));
+                $response = Http::get($chartApiUrl);
+
+                $chartImageUrl = null;
+                if ($response->successful()) {
+                    $chartImageUrl = 'data:image/png;base64,' . base64_encode($response->body());
+                }
+
+
+            try {
+                    $pdf = Pdf::loadView('pdf.relat-16-rslnctnsbase', [
+                            'dadosRelatorio' => $this->dadosRelatorio,
+                            'chartImageUrl' => $chartImageUrl,
+                            'contarNegativos' => $contarNegativos,
+                            'contarPositivos' => $contarPositivos,
+                            'diferencaPositNegat' => $diferencaPositNegat,
+                            'celulaD38' => $celulaD38,
+                            'indiceCansaco' => $indiceCansaco,
+                    ]);
+                    
+                    // 4. Salve o PDF no storage privado do Laravel
+                    Storage::disk('local')->put($nomePDF, $pdf->output());
+                    //$pdf->save(storage_path($nomePDF));
+                    
+                    $controleRelatorios->update(['status' => 'completo', 'file_path' => $nomePDF]);
+                    $orderItens->update(['testeStatus' => 'concluido']);
+                    }
+                
+                catch (\Exception $e) {
+                    // Em caso de erro, atualiza o status para 'failed'
+                     $controleRelatorios->update(['status' => 'falha']);
+                     $orderItens->update(['testeStatus' => 'falha']);
+                    // Opcional: Logar o erro
+                    report($e);
+                    }
+
+                    $this->js("setTimeout(() => { Livewire.navigate('/meus-pedidos') }, 6000)");                
+                
+                
+            break;
+
+
+        }; // Fehcamento do sitch
+                
+
+           
+    } // Fechamento da classe
+
+    #[Layout('components.layouts.relatorios')] 
+    public function render()
+    {
+       /*  $checkParameters = "render = ccxx=".$this->ccxx . " / cctt=". $this->cctt . " / ccii=". $this->ccii;
+        dd($checkParameters); */
+
+         // Retorne o cliente para a tela de "meus-pedidos" com uma mensagem de sucesso
+        /* session()->flash('message', 'Seu relatório está sendo gerado! Ele estará disponível para download em alguns minutos.'); */
+
+        $texto_espera = '<h1 style="text-align: center; font-size: 20px; margin-top: 50px;">
+                                Processando... A página vai carregar automaticamente.</h1>';
+
+        switch ($this->codTeste) {
+
+            case '01-HstCrpEnrdvrgc':
+
+                
+
+                return $texto_espera;
+                
+            break;
+
+            case '02-PrcpStrss':
+
+                
+                
+                return $texto_espera;
+
+            break;
+
+            case '03-OrdncAsst':
+
+                return $texto_espera;
+
+            break;
+                
+
+            case '04-CmCrbrFcn':
+
+                    return $texto_espera;
+
+            break;
+
+
+            case '05-AnsddDthd':
+
+                // RELATÓRIO: Ansiedade Detalhada e Neurodiversidade
+
+                return $texto_espera;
+
+            break;
+
+            
+            case '06-Ansieddbsc':
+
+                // RELATÓRIO: Inventário para Fobia Social ou Disturbio de Ansiedade
+                
+                return $texto_espera;
+
+            break;
+
+
+            
+            case '07-Depressbsc':
+
+                // RELATÓRIO: Inventário para Disturbios Depressivos
+                
+                return $texto_espera;
+
+            break;
+
+
+            case '08-CmptRpttv':
+
+                //GerarRelatorios::dispatch($this->ccxx, $this->cctt, $this->ccii, $this->userId);
+
+                // RELATÓRIO: Inventário para Disturbios Depressivos
+
+                return $texto_espera;
+
+            break;
+
+            case '09-InvntrTDA_TDAH':
+
+                return $texto_espera;
+
+            break;
+
+            case '10-AutorrltDisfunTDA_TDAH':
+
+                // RELATÓRIO: Autorrelato sobre características relacionadas ao TDA / TDAH - 10-AutorrltDisfunTDA_TDAH
+                
+                
+                return $texto_espera;
+
+            break;
+
+            case '11-HptsTEA':
+
+                 return $texto_espera;
+
+            break;
+
+            case '12-DomEproc':
+
+                // RELATÓRIO: Domínios e Processos no Comportamento Adaptativo associados com a Neurodivergência							
+                
+                return $texto_espera;
+
+            break;
+
+            case '13-SnsldeEndvrgnc':
+
+                // RELATÓRIO: PONTUAÇÃO e COMENTÁRIOS - SENSUALIDADE E NEURODIVERGÊNCIAS - 13-SnsldeEndvrgnc
+                
+                return $texto_espera;
+
+            break;
+
+            case '14-ArrzcEndvrgc':
+
+                return $texto_espera;
+
+            break;
+
+
+            case '15-DlxiaEaprndzg':
+            // RELATÓRIO: CARACTERÍSTICAS LIGADAS À DISLEXIA, ATENÇÃO E A CONCENTRAÇÃO  Adultos
+            
+                return $texto_espera;
+
+            break;
+
 
             case '16-RslncTnsbase':
             // RELATÓRIO: Autopercepção do nível de Cansaço e Neurodivergência

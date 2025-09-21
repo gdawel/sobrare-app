@@ -74,10 +74,12 @@
 											border-red-500 
 											@enderror" 
 										id="estadoNasc" type="text">
-                                        <option selected>Estado de Nascimento</option>
-                                        @foreach ($this->estados as $estado)
-                                        <option value="{{ $estado->estado }}">{{ $estado->estado }}</option>
-                                        @endforeach
+                              <option selected>Estado de Nascimento</option>
+                              @foreach ($this->estados as $estado)
+                              <option value="{{ $estado->uf }}" @if($estado->uf == $estadoNasc) selected @endif>
+                                {{ $estado->estado }}
+                            </option>
+                              @endforeach
                                         
                         </select>
 							@error('estadoNasc')

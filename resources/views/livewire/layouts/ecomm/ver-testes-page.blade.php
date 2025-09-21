@@ -203,7 +203,7 @@
                             @elseif ( $item->testeStatus == "pendente" ) 
                                 <a wire:navigate disabled href="/relatorios?cctt={{ $item->testes->id }}&ccxx={{ $pedido->id}}&ccii={{ $item->id }}"
                                                                   
-                                      class="text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+                                      class="text-white bg-gradient-to-br from-blue-600 to-purple-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
                                       >
                                       Emitir Relatório
                                 </a>
@@ -211,12 +211,19 @@
                                 
                             
                             @else 
-                                <a href="/reports/{{ $item->id }}/download" target="_blank"
-                                                       
-                                      class="text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+                                @if($item->controleRelatorio)
+                                    <a href="{{ route('reports.download', ['report' => $item->controleRelatorio->id]) }}" target="_blank"
+                                        class="text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                                        Baixar Relatório
+                                    </a>
+                                @else
+                                    <button disabled wire:click="montateste({{ $item->testes->id }})"
+                                      class="text-gray-900 bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
                                       >
-                                      Baixar Relatório
-                                </a>
+                                      Relatório Inexistente
+                              
+                                </button>
+                                @endif
                                  
                             
                                 

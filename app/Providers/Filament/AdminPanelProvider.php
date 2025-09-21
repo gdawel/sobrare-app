@@ -28,8 +28,9 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->login()
             ->navigationGroups([
-                    'NeuroDiv - Configurações',
+                    
                     'NeuroDiv - Vendas',
+                    'NeuroDiv - Configurações',
                     'Conteúdo do Blog',
                     'Configuração do Site',
                 ])

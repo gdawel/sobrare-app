@@ -10,7 +10,7 @@
     "src": "public/css/styles.css"
   },
   "resources/css/app.css": {
-    "file": "assets/app-a88522d5.css",
+    "file": "assets/app-f2892a5b.css",
     "isEntry": true,
     "src": "resources/css/app.css"
   },
@@ -20,7 +20,7 @@
     "src": "resources/css/filament/admin/theme.css"
   },
   "resources/css/pdf.css": {
-    "file": "assets/pdf-884cb29f.css",
+    "file": "assets/pdf-42c87a6b.css",
     "isEntry": true,
     "src": "resources/css/pdf.css"
   },

@@ -9,6 +9,8 @@ use App\Models\Orderitems;
 use Livewire\Attributes\Title;
 use App\Models\Orderclientdetails;
 
+use Illuminate\Support\Facades\Log;
+
 /* 
     Esta classe (dentro desse componente Livewire) foi inicialmente copiada da PedidosDetalhesPage.
     Porém, para ter maior controle na página "Meus Pedidos", o botão de acesso (Ver Testes) de acesso 
@@ -58,16 +60,18 @@ class VerTestesPage extends Component
         }
         
         
+        
         $this->pedido = Orders::where('id', $this->order_id)->first();
         $this->detalhesCliente = Orderclientdetails::where('orders_id', $this->order_id)->first();
         $this->temHistoricoMedico = Orders::with('historicomedico')->where('id', $this->order_id)->first();
 
         //dd($this->temHistoricoMedico);
         
-            $this->itensDoPedido = Orderitems::with('testes')
-                            ->where('orders_id', $this->order_id)
-                            ->get();
-            //dd($itensDoPedido);
+        $this->itensDoPedido = Orderitems::with('testes', 'controleRelatorio') // Recuperar o código do relat'rio para baixar o pdf
+                        ->where('orders_id', $this->order_id)
+                        ->get();
+        //dd($this->itensDoPedido);
+
             
         
         return view('livewire.layouts.ecomm.ver-testes-page');

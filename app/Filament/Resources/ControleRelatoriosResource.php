@@ -80,7 +80,7 @@ class ControleRelatoriosResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(), // Permite a edição (abre o formulário acima)
+                /* Tables\Actions\EditAction::make(), */ // Permite a edição (abre o formulário acima)
                 //Tables\Actions\ViewAction::make(), // Opcional, o EditAction já permite ver os dados
                 
                 // CORREÇÃO: Ação de download corrigida

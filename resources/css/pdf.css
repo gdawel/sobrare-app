@@ -137,3 +137,104 @@ strong, .font-bold { font-weight: bold; }
 .text-right { text-align: right; }
 .mt-4 { margin-top: 16px; }
 .mb-4 { margin-bottom: 16px; }
+
+/* Estilos para a caixa de resultados do Relatório 05 */
+.report-box {
+    border: 1px solid #e2e8f0;
+    padding: 15px;
+    border-radius: 5px;
+    margin-top: 15px;
+}
+
+.result-item {
+    padding-bottom: 12px;
+    margin-bottom: 12px;
+    border-bottom: 1px dashed #c9c9c9;
+}
+
+.result-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+/* Estilos de cores para status de resposta (Relatório 06) */
+.text-status-green {
+    color: #28a745; /* Verde */
+}
+.text-status-blue {
+    color: #007bff; /* Azul */
+}
+.text-status-orange {
+    color: #fd7e14; /* Laranja */
+}
+.text-status-red {
+    color: #dc3545; /* Vermelho */
+}
+
+/* Estilo para os subtítulos de agrupamento */
+.response-group-title {
+    font-size: 13px;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #4a5568;
+    margin-top: 15px;
+    margin-bottom: 5px;
+    padding-top: 5px;
+    border-top: 1px solid #e2e8f0;
+}
+
+/* Garante que o primeiro subtítulo não tenha uma borda no topo */
+.report-box .response-group-title:first-child {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: none;
+}
+
+/* Estilos para o Relatório 08 (Tabela de Repetições) */
+.diagnostic-cell {
+    width: 20%;
+    text-align: center;
+    font-weight: bold;
+    vertical-align: middle;
+}
+
+.diagnostic-cell .diagnosis {
+    padding: 10px;
+    border-bottom: 1px solid #c9c9c9;
+}
+
+.diagnostic-cell .percentage {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    font-size: 14px;
+}
+
+/* Classes de cores de fundo e texto para os diagnósticos */
+.bg-status-leve {
+    background-color: #d4edda; /* Verde claro */
+    color: #155724; /* Verde escuro */
+}
+
+.bg-status-atencao {
+    background-color: #fff3cd; /* Amarelo claro */
+    color: #856404; /* Laranja/Marrom */
+}
+
+.bg-status-requer {
+    background-color: #f8d7da; /* Rosa claro */
+    color: #721c24; /* Vermelho escuro */
+}
+
+/* Estilos para o Relatório 13 (Sensualidade) */
+.text-status-critical {
+    color: #721c24; /* Vermelho escuro */
+}
+
+.bg-status-highlight {
+    background-color: #fff3cd; /* Amarelo claro */
+}
+
+.highlight-background {
+    background-color: #fff3cd; /* Amarelo claro */
+}

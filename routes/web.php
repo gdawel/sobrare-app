@@ -28,6 +28,7 @@ use App\Livewire\Layouts\Ecomm\VerTestesPage;
 use App\Livewire\Relatorios\ControladorRelatorios;
 use App\Livewire\ResponderTeste;
 use App\Models\ControleRelatorios;
+use App\Livewire\MinhaContaPage;
 
 use Illuminate\Support\Facades\Storage;
 
@@ -120,6 +121,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/pedido-cancelado', PedidoCanceladoPage::class)->name('cancel');
     Route::get('/responderteste', ResponderTeste::class)->name('responder');
     Route::get('/relatorios', ControladorRelatorios::class)->name('relatorio');
+    Route::get('/minha-conta', MinhaContaPage::class)->name('minha.conta');
     
 });
 

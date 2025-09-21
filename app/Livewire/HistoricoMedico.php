@@ -113,6 +113,16 @@ class HistoricoMedico extends Component
         $this->estados = Estados::all();
         $this->generos = Generos::all();
         $this->grausEscolares = GrausEscolares::all();
+
+        
+    // Carrega os dados do usuário autenticado para preencher o formulário
+        $user = auth()->user();
+
+        if ($user) {
+            $this->dataNasc = $user->data_nascimento;
+            $this->sexoBiologico = $user->sexo_biologico;
+            $this->estadoNasc = $user->estado_nascimento;
+        }
     }
     
     public function salvarHistorico(){

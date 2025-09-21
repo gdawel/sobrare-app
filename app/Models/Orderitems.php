@@ -34,4 +34,10 @@ class Orderitems extends Model
     public function useranswers() {
         return $this->hasMany(Useranswers::class);
     }
+
+    public function controleRelatorio()
+    {
+        // Um item de pedido TEM UM registro de controle de relatório
+        return $this->hasOne(ControleRelatorios::class, 'orderItem_id');
+    }
 }

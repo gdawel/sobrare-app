@@ -12,7 +12,7 @@
             para encontrá-lo dinamicamente, mas para começar podemos colocar o nome manualmente.
             Vá até a pasta `public/build/assets` e veja o nome que o Vite gerou para `pdf.css`.
         */
-        {!! file_get_contents(public_path('build/assets/pdf-884cb29f.css')) !!}
+        {!! file_get_contents(public_path('build/assets/pdf-42c87a6b.css')) !!}
     </style>
 </head>
 <body>

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->references('id')->on('users')->cascadeOnDelete(); // Quem fez o teste
             $table->foreignId('testes_id')->references('id')->on('testes')->cascadeOnDelete(); // Qual o teste
             $table->foreignId('orders_id')->references('id')->on('orders')->cascadeOnDelete(); // Qual o pedido relativo ao teste
-            $table->foreignId('orderItem_id')->references('id')->on('controle_relatorios')->cascadeOnDelete(); // O item do pedido que liberou este teste
+            $table->foreignId('orderItem_id')->references('id')->on('orderitems')->cascadeOnDelete(); // O item do pedido que liberou este teste
             
             $table->string('status')->default('pendente'); // Ex: pendente, gerando, sucesso, falha
             $table->string('file_path')->nullable(); // Caminho para o PDF em storage
