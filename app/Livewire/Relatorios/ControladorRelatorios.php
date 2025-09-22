@@ -25,9 +25,6 @@ use App\Models\Orderitems;
 use Livewire\Attributes\Layout;
 use App\Models\Historicomedicos;
 use App\Models\TextoResposta;
-//use Spatie\LaravelPdf\Facades\Pdf;
-//use function Spatie\LaravelPdf\Support\pdf;
-//use Spatie\Browsershot\Browsershot;
 
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 
@@ -127,7 +124,7 @@ class ControladorRelatorios extends Component
     /* Dawel: retirado: 30/07/2024 - #[On('resultadoTeste')] */
     public function mount() {
 
-    $this->alert('success', 'Seu relatório está sendo gerado e estará disponível para baixar pelo seu painel de pedidos. Aguarde alguns minutos!', [
+    $this->alert('success', 'Seu relatório está sendo gerado e estará disponível para baixar pelo seu painel de pedidos. Aguarde a página recarregar.', [
                     'position' => 'center',
                     'timer' => 6000,
                     'toast' => true,
@@ -149,10 +146,6 @@ class ControladorRelatorios extends Component
 
         //dd($this->orderItem_id);
 
-        /* $this->resultadoTeste2 = Orderitems::with('useranswers', 'testes', 'pergunta')
-                                        ->where('orders_id', $this->orders_id)
-                                        ->where('testes_id', $this->testes_id)
-                                        ->get(); */
         $userAnswers  = Useranswers::with('pergunta', 'opcaoResposta:id,numSeqResp,textoResposta,valorResposta',
                                                     'textoResposta')
                                     ->where('orderitems_id', $this->orderItem_id)
@@ -219,14 +212,6 @@ class ControladorRelatorios extends Component
         $this->dataEmissao = Carbon::now()->format('d-m-Y');
 
         //dd($this->dadosCliente);
-        /* Dawel: 30/07/2024 $this->resultadoTeste = Orderitems::with('useranswers')
-                                        ->where('orders_id',$orders_id)
-                                        ->where('testes_id',$testes_id)
-                                        ->get(); */
-        // Em 03/07/2024 - Testar de pegar todos os dados pelo Useranswers.
-        //$testandoDadosPeloUseranswers = Useranswers::with('perguntas', 'opcoesderespostas')->get();
-        //  INCOMPLETO  03/07/2024 ///
-
         
         $dadosDoTeste = Testes::where('id',$this->testes_id)->first();
         $this->tituloTeste = $dadosDoTeste->nomeTeste;
@@ -273,7 +258,7 @@ class ControladorRelatorios extends Component
             }
 
         /* 
-            AQUI, O TESTE DO PRIMEIRO RELATÓRIO - LEMBRE: ControladorRelatorios será descartado completamente
+            Os relatórios e gráficos são gerados em backend e o blade view apenas renderiza a view para gerar o pdf.
         */
         switch ($this->codTeste) {
 
@@ -290,8 +275,6 @@ class ControladorRelatorios extends Component
                 
                 /* $checkParameters = "01-ccxx=".$this->ccxx . " / cctt=". $this->cctt . " / ccii=". $this->ccii;
                 dd($checkParameters); */
-
-                //GerarRelatorios::dispatch($this->ccxx, $this->cctt, $this->ccii, $this->userId);
 
                 // GERAR RELATÓRIO EM PDF USANDO O DOMPDF
                 //   
@@ -339,10 +322,7 @@ class ControladorRelatorios extends Component
                 $checa = "t=".$somaTudo."/a=".$somaA."/b=".$somaB."/c=".$somaC."/d=".$somaD." => Resultado=".$resultado;
                 //dd($checa);
 
-                /* return view('livewire.relatorios.relat-02-PrcpStrss', [
-                    'dadosRelatorio' => $dadosRelatorio,
-                    'resultado' => $resultado
-                ]); */
+                
                 $qualRelatorio = 'livewire.relatorios.relat-'.$this->dadosRelatorio['codTeste'];
                 
                 $controleRelatorios->update(['status' => 'gerando']);
@@ -480,9 +460,6 @@ class ControladorRelatorios extends Component
                     }
                 }
 
-
-                // 1. Seus dados existentes
-                //$dadosRelatorio = [ /* ... seus dados ... */ ];
                 $dadosGrafico = [
                     ['Assuntos' => 'Comunicacao', 'Valor' => $this->comunicacao],
                     ['Assuntos' => 'Pensamento', 'Valor' => $this->pensamento],
@@ -591,34 +568,10 @@ class ControladorRelatorios extends Component
 
                 $this->js("setTimeout(() => { Livewire.navigate('/meus-pedidos') }, 6000)");
                 
-
-                /* return view('livewire.relatorios.relat-03-OrdncAsst', [
-                    'dadosRelatorio' => $this->dadosRelatorio,
-                    'comunicacao' => $this->comunicacao,
-                    'pensamento' => $this->pensamento,
-                    'atencao' => $this->atencao,
-                    'tensao' => $this->tensao,
-                    'social' => $this->social,
-                    'emocional' => $this->emocional,
-                    'mental' => $this->mental,
-                    'sexualidade' => $this->sexualidade,
-                    'dadosGrafico' => [
-                        [ 'Assuntos' => 'Comunicacao', 'Valor' => $this->comunicacao ],
-                        [ 'Assuntos' => 'Pensamento', 'Valor' => $this->pensamento ],
-                        [ 'Assuntos' => 'Atencao', 'Valor' => $this->atencao ],
-                        [ 'Assuntos' => 'Tensao', 'Valor' => $this->tensao ],
-                        [ 'Assuntos' => 'Social', 'Valor' => $this->social ],
-                        [ 'Assuntos' => 'Emocional', 'Valor' => $this->emocional ],
-                        [ 'Assuntos' => 'Mental', 'Valor' => $this->mental ],
-                        [ 'Assuntos' => 'Sexualidade', 'Valor' => $this->sexualidade ]
-                        
-                    ]
-                ]); */
             break;
 
             case '04-CmCrbrFcn':
 
-                    //dd($this->resultadoTeste);
                     foreach ($this->resultadoTeste as $items) {
                     
                         /* Cérebro Social */
@@ -742,19 +695,6 @@ class ControladorRelatorios extends Component
                     }
 
                 $this->js("setTimeout(() => { Livewire.navigate('/meus-pedidos') }, 6000)");
-                    /* return view('livewire.relatorios.relat-04-CmCrbrFcn', [
-                        'dadosRelatorio' => $this->dadosRelatorio,
-                        'cerebroSocial' => $this->cerebroSocial,
-                        'cerebroMesclado' => $this->cerebroMesclado,
-                        'cerebroSistematizador' => $this->cerebroSistematizador,
-                        'dadosGrafico' => [
-                            [ 'Assuntos' => 'Cérebro Social (Tipo QE)', 'Valor' => $this->cerebroSocial ],
-                            [ 'Assuntos' => 'Cérebro Mesclado (Tipo B)', 'Valor' => $this->cerebroMesclado ],
-                            [ 'Assuntos' => 'Cérebro Sistematizador (Tipo QS)', 'Valor' => $this->cerebroSistematizador ]
-
-                        ]
-                        
-                    ]); */
 
             break;
 
@@ -784,8 +724,6 @@ class ControladorRelatorios extends Component
 
                     $this->js("setTimeout(() => { Livewire.navigate('/meus-pedidos') }, 6000)");
 
-                /* return view('livewire.relatorios.relat-05-AnsddDthd', 
-                        ['dadosRelatorio' => $this->dadosRelatorio]); */
             break;
 
             case '06-Ansieddbsc':
@@ -845,8 +783,6 @@ class ControladorRelatorios extends Component
             break;
 
             case '08-CmptRpttv':
-
-                //GerarRelatorios::dispatch($this->ccxx, $this->cctt, $this->ccii, $this->userId);
 
                 // RELATÓRIO: Inventário para Disturbios Depressivos
 
@@ -1290,27 +1226,6 @@ class ControladorRelatorios extends Component
 
             case '14-ArrzcEndvrgc':
 
-                //dd($this->sexoBiologico);
-
-                /* Apenas para anotações durante a programação
-                public $constrangimento = 0;
-                public $regrasSociais = 0;
-                public $contextos = 0;
-                public $fragilizar = 0;
-                public $controladora = 0;
-                public $impulsiva = 0;
-                public $baseRisco = 0;
-
-                public $alimentBalanceada = 0;
-                public $exercRegular = 0;
-                public $gerenciaEstresse = 0;
-                public $relaxMental = 0;
-                public $redesApoio = 0;
-                public $acompClinico = 0;
-                public $organizTarefas = 0;
-                public $atualizarCapacitar = 0;
-                */
-
                 // RELATÓRIO: 14 - Interações Sociais e Neurodivergências
 
                 //dd($this->resultadoTeste);
@@ -1405,12 +1320,10 @@ class ControladorRelatorios extends Component
                                             $this->resultadoTeste[34]->opcaoResposta->valorResposta);
 
                 
-                //$this->constrangimento = $this->constrangimento / 12 * 100;
+                
                 $this->constrangimento = number_format(($this->constrangimento / 12 * 100), 2);
                 $this->regrasSociais = number_format(($this->regrasSociais / 12 * 100), 2);
 
-                //$this->regrasSociais = $this->regrasSociais / 12 * 100;
-                //$this->contextos = $this->contextos / 20 * 100;
                 $this->contextos = number_format(($this->contextos / 20 * 100), 2);
 
 
@@ -1458,8 +1371,6 @@ class ControladorRelatorios extends Component
                 
                 // 2. Preparando os dados para os gráficos
                 $arrayTipoItemNeurodiv = [
-                    /* ['"Causar constrangimento" ('.number_format($constrangimento, 2).'%)' , $constrangimento], 
-                    ['"Violar regras sociais" ('.number_format($regrasSociais, 2).'%)' , $regrasSociais],  */
                     [ '"Causar constrangimento" ('.number_format($this->constrangimento, 2).'%)' , $this->constrangimento], 
                     [ '"Violar regras sociais" ('.number_format($this->regrasSociais, 2).'%)' , $this->regrasSociais], 
                     [ '"Manipular contextos" ('.number_format($this->contextos, 2).'%)' ,  $this->contextos], 
@@ -1469,8 +1380,6 @@ class ControladorRelatorios extends Component
                     [ '"Agir com base no risco" ('.number_format($this->baseRisco, 2).'%)' , $this->baseRisco]
                 ];
                 $arrayDiscipFavorNeurodiv = [
-                    /* ['Disciplina: Alimentação Balanceada ('.number_format($alimentBalanceada, 2).'%)', $alimentBalanceada],
-                    ['Disciplina: Exercício Regular ('.number_format($exercRegular, 2).'%)', $exercRegular], */
                     [ 'Disciplina: Alimentação Balanceada ('.number_format($this->alimentBalanceada, 2).'%)', $this->alimentBalanceada],
                     [ 'Disciplina: Exercício Regular ('.number_format($this->exercRegular, 2).'%)', $this->exercRegular],
                     [ 'Disciplina: Gerenciamento do Estresse ('.number_format($this->gerenciaEstresse, 2).'%)', $this->gerenciaEstresse],
@@ -1782,11 +1691,7 @@ class ControladorRelatorios extends Component
     #[Layout('components.layouts.relatorios')] 
     public function render()
     {
-       /*  $checkParameters = "render = ccxx=".$this->ccxx . " / cctt=". $this->cctt . " / ccii=". $this->ccii;
-        dd($checkParameters); */
-
-         // Retorne o cliente para a tela de "meus-pedidos" com uma mensagem de sucesso
-        /* session()->flash('message', 'Seu relatório está sendo gerado! Ele estará disponível para download em alguns minutos.'); */
+       
 
         $texto_espera = '<h1 style="text-align: center; font-size: 20px; margin-top: 50px;">
                                 Processando... A página vai carregar automaticamente.</h1>';
@@ -1914,69 +1819,11 @@ class ControladorRelatorios extends Component
 
 
             case '16-RslncTnsbase':
-            // RELATÓRIO: Autopercepção do nível de Cansaço e Neurodivergência
+
+                 return $texto_espera;
             
-
-            // -- Preparação dos Cálculos Percentuais e Contagens para o Relatório --
-            $contarNegativos = 0;
-            $contarPositivos = 0;
-            $diferencaPositNegat = 0;
-            $celulaD38 = 0;
-            $indiceCansaco = 0;
-
-            foreach ($this->dadosRelatorio['resultadoTeste'] as $item) {
-               
-                    if( $item->opcaoResposta->numSeqResp == 2 ||
-                        $item->opcaoResposta->numSeqResp == 3 ||
-                        $item->opcaoResposta->numSeqResp == 5 ||
-                        $item->opcaoResposta->numSeqResp == 6 ||
-                        $item->opcaoResposta->numSeqResp == 8 ||
-                        $item->opcaoResposta->numSeqResp == 25 ) 
-                        { $contarNegativos = $contarNegativos + $item->opcaoResposta->valorResposta;}
-
-                    elseif ( $item->opcaoResposta->numSeqResp >=9 && $item->opcaoResposta->numSeqResp <=19 ) 
-                                { $contarNegativos = $contarNegativos + $item->opcaoResposta->valorResposta; }
-
-                    elseif (    $item->opcaoResposta->numSeqResp == 4 ||
-                                $item->opcaoResposta->numSeqResp == 7 )
-                                { $contarPositivos = $contarPositivos + $item->opcaoResposta->valorResposta; }
-
-                    elseif ( $item->opcaoResposta->numSeqResp >=20 && $item->opcaoResposta->numSeqResp <=24 ) 
-                                { $contarPositivos = $contarPositivos + $item->opcaoResposta->valorResposta; }
-                };
-                
-                $diferencaPositNegat = $contarNegativos - $contarPositivos;
-                $celulaD38 = $contarNegativos + $diferencaPositNegat;
-                $indiceCansaco = $celulaD38 / 24;
-                
-                return view('livewire.relatorios.relat-16-RslncTnsbase', 
-                        [   'dadosRelatorio' => $this->dadosRelatorio,
-                            'contarNegativos' => $contarNegativos,
-                            'contarPositivos' => $contarPositivos,
-                            'diferencaPositNegat' => $diferencaPositNegat,
-                            'celulaD38' => $celulaD38,
-                            'indiceCansaco' => $indiceCansaco,
-                    ]);
             break;
 
-
-            case '09-InvntrTDA_TDAH-OLD':
-
-                /* Pdf::view('livewire.relatorios.relat-01-HstCrpEnrdvrgc', ['useranswers' => $this->useranswers])
-                    ->format('a4')
-                    ->save('01-HstCrpEnrdvrg.pdf'); */
-
-                /* $pdf = Pdf::loadView('livewire.relatorios.relat-01-HstCrpEnrdvrgc', [
-                        'useranswers' => $this->useranswers
-                ]);
-                return $pdf->download('invoice.pdf'); */
-            /* return pdf()
-                ->view('livewire.relatorios.relat-01-HstCrpEnrdvrgc', ['useranswers' => $this->useranswers])
-                ->name('01-HstCrpEnrdvrg.pdf')
-                ->download(); */
-                return view('livewire.relatorios.relat-09-InvntrTDA_TDAH', 
-                        ['dadosRelatorio' => $this->dadosRelatorio]);
-            break;
 
              default:
                 return view('livewire.relatorios.respostas-gravadas-bd');
